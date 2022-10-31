@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">College Project</string>
+    <string name="todo">TODO</string>
+
+    <!-- Login -->
+    <string name="loginHead">LOGIN</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="forPassword"><u>forget password?</u></string>
+    <string name="no">Don\'t have an account?</string>
+    <string name="register"><u>Register</u></string>
+    <string name="hello">Hey, Welcome</string>
+
+    <!-- Register -->
+    <string name="login"><u>Login</u></string>
+    <string name="qMark">\?</string>
+
+
+    <!-- Students Registration form -->
+    <string name="stuHead">"Go beyond the floor and find the destination."</string>
+    <string name="already">Already Registered?</string>
+    <string name="newReg">New Registration</string>
+    <string name="are_you">Are you</string>
+    <string name="student">Student</string>
+    <string name="dob">Date of Birth * </string>
+    <string name="select_dob">Please select D.O.B.</string>
+    <string name="teacher">Teacher</string>
+    <string name="personal"><u>Personal Details</u></string>
+    <string name="fName">Full Name *</string>
+    <string name="phone">Phone Number*</string>
+    <string name="fPhone">Father\'s Phone Number*</string>
+    <string name="fatherName">Father\'s Full Name*</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="gender">Gender*</string>
+    <string name="e_mail">E-mail*</string>
+
+    <!-- Students  Academic Details -->
+    <string name="ad"><u>Academic Details</u></string>
+    <string name="roll">Roll Number*</string>
+    <string name="academicFee">Total Academic Fee*</string>
+    <string name="hostelFee">Total Hostel Fee</string>
+    <string name="batch">Batch(YYYY-YYYY)*</string>
+
+
+
+    <!-- Teacher Registration form -->
+    <string name="teachHead">“In learning, you will teach, and in teaching, you will learn."</string>
+
+
+
+    <string-array name="Gender_Array">
+        <item>Male</item>
+        <item>Female</item>
+
+    </string-array>
+
+    <string-array name="Department_Array">
+        <item>Department</item>
+        <item>C.S.E/I.T</item>
+        <item>M.E</item>
+        <item>C.E</item>
+        <item>E.E</item>
+    </string-array>
+
+    <string-array name="Year_Array">
+        <item>Academic Year</item>
+        <item>1st Year</item>
+        <item>2nd Year</item>
+        <item>3rd Year</item>
+        <item>4th Year</item>
+    </string-array>
+
+    <string-array name="Teacher_Role_Array">
+        <item>Select Your Role*</item>
+        <item>Head Of Department</item>
+        <item>Class Co-Ordinator</item>
+        <item>Lecturer</item>
+    </string-array>
+
+
+
+</resources>
