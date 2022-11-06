@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -57,18 +58,17 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         };
 
         // For department
-        Spinner department = (Spinner) findViewById(R.id.gender);
+        AutoCompleteTextView gender = (AutoCompleteTextView) findViewById(R.id.gender);
 // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> dAdapter = ArrayAdapter.createFromResource(this,
-                R.array.Gender_Array, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> gAdapter =  ArrayAdapter.createFromResource(this, R.array.Gender_Array, android.R.layout.simple_spinner_dropdown_item);
 // Specify the layout to use when the list of choices appears
-        dAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        department.setAdapter(dAdapter);
-        /*
+        gender.setAdapter(gAdapter);
+
 
 // For department
-        Spinner department = (Spinner) findViewById(R.id.teacherrole);
+        AutoCompleteTextView department = (AutoCompleteTextView) findViewById(R.id.department);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> dAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Department_Array, android.R.layout.simple_spinner_dropdown_item);
@@ -77,7 +77,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
 // Apply the adapter to the spinner
         department.setAdapter(dAdapter);
 
-
+/*
         // For Year
         Spinner year = (Spinner) findViewById(R.id.year);
 // Create an ArrayAdapter using the string array and a default spinner layout

@@ -35,8 +35,8 @@
                     android:layout_width="250dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="35dp"
-                    app:boxStrokeColor="@color/upperBlue"
                     android:hint="@string/fName"
+                    app:boxStrokeColor="@color/upperBlue"
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -50,45 +50,54 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <Spinner
-                    android:id="@+id/gender"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:minHeight="48dp"
-                    android:spinnerMode="dropdown" />
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:hint="@string/gender"
+                    app:boxStrokeColor="@color/upperBlue"
+                    app:hintTextColor="@color/upperBlue">
 
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:textColor="@color/midBlue"
+                        android:textCursorDrawable="@drawable/form_cursor" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dobLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
                     android:hint="@string/dob"
-                    app:hintTextColor="@color/upperBlue"
                     app:boxStrokeColor="@color/upperBlue"
-                    app:endIconDrawable="@drawable/ic_back_arrow"
                     app:endIconContentDescription="Calender"
+                    app:endIconDrawable="@drawable/ic_back_arrow"
                     app:endIconMode="custom"
-                    app:endIconTint="@color/upperBlue">
-                    >
+                    app:endIconTint="@color/upperBlue"
+                    app:hintTextColor="@color/upperBlue">
+
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:textCursorDrawable="@drawable/form_cursor"
                         android:fontFamily="@font/opensans_semibold"
+                        android:inputType="date"
                         android:textColor="@color/midBlue"
-                        android:inputType="date"/>
+                        android:textCursorDrawable="@drawable/form_cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -147,6 +156,7 @@
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
                         android:textSize="15sp" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -169,22 +179,44 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="250dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="35dp"
+                        app:boxStrokeColor="@color/upperBlue"
+                        app:hintTextColor="@color/upperBlue">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/opensans_semibold"
+                            android:hint="@string/roll"
+                            android:inputType=""
+                            android:textColor="@color/midBlue"
+                            android:textSize="15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:hint="@string/dep"
                     app:boxStrokeColor="@color/upperBlue"
                     app:hintTextColor="@color/upperBlue">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/department"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/opensans_semibold"
-                        android:hint="@string/roll"
-                        android:inputType=""
                         android:textColor="@color/midBlue"
-                        android:textSize="15sp" />
+                        android:textCursorDrawable="@drawable/form_cursor" />
+
                 </com.google.android.material.textfield.TextInputLayout>
+
 
             </LinearLayout>
         </ScrollView>
