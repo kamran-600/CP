@@ -57,7 +57,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
             }
         };
 
-        // For department
+        // For Gender
         AutoCompleteTextView gender = (AutoCompleteTextView) findViewById(R.id.gender);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> gAdapter =  ArrayAdapter.createFromResource(this, R.array.Gender_Array, android.R.layout.simple_spinner_dropdown_item);
@@ -77,17 +77,17 @@ public class StudentRegistrationActivity extends AppCompatActivity {
 // Apply the adapter to the spinner
         department.setAdapter(dAdapter);
 
-/*
-        // For Year
-        Spinner year = (Spinner) findViewById(R.id.year);
+
+        // For Academic Year
+        AutoCompleteTextView academicYear = (AutoCompleteTextView) findViewById(R.id.academicyear);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> yAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Year_Array, android.R.layout.simple_spinner_dropdown_item);
 // Specify the layout to use when the list of choices appears
         yAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        year.setAdapter(yAdapter);
-
+        academicYear.setAdapter(yAdapter);
+/*
         ImageView back = findViewById(R.id.back);
          back.setOnClickListener(new View.OnClickListener() {
              @Override
