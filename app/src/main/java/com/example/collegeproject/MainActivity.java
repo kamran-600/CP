@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+               Intent intent = new Intent(MainActivity.this,HomeActivity.class);
                startActivity(intent);
             }
         });
