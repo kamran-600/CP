@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.collegeproject.databinding.ActivityStudentRegistrationBinding;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
@@ -22,15 +23,16 @@ import java.util.Calendar;
 
 public class StudentRegistrationActivity extends AppCompatActivity {
 
+    private ActivityStudentRegistrationBinding binding;
+
     DatePickerDialog.OnDateSetListener setListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_registration);
+        binding = ActivityStudentRegistrationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-       TextInputEditText dob = findViewById(R.id.dob);
-        TextInputLayout dobLayout = findViewById(R.id.dobLayout);
 
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -38,7 +40,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        dobLayout.setEndIconOnClickListener(new View.OnClickListener() {
+        binding.dobLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -52,41 +54,38 @@ public class StudentRegistrationActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month+1;
                 String date = day+"/"+month+"/"+year;
-                dob.setText(date);
+                binding.dob.setText(date);
 
             }
         };
 
         // For Gender
-        AutoCompleteTextView gender = (AutoCompleteTextView) findViewById(R.id.gender);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> gAdapter =  ArrayAdapter.createFromResource(this, R.array.Gender_Array, android.R.layout.simple_spinner_dropdown_item);
 // Specify the layout to use when the list of choices appears
         gAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        gender.setAdapter(gAdapter);
+        binding.gender.setAdapter(gAdapter);
 
 
 // For department
-        AutoCompleteTextView department = (AutoCompleteTextView) findViewById(R.id.department);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> dAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Department_Array, android.R.layout.simple_spinner_dropdown_item);
 // Specify the layout to use when the list of choices appears
         dAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        department.setAdapter(dAdapter);
+        binding.department.setAdapter(dAdapter);
 
 
         // For Academic Year
-        AutoCompleteTextView academicYear = (AutoCompleteTextView) findViewById(R.id.academicyear);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> yAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Year_Array, android.R.layout.simple_spinner_dropdown_item);
 // Specify the layout to use when the list of choices appears
         yAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        academicYear.setAdapter(yAdapter);
+        binding.academicyear.setAdapter(yAdapter);
 /*
         ImageView back = findViewById(R.id.back);
          back.setOnClickListener(new View.OnClickListener() {
