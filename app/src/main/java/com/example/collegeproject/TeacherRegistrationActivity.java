@@ -45,10 +45,10 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
             binding.button2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (getResources().getStringArray(R.array.Department_Array)[0] == binding.department.getText().toString() ) {
+                  //  if (getResources().getStringArray(R.array.Department_Array)[0] == binding.department.getText().toString() ) {
                         binding.ttc.getRoot().setVisibility(View.VISIBLE);
                     }
-                }
+
             });
     }
 }

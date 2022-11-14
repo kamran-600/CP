@@ -7,19 +7,21 @@
     tools:context=".HomeActivity">
 
     <FrameLayout
+        android:id="@+id/bReplace"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/bReplace">
+        android:layout_height="match_parent">
 
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_menu"
-        style="@style/Widget.MaterialComponents.BottomNavigationView"/>
+        app:itemIconTint="@drawable/bottom_icon"
+        app:itemTextColor="@color/midBlue"
+        app:menu="@menu/bottom_menu" />
 
 
 </RelativeLayout>
