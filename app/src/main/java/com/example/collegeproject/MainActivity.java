@@ -7,15 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.collegeproject.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        Button bt = findViewById(R.id.button1);
-        bt.setOnClickListener(new View.OnClickListener() {
+        binding.button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
