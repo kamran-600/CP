@@ -48,11 +48,10 @@
     <!-- Teacher Registration form -->
     <string name="teachHead">“In learning, you will teach, and in teaching, you will learn."</string>
 
-
+    <!-- Arrays for Dropdown menu -->
     <string-array name="Gender_Array">
         <item>Male</item>
         <item>Female</item>
-
     </string-array>
 
     <string-array name="Department_Array">
@@ -74,6 +73,15 @@
         <item>Class Co-Ordinator</item>
         <item>Lecturer</item>
     </string-array>
+
+
+    <!-- Bottom Navigation Menu -->
+    <string name="home">Home</string>
+    <string name="assignment">Assignment</string>
+    <string name="chats">Chats</string>
+    <string name="contacts">Contacts</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
