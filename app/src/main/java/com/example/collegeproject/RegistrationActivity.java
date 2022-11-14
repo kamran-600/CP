@@ -10,28 +10,29 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.collegeproject.databinding.ActivityRegistrationBinding;
+
 public class RegistrationActivity extends AppCompatActivity {
+
+    private ActivityRegistrationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        binding = ActivityRegistrationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        TextView allReadyRegister = findViewById(R.id.login);
-        RadioGroup rg = findViewById(R.id.rgroup);
-        ImageView next = findViewById(R.id.next);
-
-        allReadyRegister.setOnClickListener(new View.OnClickListener() {
+        binding.login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
+        binding.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int itemSelectId = rg.getCheckedRadioButtonId();
+                int itemSelectId = binding.rgroup.getCheckedRadioButtonId();
                 if (itemSelectId == R.id.student){
                     startActivity(new Intent(getApplicationContext(), StudentRegistrationActivity.class));
                 }
