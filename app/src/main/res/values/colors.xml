@@ -16,4 +16,9 @@
     <color name="midBlue">#FF1565C0</color>
     <color name="upperBlue">#FF1E88E5</color>
     <color name="bottomBlue">#FF131D88</color>
+    <color name="btn">#4CAF50</color>
+
+    <!-- home -->
+    <color name="bloodRed">#880808</color>
 </resources>
+

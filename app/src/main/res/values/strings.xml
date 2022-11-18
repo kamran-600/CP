@@ -2,6 +2,11 @@
     <string name="app_name">College Project</string>
     <string name="todo">TODO</string>
 
+    <!-- Buttons -->
+    <string name="conBtn">Continue</string>
+    <string name="letsBtn">Let\'s Go</string>
+
+
     <!-- Login -->
     <string name="loginHead">LOGIN</string>
     <string name="email">E-mail</string>
@@ -80,6 +85,12 @@
     <string name="assignment">Assignment</string>
     <string name="chats">Chats</string>
     <string name="contacts">Contacts</string>
+
+    <!-- Create Password -->
+    <string name="crtPass">Create Password</string>
+    <string name="pass">Enter Password </string>
+    <string name="repass">Confirm</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

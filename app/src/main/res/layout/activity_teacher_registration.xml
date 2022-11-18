@@ -27,6 +27,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="25dp"
+        android:elevation="150dp"
         app:cardCornerRadius="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,10 +100,10 @@
                         android:id="@+id/gender"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:inputType="textAutoComplete"
                         android:maxEms="6"
                         android:maxLength="6"
-                        android:inputType="textAutoComplete"
-                        android:fontFamily="@font/opensans_semibold"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
 
@@ -144,8 +145,8 @@
                         android:fontFamily="@font/opensans_semibold"
                         android:hint="@string/phone"
                         android:inputType="phone"
-                        android:maxLength="10"
                         android:maxEms="10"
+                        android:maxLength="10"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
                         android:textSize="15sp" />
@@ -167,15 +168,15 @@
                         android:id="@+id/department"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:inputType="textAutoComplete"
                         android:maxEms="9"
                         android:maxLength="9"
-                        android:inputType="textAutoComplete"
-                        android:fontFamily="@font/opensans_semibold"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-              <!--  <com.google.android.material.textfield.TextInputLayout
+                <!--  <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/classLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="250dp"
@@ -197,23 +198,31 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 -->
-
-
-                <include layout="@layout/activity_teacher_teaching_class"
+                <include
                     android:id="@+id/ttc"
-                    android:visibility="gone"/>
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-
-
+                    layout="@layout/activity_teacher_teaching_class"
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
-
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continueBtnTeacher"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="35dp"
+        android:backgroundTint="@color/btn"
+        android:fontFamily="@font/opensans_semibold"
+        android:text="@string/conBtn"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:cornerRadius="15dp"
+        app:elevation="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

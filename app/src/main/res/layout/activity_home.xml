@@ -10,8 +10,23 @@
         android:id="@+id/bReplace"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </FrameLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:menu="@menu/top_menu"
+        app:title="@string/home"
+        app:titleMarginStart="50dp"
+        android:background="@color/upperBlue"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom"
@@ -19,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        app:elevation="10dp"
         app:itemIconTint="@drawable/bottom_icon"
         app:itemTextColor="@color/midBlue"
         app:menu="@menu/bottom_menu" />

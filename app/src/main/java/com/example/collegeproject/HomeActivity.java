@@ -1,52 +1,53 @@
 package com.example.collegeproject;
 
-import static com.google.android.material.internal.ContextUtils.getActivity;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Switch;
-
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
+import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.navigation.NavigationView;
+
 
 public class HomeActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
+    private ActivityHomeBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        bottomNavigationView = findViewById(R.id.bottom);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.bReplace, new HomeFragment()).commit();
 
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        binding.bottom.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.bReplace, new HomeFragment()).commit();
+                        binding.topAppBar.setTitle("Home");
                         break;
                     case R.id.assignment:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.bReplace, new AssignmentFragment()).commit();
+                        binding.topAppBar.setTitle("Assignment");
                         break;
                     case R.id.chats:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.bReplace, new ChatsFragment()).commit();
+                        binding.topAppBar.setTitle("Chats");
                         break;
                     case R.id.contacts:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.bReplace, new ContactsFragment()).commit();
+                        binding.topAppBar.setTitle("Contacts");
                         break;
                 }
                 return true;

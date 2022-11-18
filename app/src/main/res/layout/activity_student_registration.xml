@@ -27,6 +27,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="25dp"
+        android:elevation="150dp"
         app:cardCornerRadius="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="35dp"
                     android:fontFamily="@font/opensans_bold"
                     android:gravity="center"
                     android:text="@string/personal"
@@ -77,7 +78,7 @@
                         android:inputType="textPersonName"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -114,9 +115,8 @@
                     android:hint="@string/dob"
                     app:boxStrokeColor="@color/upperBlue"
                     app:endIconContentDescription="Calender"
-                    app:endIconDrawable="@drawable/ic_back_arrow"
+                    app:endIconDrawable="@drawable/ic_dob_icon"
                     app:endIconMode="custom"
-                    app:endIconTint="@color/upperBlue"
                     app:hintTextColor="@color/upperBlue">
 
 
@@ -283,9 +283,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/opensans_semibold"
-
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/batchLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    app:boxStrokeColor="@color/upperBlue"
+                    app:hintTextColor="@color/upperBlue">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:hint="@string/batch"
+                        android:inputType="number"
+                        android:textColor="@color/midBlue"
+                        android:textCursorDrawable="@drawable/form_cursor"
+                        android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -307,12 +326,14 @@
                         android:textCursorDrawable="@drawable/form_cursor"
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/hostelFeeLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
+                    android:layout_marginBottom="35dp"
                     app:boxStrokeColor="@color/upperBlue"
                     app:hintTextColor="@color/upperBlue">
 
@@ -327,9 +348,28 @@
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+
             </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continueBtn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="35dp"
+        android:backgroundTint="@color/btn"
+        android:fontFamily="@font/opensans_semibold"
+        android:gravity="center"
+        android:text="@string/conBtn"
+        android:textAllCaps="false"
+        app:cornerRadius="15dp"
+        app:elevation="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
