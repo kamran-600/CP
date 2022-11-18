@@ -23,7 +23,7 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        // For Gender
+        // For Gender Dropdown Menu
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> gAdapter = ArrayAdapter.createFromResource(this, R.array.Gender_Array, android.R.layout.simple_spinner_dropdown_item);
 // Specify the layout to use when the list of choices appears
@@ -31,7 +31,7 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
 // Apply the adapter to the spinner
         binding.gender.setAdapter(gAdapter);
 
-        // For department
+        // For department Dropdown Menu
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> tRAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Department_Array, android.R.layout.simple_spinner_dropdown_item);
@@ -40,15 +40,20 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
 // Apply the adapter to the spinner
         binding.department.setAdapter(tRAdapter);
 
-
-
-            binding.button2.setOnClickListener(new View.OnClickListener() {
+        binding.continueBtnTeacher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TeacherRegistrationActivity.this,UserPasswordActivity.class));
+            }
+        });
+        /* binding.button2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (getResources().getStringArray(R.array.Department_Array)[0] == binding.department.getText().toString() ) {
+                  //  if (getResources().getStringArray(R.array.Department_Array)[0] == binding.department.getText().toString() ) {
                         binding.ttc.getRoot().setVisibility(View.VISIBLE);
                     }
-                }
             });
+
+            */
     }
 }

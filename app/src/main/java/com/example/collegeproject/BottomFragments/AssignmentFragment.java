@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.collegeproject.R;
+import com.example.collegeproject.databinding.FragmentAssignmentBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,11 +57,12 @@ public class AssignmentFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private FragmentAssignmentBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_assignment, container, false);
+        binding = FragmentAssignmentBinding.inflate(inflater, container, false);
+         return binding.getRoot();
     }
 }
