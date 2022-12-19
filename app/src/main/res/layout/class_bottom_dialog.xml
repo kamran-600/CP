@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet_dailog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dailog_sheet_corner"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/bottom_sheet"
+        android:tint="@color/upperBlue"
+        tools:ignore="UseAppTint" />
+
+    <RadioGroup
+        android:id="@+id/csradiogroup"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/cs1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingStart="77dp"
+            android:text="CSE 1st Year" />
+
+        <RadioButton
+            android:id="@+id/cs2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingStart="77dp"
+            android:text="CSE 2nd Year" />
+
+        <RadioButton
+            android:id="@+id/cs3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingStart="77dp"
+            android:text="CSE 3rd Year" />
+
+        <RadioButton
+            android:id="@+id/cs4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:paddingStart="77dp"
+            android:text="CSE 4th Year" />
+    </RadioGroup>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+

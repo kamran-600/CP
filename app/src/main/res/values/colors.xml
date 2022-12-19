@@ -20,5 +20,8 @@
 
     <!-- home -->
     <color name="bloodRed">#880808</color>
+
+    <color name="chatRow">#FBFBFB</color>
+
 </resources>
 

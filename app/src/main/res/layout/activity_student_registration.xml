@@ -91,6 +91,8 @@
                     android:layout_marginTop="35dp"
                     android:layout_marginEnd="20dp"
                     android:hint="@string/gender"
+                    app:helperText="Choose from dropdown*"
+                    app:helperTextTextColor="@color/bloodRed"
                     app:boxStrokeColor="@color/upperBlue"
                     app:hintTextColor="@color/upperBlue">
 
