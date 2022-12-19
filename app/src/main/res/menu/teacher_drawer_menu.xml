@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/Academic"
+        android:checkableBehavior="single"
+        android:enabled="true">
+
+
+        <item
+            android:id="@+id/attendence"
+            android:title="@string/attn" />
+        <item
+            android:id="@+id/fee"
+            android:title="@string/fee" />
+        <item
+            android:id="@+id/remarks"
+            android:title="@string/remarks" />
+
+
+    </group>
+    <group
+        android:id="@+id/Logout"
+        android:checkableBehavior="single"
+        android:enabled="true">
+        <item
+            android:id="@+id/logout"
+            android:title="@string/logout" />
+
+    </group>
+</menu>

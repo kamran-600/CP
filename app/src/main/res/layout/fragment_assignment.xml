@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
     android:layout_marginBottom="57dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="55dp"
+    android:background="@color/chatRow"
+
     tools:context=".BottomFragments.AssignmentFragment">
 
     <!-- TODO: Update blank fragment layout -->

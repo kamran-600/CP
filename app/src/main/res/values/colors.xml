@@ -17,11 +17,11 @@
     <color name="upperBlue">#FF1E88E5</color>
     <color name="bottomBlue">#FF131D88</color>
     <color name="btn">#4CAF50</color>
+    <color name="chatRow">#FBFBFB</color>
 
     <!-- home -->
-    <color name="bloodRed">#880808</color>
 
-    <color name="chatRow">#FBFBFB</color>
+    <color name="bloodRed">#880808</color>
 
 </resources>
 
