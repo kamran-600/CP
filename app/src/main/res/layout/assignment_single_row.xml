@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:elevation="25dp"
+        app:cardElevation="15dp"
+        app:cardBackgroundColor="@color/chatRow">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/Card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:elevation="15dp"
+                app:cardCornerRadius="60dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/Card"
+                android:fontFamily="@font/opensans_bold"
+                android:text="Kamran Alam"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/className"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tName"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@id/Card"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Branch &amp; Year"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/className"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@id/Card"
+                android:fontFamily="@font/opensans_regular"
+                android:text="description"
+                android:textSize="10sp"
+                android:singleLine="true"
+                android:ellipsize="marquee"/>
+
+            <TextView
+                android:id="@+id/dueDateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="153dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/Card"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Due Date :"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+
+                />
+
+            <TextView
+                android:id="@+id/dueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="195dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/Card"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="12/01/2022"
+                android:textColor="@color/black"
+                android:textSize="8sp" />
+
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="195dp"
+                android:layout_marginTop="55dp"
+                android:layout_toRightOf="@id/Card"
+                android:fontFamily="@font/opensans_regular"
+                android:text="7:00 am"
+                android:textSize="10sp" />
+
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

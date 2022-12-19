@@ -73,6 +73,13 @@
         <item>4th Year</item>
     </string-array>
 
+    <string-array name="CS_Class_Array">
+        <item>CS 1st Year</item>
+        <item>CS 2nd Year</item>
+        <item>CS 3rd Year</item>
+        <item>CS 4th Year</item>
+    </string-array>
+
     <string-array name="Teacher_Role_Array">
         <item>Head Of Department</item>
         <item>Class Co-Ordinator</item>

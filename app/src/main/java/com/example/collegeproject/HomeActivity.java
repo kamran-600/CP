@@ -61,33 +61,30 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.bReplace, new HomeFragment()).commit();
 
-        binding.bottom.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new HomeFragment()).commit();
-                        binding.topAppBar.setTitle("Home");
-                        break;
-                    case R.id.assignment:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new AssignmentFragment()).commit();
-                        binding.topAppBar.setTitle("Assignment");
-                        break;
-                    case R.id.chats:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new ChatsFragment()).commit();
-                        binding.topAppBar.setTitle("Chats");
-                        break;
-                    case R.id.contacts:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new ContactsFragment()).commit();
-                        binding.topAppBar.setTitle("Contacts");
-                        break;
-                }
-                return true;
+        binding.bottom.setOnItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.bReplace, new HomeFragment()).commit();
+                    binding.topAppBar.setTitle("Home");
+                    break;
+                case R.id.assignment:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.bReplace, new AssignmentFragment()).commit();
+                    binding.topAppBar.setTitle("Assignment");
+                    break;
+                case R.id.chats:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.bReplace, new ChatsFragment()).commit();
+                    binding.topAppBar.setTitle("Chats");
+                    break;
+                case R.id.contacts:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.bReplace, new ContactsFragment()).commit();
+                    binding.topAppBar.setTitle("Contacts");
+                    break;
             }
+            return true;
         });
     }
     private void animateNavDrawer() {

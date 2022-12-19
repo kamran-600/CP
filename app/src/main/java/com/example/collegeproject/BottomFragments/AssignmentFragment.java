@@ -1,15 +1,27 @@
 package com.example.collegeproject.BottomFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.collegeproject.MainActivity;
 import com.example.collegeproject.R;
+import com.example.collegeproject.assignment.AssignmentAdapter;
+import com.example.collegeproject.assignment.AssignmentModal;
+import com.example.collegeproject.assignment.CreateAssignmentActivity;
 import com.example.collegeproject.databinding.FragmentAssignmentBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,12 +69,47 @@ public class AssignmentFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    LinearLayoutManager layoutManager;
+    List<AssignmentModal> userList;
+    AssignmentAdapter adapter;
+
     private FragmentAssignmentBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAssignmentBinding.inflate(inflater, container, false);
+
+       
+        binding.extendedFab.setOnClickListener(view ->{
+
+            startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
+
+        });
+
+        
+
+        initData();
+        initRecyclerView();
+
          return binding.getRoot();
+    }
+
+    private void initRecyclerView() {
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        binding.recyclerview.setLayoutManager(layoutManager);
+        adapter = new AssignmentAdapter(userList);
+        binding.recyclerview.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
+        binding.recyclerview.addItemDecoration(dividerItemDecoration);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    private void initData() {
+        userList = new ArrayList<>();
+
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
     }
 }

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/r"
+    android:layout_height="match_parent"
+    tools:context=".assignment.CreateAssignmentActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/postBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/upperBlue"
+            app:title="Share Assignment">
+
+            <Button
+                android:id="@+id/post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@android:color/transparent"
+                android:text="Post" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+ <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/User_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/user" />
+
+            <TextView
+                android:id="@+id/User_name"
+                android:layout_marginStart="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Kamran Alam"
+                android:fontFamily="@font/opensans_semibold"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:id="@+id/choose_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:paddingTop="7dp"
+            android:paddingStart="10dp"
+            android:fontFamily="@font/opensans_regular"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/box"
+            android:text="CS 1st Year"
+            app:drawableEndCompat="@drawable/arrow_drop_down" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextTextMultiLine"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:ems="10"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/opensans_regular"
+            android:hint="Description"
+            app:boxStrokeColor="@color/upperBlue"
+            app:hintTextColor="@color/upperBlue">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/opensans_semibold"
+                android:inputType="textMultiLine"
+                android:textColor="@color/midBlue"
+                android:textCursorDrawable="@drawable/form_cursor"
+                android:textSize="15sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dobLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Due Date"
+            app:boxStrokeColor="@color/upperBlue"
+            app:endIconContentDescription="Calender"
+            app:endIconDrawable="@drawable/ic_dob_icon"
+            app:endIconMode="custom"
+            app:hintTextColor="@color/upperBlue">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/opensans_semibold"
+                android:inputType="date"
+                android:textColor="@color/midBlue"
+                android:textCursorDrawable="@drawable/form_cursor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/doc_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:text=""
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/doc_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:text=""
+            android:visibility="gone"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/upperBlue"
+            android:elevation="30dp"
+            app:cardCornerRadius="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/cameraImg"
+                    android:layout_width="20dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="9dp"
+                    android:layout_weight="1"
+                    android:paddingTop="5dp"
+                    app:srcCompat="@drawable/camera"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/galleryImg"
+                    android:layout_width="25dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="7dp"
+                    android:layout_weight="1"
+                    android:paddingTop="2dp"
+                    app:srcCompat="@drawable/gallery"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/docImg"
+                    android:layout_width="26dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    app:srcCompat="@drawable/docs"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+ </ScrollView>
+
+
+</LinearLayout>
