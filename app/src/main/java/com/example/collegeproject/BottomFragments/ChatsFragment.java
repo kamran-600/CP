@@ -3,12 +3,20 @@ package com.example.collegeproject.BottomFragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.collegeproject.Chat.ChatAdapter;
+import com.example.collegeproject.Chat.ChatModel;
 import com.example.collegeproject.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +65,84 @@ public class ChatsFragment extends Fragment {
         }
     }
 
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    List<ChatModel> userList;
+    ChatAdapter adapter;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chats, container, false);
+        View v = inflater.inflate(R.layout.fragment_chats, container, false);
+        recyclerView = v.findViewById(R.id.recyclerview);
+
+        initData();
+        initRecyclerView();
+
+        return v;
     }
-}
+
+
+        private void initData () {
+
+            userList = new ArrayList<>();
+
+            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                    "7:05 am"));
+            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                    "8:05 pm"));
+            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                    "2:05 pm"));
+            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                    "7:05 am"));
+            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                    "8:05 pm"));
+            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                    "2:05 pm"));
+            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                    "7:05 am"));
+            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                    "8:05 pm"));
+            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                    "2:05 pm"));
+            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                    "7:05 am"));
+            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                    "8:05 pm"));
+            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                    "2:05 pm"));
+            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                    "7:05 am"));
+            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                    "8:05 pm"));
+            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                    "2:05 pm"));
+            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                    "7:05 am"));
+            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                    "8:05 pm"));
+            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                    "2:05 pm"));
+            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                    "7:05 am"));
+            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                    "8:05 pm"));
+            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                    "2:05 pm"));
+    }
+
+        private void initRecyclerView () {
+
+            layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(layoutManager);
+            adapter = new ChatAdapter(userList);
+            recyclerView.setAdapter(adapter);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
+            recyclerView.addItemDecoration(dividerItemDecoration);
+            adapter.notifyDataSetChanged();
+
+        }
+    }
