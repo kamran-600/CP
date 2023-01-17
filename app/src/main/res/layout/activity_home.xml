@@ -49,14 +49,15 @@
         </com.google.android.material.navigation.NavigationView>
 
         <RelativeLayout
+            android:id="@+id/cp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
             <FrameLayout
                 android:id="@+id/bReplace"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
-
+                android:layout_height="match_parent"></FrameLayout>
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom"

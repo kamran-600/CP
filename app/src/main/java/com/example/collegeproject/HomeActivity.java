@@ -2,16 +2,14 @@ package com.example.collegeproject;
 
 
 
-import static com.google.android.material.internal.ContextUtils.getActivity;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
@@ -24,8 +22,10 @@ import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
+import com.example.collegeproject.Fee.FeeFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -118,5 +118,24 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
+        /* *************************************
+                 Navigation item access
+           *************************************
+        */
+
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.fee:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.cp, new FeeFragment()).commit();
+                        break;
+                }
+                return true;
+            }
+        });
+
     }
 }
