@@ -5,24 +5,25 @@ package com.example.collegeproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.collegeproject.Attendance.ClassFragment;
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
 import com.example.collegeproject.Fee.FeeFragment;
+import com.example.collegeproject.Fee.FeeSummaryFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -51,10 +52,8 @@ public class HomeActivity extends AppCompatActivity {
 
         menuItem.setTitle("  Logout  ");
         SpannableString logout = new SpannableString(menuItem.getTitle());
-        ForegroundColorSpan fcs = new ForegroundColorSpan(getResources().getColor(R.color.white));
-        BackgroundColorSpan bcs = new BackgroundColorSpan(getResources().getColor(R.color.bloodRed));
+        ForegroundColorSpan fcs = new ForegroundColorSpan(getResources().getColor(R.color.bloodRed));
         logout.setSpan(fcs, 0,logout.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        logout.setSpan(bcs, 0, logout.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         menuItem.setTitle(logout);
 
 
@@ -128,12 +127,26 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    case R.id.home:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new FeeFragment()).commit();
+                        break;
                     case R.id.fee:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.cp, new FeeFragment()).commit();
+                                .replace(R.id.bReplace, new FeeSummaryFragment()).commit();
+                        break;
+                    case R.id.attendence:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new ClassFragment()).commit();
+                        break;
+                    case R.id.logout:
+                        startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                        finishAffinity();
                         break;
                 }
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
+
             }
         });
 

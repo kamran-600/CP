@@ -15,9 +15,6 @@
         android:theme="@style/Theme.CollegeProject"
         tools:targetApi="31">
         <activity
-            android:name=".Fee.FeeSummaryActivity"
-            android:exported="false" />
-        <activity
             android:name=".assignment.CreateAssignmentActivity"
             android:exported="false">
             <meta-data

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolde> {
 
-    private List<ChatModel> userList;
+    private final List<ChatModel> userList;
     private int lastPosition=-1;
 
 

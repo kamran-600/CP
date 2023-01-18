@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolde> {
 
-    private List<ContactModel> userList;
+    private final List<ContactModel> userList;
     private int lastPosition=-1;
 
    /* public static void setFilterdList(List<ContactModel> filteredList) {

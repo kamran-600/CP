@@ -1,22 +1,19 @@
 package com.example.collegeproject.Fee;
 
 public class FeeModel {
-
-
-
         private int image;
         private  String dName;
         private String aYear;
-     //   private  String lastMsg;
-      //  private  String time;
+        private  String lastMsg;
+        private  String time;
 
-        public FeeModel(int image, String dName, String aYear){
-            this.image = image;
-            this.dName = dName;
-            this.aYear = aYear;
-           // this.lastMsg = lastMsg;
-           // this.time = time;
-        }
+    public FeeModel(int image, String dName, String aYear, String lastMsg, String time) {
+        this.image = image;
+        this.dName = dName;
+        this.aYear = aYear;
+        this.lastMsg = lastMsg;
+        this.time = time;
+    }
 
     public int getImage() {
         return image;
@@ -30,7 +27,7 @@ public class FeeModel {
         return aYear;
     }
 
-    /*public String getLastMsg() {
+    public String getLastMsg() {
         return lastMsg;
     }
 
@@ -38,7 +35,7 @@ public class FeeModel {
         return time;
     }
 
-     */
+
 }
 
 

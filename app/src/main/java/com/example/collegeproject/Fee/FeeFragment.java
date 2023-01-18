@@ -73,10 +73,11 @@ public class FeeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_fee, container, false);
-        recyclerView = v.findViewById(R.id.recyclerview1);
 
+        recyclerView = v.findViewById(R.id.recyclerview1);
         initData();
         initRecyclerView();
+
         return v;
     }
 
@@ -84,10 +85,26 @@ public class FeeFragment extends Fragment {
 
         userList = new ArrayList<>();
 
-        userList.add(new FeeModel(R.drawable.cse, "CS Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new FeeModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new FeeModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new FeeModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new FeeModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+
+
     }
 
     private void initData() {
+
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
@@ -96,5 +113,6 @@ public class FeeFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
+
     }
 }

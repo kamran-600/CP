@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
@@ -23,7 +24,7 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
     private int lastPosition=-1;
 
 
-    public  FeeAdapter (List<FeeModel>userList){this.userList = userList;}
+    public  FeeAdapter (List<FeeModel> userList){this.userList = userList;}
 
 
 
@@ -41,24 +42,27 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
         int resource = userList.get(position).getImage();
         String dname = userList.get(position).getdName();
         String ayear = userList.get(position).getaYear();
-       // String lmsg = userList.get(position).getLastMsg();
-      //  String time = userList.get(position).getTime();
-        holder.setData(resource,dname,ayear);
+        String lmsg = userList.get(position).getLastMsg();
+        String time = userList.get(position).getTime();
+        holder.setData(resource,dname,ayear, lmsg,time);
 
         setAnimation(holder.itemView,position);
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+
+            return userList.size();
+
     }
+
+
+
 
     public class ViewHolde extends  RecyclerView.ViewHolder {
         private ImageView image;
         private TextView dName;
-        private TextView aYear;
-       // private TextView lastMsg;
-      //  private TextView mTime;
+        private TextView aYear;private TextView lastMsg;private TextView mTime;
 
 
         public ViewHolde(@NonNull View itemView) {
@@ -66,17 +70,17 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
             image = itemView.findViewById(R.id.image);
             dName = itemView.findViewById(R.id.departmentName);
             aYear = itemView.findViewById(R.id.aYear);
-           // lastMsg = itemView.findViewById(R.id.lastMessage);
-           // mTime = itemView.findViewById(R.id.mTime);
+            lastMsg = itemView.findViewById(R.id.lastMessage);
+            mTime = itemView.findViewById(R.id.mTime);
 
         }
 
-        public void setData(int resource, String dname, String ayear) {
+        public void setData(int resource, String dname1, String ayear, String lmsg, String time) {
             image.setImageResource(resource);
-            dName.setText(dname);
+            dName.setText(dname1);
             aYear.setText(ayear);
-          //  lastMsg.setText(lmsg);
-           // mTime.setText(time);
+            lastMsg.setText(lmsg);
+            mTime.setText(time);
         }
     }
     private void setAnimation (View viewToAnimate, int position){
