@@ -12,16 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.collegeproject.MainActivity;
 import com.example.collegeproject.R;
-import com.example.collegeproject.assignment.AssignmentAdapter;
-import com.example.collegeproject.assignment.AssignmentModal;
-import com.example.collegeproject.assignment.CreateAssignmentActivity;
+import com.example.collegeproject.Assignment.AssignmentAdapter;
+import com.example.collegeproject.Assignment.AssignmentModal;
+import com.example.collegeproject.Assignment.CreateAssignmentActivity;
 import com.example.collegeproject.databinding.FragmentAssignmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.

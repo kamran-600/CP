@@ -7,7 +7,7 @@
     android:id="@+id/r"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    tools:context=".assignment.CreateAssignmentActivity">
+    tools:context=".Assignment.CreateAssignmentActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

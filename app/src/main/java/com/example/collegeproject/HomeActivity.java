@@ -17,7 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.collegeproject.Attendance.ClassFragment;
+
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
@@ -133,11 +133,6 @@ public class HomeActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.bReplace, new HomeFragment()).commit();
                         binding.topAppBar.setTitle("feed");
-                        break;
-                    case R.id.attendence:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new ClassFragment()).commit();
-                        binding.topAppBar.setTitle("Attendance");
                         break;
                     case R.id.fee:
                         getSupportFragmentManager().beginTransaction()

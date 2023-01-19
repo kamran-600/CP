@@ -1,4 +1,4 @@
-package com.example.collegeproject.assignment;
+package com.example.collegeproject.Assignment;
 
 import android.view.LayoutInflater;
 import android.view.View;

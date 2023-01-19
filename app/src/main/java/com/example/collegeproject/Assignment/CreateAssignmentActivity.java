@@ -1,4 +1,4 @@
-package com.example.collegeproject.assignment;
+package com.example.collegeproject.Assignment;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -7,13 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -24,7 +21,6 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
@@ -32,14 +28,10 @@ import android.widget.Toast;
 
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.R;
-import com.example.collegeproject.StudentRegistrationActivity;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.Calendar;
-import java.util.List;
 
 public class CreateAssignmentActivity<Private> extends AppCompatActivity {
 
