@@ -12,6 +12,7 @@
     <color name="link">#0645AD</color>
 
     <!-- Registration text -->
+    
     <color name="radio">#FF131D88</color>
     <color name="midBlue">#FF1565C0</color>
     <color name="upperBlue">#FF1E88E5</color>
@@ -23,6 +24,7 @@
 
     <color name="bloodRed">#DC3C31</color>
     <color name="bg">#F5F5F5</color>
+
 
 
 </resources>

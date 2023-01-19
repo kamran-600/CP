@@ -1,6 +1,5 @@
-package com.example.collegeproject.BottomFragments;
+package com.example.collegeproject.Fee;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,21 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.collegeproject.Chat.ChatAdapter;
+import com.example.collegeproject.Chat.ChatModel;
 import com.example.collegeproject.R;
-import com.example.collegeproject.Assignment.AssignmentAdapter;
-import com.example.collegeproject.Assignment.AssignmentModal;
-import com.example.collegeproject.Assignment.CreateAssignmentActivity;
-import com.example.collegeproject.databinding.FragmentAssignmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AssignmentFragment#newInstance} factory method to
+ * Use the {@link FeeSummaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AssignmentFragment extends Fragment {
+public class FeeSummaryFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,7 +34,7 @@ public class AssignmentFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AssignmentFragment() {
+    public FeeSummaryFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +44,11 @@ public class AssignmentFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AssignmentFragment.
+     * @return A new instance of fragment FeeSummaryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AssignmentFragment newInstance(String param1, String param2) {
-        AssignmentFragment fragment = new AssignmentFragment();
+    public static FeeSummaryFragment newInstance(String param1, String param2) {
+        FeeSummaryFragment fragment = new FeeSummaryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,47 +64,54 @@ public class AssignmentFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    List<AssignmentModal> userList;
-    AssignmentAdapter adapter;
-
-    private FragmentAssignmentBinding binding;
+    List<FeeSummaryModel> userList;
+    FeeSummaryAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentAssignmentBinding.inflate(inflater, container, false);
-
-       
-        binding.extendedFab.setOnClickListener(view ->{
-
-            startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
-
-        });
-
-        
+        View v = inflater.inflate(R.layout.fragment_fee_summary, container, false);
+        recyclerView = v.findViewById(R.id.recyclerview);
 
         initData();
         initRecyclerView();
 
-         return binding.getRoot();
+        return v;
     }
 
     private void initRecyclerView() {
+
+
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.recyclerview.setLayoutManager(layoutManager);
-        adapter = new AssignmentAdapter(userList);
-        binding.recyclerview.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new FeeSummaryAdapter(userList);
+        recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
-        binding.recyclerview.addItemDecoration(dividerItemDecoration);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
-
     }
 
     private void initData() {
         userList = new ArrayList<>();
 
-        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new FeeSummaryModel(R.drawable.a0, "Ram", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Sita", " 19043101000759", "90000",
+                "56000"));
+        userList.add(new FeeSummaryModel(R.drawable.a5, "Mohan", "1904310100065", "89000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Kamran", " 19043101000706", "98000",
+                "55000"));
+        userList.add(new FeeSummaryModel(R.drawable.a4, "Tanveer", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Mark", " 19043101000756", "90000",
+                "55000"));
+        userList.add(new FeeSummaryModel(R.drawable.a5, "Pinku", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a2, "Tony", " 19043101000756", "90000",
+                "55000"));
     }
 }

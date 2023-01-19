@@ -88,16 +88,28 @@
 
 
     <!-- Bottom Navigation Menu -->
-    <string name="home">Home</string>
+    <string name="feed">Feed</string>
     <string name="assignment">Assignment</string>
     <string name="chats">Chats</string>
     <string name="contacts">Contacts</string>
+
+    <!-- Fees-->
+    <string name="section">Section</string>
+    <string name="total">Total :</string>
+    <string name="submit">Submit :</string>
+
+
+    <!--Navigation Menu -->
+    <string name="home">Home</string>
+    <string name="attendance">Attendance</string>
+    <string name="fees">Fees</string>
+    <string name="progress">Progress</string>
 
     <!-- Teacher Drawer Menu -->
     <string name="attn">Attendance</string>
     <string name="fee">Fee</string>
     <string name="remarks">Remarks</string>
-    <string name="logout">  Logout  </string>
+    <string name="logout">Logout</string>
 
 
     <!-- Create Password -->

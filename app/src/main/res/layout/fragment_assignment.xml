@@ -6,7 +6,7 @@
     android:layout_marginBottom="57dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="55dp"
-    android:background="@color/chatRow"
+    android:background="@color/bg"
 
     tools:context=".BottomFragments.AssignmentFragment">
 

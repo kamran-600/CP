@@ -28,6 +28,7 @@
         android:layout_marginTop="150dp"
         android:layout_marginEnd="25dp"
         android:elevation="150dp"
+        app:cardBackgroundColor="@color/bg"
         app:cardCornerRadius="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +79,7 @@
                         android:inputType="textPersonName"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -91,9 +92,9 @@
                     android:layout_marginTop="35dp"
                     android:layout_marginEnd="20dp"
                     android:hint="@string/gender"
+                    app:boxStrokeColor="@color/upperBlue"
                     app:helperText="Choose from dropdown*"
                     app:helperTextTextColor="@color/bloodRed"
-                    app:boxStrokeColor="@color/upperBlue"
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
