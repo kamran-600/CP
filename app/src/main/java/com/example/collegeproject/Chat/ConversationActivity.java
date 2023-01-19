@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.collegeproject.R;
+
 public class ConversationActivity extends AppCompatActivity {
 
     @Override

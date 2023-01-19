@@ -1,5 +1,6 @@
 package com.example.collegeproject.Chat;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegeproject.Fee.FeeSummaryFragment;
+import com.example.collegeproject.HomeActivity;
+import com.example.collegeproject.LoginActivity;
 import com.example.collegeproject.R;
 
 import java.util.List;
@@ -42,8 +47,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolde> {
         String lmsg = userList.get(position).getLastMsg();
         String time = userList.get(position).getTime();
         holder.setData(resource,dname,ayear,lmsg,time);
-
         setAnimation(holder.itemView,position);
+         /* ********************************************
+                   onclick perform on objects.
+           ********************************************
+         */
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                Intent intent = new Intent(activity, ConversationActivity.class);
+                activity.startActivity(intent);
+                //activity.getSupportFragmentManager().beginTransaction()
+                        //.replace(R.id.bReplace, new ConversationFragment()).commit();
+                          }
+        });
     }
 
     @Override

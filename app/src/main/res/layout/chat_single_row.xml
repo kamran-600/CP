@@ -41,7 +41,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/Card"
-                android:fontFamily="@font/opensans_bold"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/cse"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -54,7 +54,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="6dp"
                 android:layout_toRightOf="@id/Card"
-                android:fontFamily="@font/opensans_semibold"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/first"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
@@ -67,7 +67,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="6dp"
                 android:layout_toRightOf="@id/Card"
-                android:fontFamily="@font/opensans_regular"
+                android:fontFamily="sans-serif-medium"
                 android:text="Last message"
                 android:textSize="8sp" />
 
@@ -79,7 +79,7 @@
                 android:layout_marginLeft="195dp"
                 android:layout_marginTop="59dp"
                 android:layout_toRightOf="@id/Card"
-                android:fontFamily="@font/opensans_regular"
+                android:fontFamily="sans-serif-medium"
                 android:text="7:00 am"
                 android:textSize="8sp" />
 
