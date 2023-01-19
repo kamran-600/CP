@@ -3,12 +3,20 @@ package com.example.collegeproject.Fee;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.collegeproject.Chat.ChatAdapter;
+import com.example.collegeproject.Chat.ChatModel;
 import com.example.collegeproject.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,11 +64,54 @@ public class FeeSummaryFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    List<FeeSummaryModel> userList;
+    FeeSummaryAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fee_summary, container, false);
+        View v = inflater.inflate(R.layout.fragment_fee_summary, container, false);
+        recyclerView = v.findViewById(R.id.recyclerview);
+
+        initData();
+        initRecyclerView();
+
+        return v;
+    }
+
+    private void initRecyclerView() {
+
+
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new FeeSummaryAdapter(userList);
+        recyclerView.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void initData() {
+        userList = new ArrayList<>();
+
+        userList.add(new FeeSummaryModel(R.drawable.a0, "Ram", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Sita", " 19043101000759", "90000",
+                "56000"));
+        userList.add(new FeeSummaryModel(R.drawable.a5, "Mohan", "1904310100065", "89000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Kamran", " 19043101000706", "98000",
+                "55000"));
+        userList.add(new FeeSummaryModel(R.drawable.a4, "Tanveer", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Mark", " 19043101000756", "90000",
+                "55000"));
+        userList.add(new FeeSummaryModel(R.drawable.a5, "Pinku", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a2, "Tony", " 19043101000756", "90000",
+                "55000"));
     }
 }

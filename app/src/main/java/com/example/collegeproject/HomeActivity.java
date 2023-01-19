@@ -23,7 +23,8 @@ import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
 import com.example.collegeproject.Fee.FeeFragment;
-import com.example.collegeproject.Fee.FeeSummaryFragment;
+import com.example.collegeproject.Progress.ProgressFragment;
+import com.example.collegeproject.Remark.RemarkFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -43,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
 
         toggle=new ActionBarDrawerToggle(HomeActivity.this,binding.drawerLayout,binding.topAppBar,R.string.open,R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
+        binding.topAppBar.setTitle("Veika");
         toggle.syncState();
         animateNavDrawer();
 
@@ -65,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.home:
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.bReplace, new HomeFragment()).commit();
-                    binding.topAppBar.setTitle("Home");
+                    binding.topAppBar.setTitle("feed");
                     break;
                 case R.id.assignment:
                     getSupportFragmentManager().beginTransaction()
@@ -129,15 +131,29 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.home:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new FeeFragment()).commit();
-                        break;
-                    case R.id.fee:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new FeeSummaryFragment()).commit();
+                                .replace(R.id.bReplace, new HomeFragment()).commit();
+                        binding.topAppBar.setTitle("feed");
                         break;
                     case R.id.attendence:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.bReplace, new ClassFragment()).commit();
+                        binding.topAppBar.setTitle("Attendance");
+                        break;
+                    case R.id.fee:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new FeeFragment()).commit();
+                        binding.topAppBar.setTitle("Fees");
+                        break;
+
+                    case R.id.remark:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new RemarkFragment()).commit();
+                        binding.topAppBar.setTitle("Remark");
+                        break;
+                    case R.id.progress:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new ProgressFragment()).commit();
+                        binding.topAppBar.setTitle("Progress");
                         break;
                     case R.id.logout:
                         startActivity(new Intent(HomeActivity.this,LoginActivity.class));
@@ -145,6 +161,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
                 binding.drawerLayout.closeDrawer(GravityCompat.START);
+
                 return true;
 
             }

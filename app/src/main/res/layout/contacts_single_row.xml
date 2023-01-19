@@ -13,7 +13,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="80dp"
+            android:background="@color/bg">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/Card"
@@ -66,27 +67,25 @@
                 android:layout_marginTop="20dp"
                 android:layout_toRightOf="@id/Card"
                 android:fontFamily="@font/opensans_bold"
-                android:textColor="@color/black"
                 android:text="9876543210"
+                android:textColor="@color/black"
                 android:textSize="15dp" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginTop="5dp"
                 android:layout_below="@id/stuCNumber"
                 android:layout_marginLeft="230dp"
-                android:src="@drawable/telephone"
-                />
+                android:layout_marginTop="5dp"
+                android:src="@drawable/telephone" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginTop="5dp"
                 android:layout_below="@id/stuCNumber"
                 android:layout_marginLeft="280dp"
-                android:src="@drawable/message"
-                />
+                android:layout_marginTop="5dp"
+                android:src="@drawable/message" />
 
         </RelativeLayout>
 

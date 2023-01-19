@@ -4,15 +4,13 @@ public class FeeModel {
         private int image;
         private  String dName;
         private String aYear;
-        private  String lastMsg;
-        private  String time;
 
-    public FeeModel(int image, String dName, String aYear, String lastMsg, String time) {
+
+    public FeeModel(int image, String dName, String aYear) {
         this.image = image;
         this.dName = dName;
         this.aYear = aYear;
-        this.lastMsg = lastMsg;
-        this.time = time;
+
     }
 
     public int getImage() {
@@ -27,13 +25,6 @@ public class FeeModel {
         return aYear;
     }
 
-    public String getLastMsg() {
-        return lastMsg;
-    }
-
-    public String getTime() {
-        return time;
-    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.collegeproject.Fee;
 
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +11,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.collegeproject.R;
+import com.example.collegeproject.Remark.RemarkFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
+
 
     private List<FeeModel> userList;
     private int lastPosition=-1;
 
 
-    public  FeeAdapter (List<FeeModel> userList){this.userList = userList;}
+    public  FeeAdapter (List<FeeModel> userList){
+        this.userList = userList;
+
+    }
 
 
 
@@ -39,14 +46,28 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
     @Override
     public void onBindViewHolder(@NonNull FeeAdapter.ViewHolde holder, int position) {
 
+        final FeeModel temp = userList.get(position);
+
         int resource = userList.get(position).getImage();
         String dname = userList.get(position).getdName();
         String ayear = userList.get(position).getaYear();
-        String lmsg = userList.get(position).getLastMsg();
-        String time = userList.get(position).getTime();
-        holder.setData(resource,dname,ayear, lmsg,time);
-
+        holder.setData(resource,dname,ayear);
         setAnimation(holder.itemView,position);
+
+        /* ********************************************
+                   onclick perform on objects.
+           ********************************************
+         */
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.bReplace, new FeeSummaryFragment()).commit();
+               // context.startActivity(new Intent(context,FeeFragment.class));
+            }
+        });
+
     }
 
     @Override
@@ -62,7 +83,7 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
     public class ViewHolde extends  RecyclerView.ViewHolder {
         private ImageView image;
         private TextView dName;
-        private TextView aYear;private TextView lastMsg;private TextView mTime;
+        private TextView aYear;
 
 
         public ViewHolde(@NonNull View itemView) {
@@ -70,17 +91,15 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
             image = itemView.findViewById(R.id.image);
             dName = itemView.findViewById(R.id.departmentName);
             aYear = itemView.findViewById(R.id.aYear);
-            lastMsg = itemView.findViewById(R.id.lastMessage);
-            mTime = itemView.findViewById(R.id.mTime);
+
 
         }
 
-        public void setData(int resource, String dname1, String ayear, String lmsg, String time) {
+        public void setData(int resource, String dname1, String ayear) {
             image.setImageResource(resource);
             dName.setText(dname1);
             aYear.setText(ayear);
-            lastMsg.setText(lmsg);
-            mTime.setText(time);
+
         }
     }
     private void setAnimation (View viewToAnimate, int position){

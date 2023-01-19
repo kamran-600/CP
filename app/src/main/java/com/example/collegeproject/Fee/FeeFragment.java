@@ -78,32 +78,11 @@ public class FeeFragment extends Fragment {
         initData();
         initRecyclerView();
 
+
         return v;
     }
 
     private void initRecyclerView() {
-
-        userList = new ArrayList<>();
-
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                "7:05 am"));
-        userList.add(new FeeModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                "8:05 pm"));
-        userList.add(new FeeModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                "2:05 pm"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                "7:05 am"));
-        userList.add(new FeeModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                "8:05 pm"));
-        userList.add(new FeeModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                "2:05 pm"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                "7:05 am"));
-
-
-    }
-
-    private void initData() {
 
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -113,6 +92,18 @@ public class FeeFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
+
+    }
+
+    private void initData() {
+
+        userList = new ArrayList<>();
+
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+
+
 
     }
 }

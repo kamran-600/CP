@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/home"
-        android:title="Home" />
-    <group
-        android:id="@+id/Academic"
-        android:checkableBehavior="single"
-        android:enabled="true">
 
-
-        <item
-            android:id="@+id/attendence"
-            android:title="@string/attn" />
-        <item
-            android:id="@+id/fee"
-            android:title="@string/fee" />
-        <item
-            android:id="@+id/remarks"
-            android:title="@string/remarks" />
-
-
+    <group android:checkableBehavior="single">
+        <item android:title=" Develope by - Veika">
+            <menu>
+                <item
+                    android:id="@+id/home"
+                    android:title="@string/home" />
+            </menu>
+        </item>
     </group>
-    <group
-        android:id="@+id/Logout"
-        android:checkableBehavior="single"
-        android:enabled="true">
-        <item
-            android:id="@+id/logout"
-            android:title="@string/logout" />
-
+    <group android:checkableBehavior="single">
+        <item android:title="Academic">
+            <menu>
+                <item
+                    android:id="@+id/attendence"
+                    android:title="@string/attn" />
+                <item
+                    android:id="@+id/fee"
+                    android:title="@string/fee" />
+                <item
+                    android:id="@+id/remark"
+                    android:title="@string/remarks" />
+                <item
+                    android:id="@+id/progress"
+                    android:title="@string/progress" />
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="@string/logout">
+            <menu>
+                <item
+                    android:id="@+id/logout"
+                    android:title="@string/logout" />
+            </menu>
+        </item>
     </group>
 </menu>

@@ -13,7 +13,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:background="@color/bg">
 
       <com.google.android.material.card.MaterialCardView
           android:id="@+id/Card"
@@ -57,31 +58,9 @@
           android:text="@string/first"
           android:textColor="@color/black"
           android:textSize="10sp" />
-<!--
-      <TextView
-          android:id="@+id/lastMessage"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/aYear"
-          android:layout_marginLeft="20dp"
-          android:layout_marginTop="6dp"
-          android:layout_toRightOf="@id/Card"
-          android:fontFamily="@font/opensans_regular"
-          android:text="Last message"
-          android:textSize="8sp" />
 
 
-      <TextView
-          android:id="@+id/mTime"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="195dp"
-          android:layout_marginTop="59dp"
-          android:layout_toRightOf="@id/Card"
-          android:fontFamily="@font/opensans_regular"
-          android:text="7:00 am"
-          android:textSize="8sp" />
-          -->
+
 
 
     </RelativeLayout>

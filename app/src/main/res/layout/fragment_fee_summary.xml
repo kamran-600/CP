@@ -6,9 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fee.FeeSummaryFragment"
     android:layout_marginTop="50dp"
-    android:background="#E5E5E5">
-
-
+    android:background="@color/bg">
 
     <RelativeLayout
         android:id="@+id/frame"
@@ -20,21 +18,70 @@
         android:clipToOutline="true"
         android:background="@drawable/frame_25">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:id="@+id/fee"
             android:layout_height="wrap_content"
-            android:text="Fee"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:layout_marginTop="35dp"
-            android:layout_marginStart="150dp"/>
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:layout_marginStart="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/dep"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/batch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/batch"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:gravity="center"
+            android:layout_marginStart="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/aca_year"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/section"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_alignBottom="@id/fee"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="25dp"
@@ -58,8 +105,13 @@
 
     </RelativeLayout>
 
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_marginTop="175dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp"
+        />
 
 
 </FrameLayout>
