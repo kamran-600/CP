@@ -1,14 +1,15 @@
 package com.example.collegeproject;
 
-
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+
 import android.content.Intent;
+import android.graphics.Color;
+
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -25,6 +26,7 @@ import com.example.collegeproject.BottomFragments.HomeFragment;
 import com.example.collegeproject.Fee.FeeFragment;
 import com.example.collegeproject.Progress.ProgressFragment;
 import com.example.collegeproject.Remark.RemarkFragment;
+import com.example.collegeproject.Attendance.ClassFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -42,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        toggle=new ActionBarDrawerToggle(HomeActivity.this,binding.drawerLayout,binding.topAppBar,R.string.open,R.string.close);
+        toggle = new ActionBarDrawerToggle(HomeActivity.this, binding.drawerLayout, binding.topAppBar, R.string.open, R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
         binding.topAppBar.setTitle("Veika");
         toggle.syncState();
@@ -56,11 +58,38 @@ public class HomeActivity extends AppCompatActivity {
         SpannableString logout = new SpannableString(menuItem.getTitle());
         ForegroundColorSpan fcs = new ForegroundColorSpan(getResources().getColor(R.color.bloodRed));
         logout.setSpan(fcs, 0,logout.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+       
         menuItem.setTitle(logout);
 
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.bReplace, new HomeFragment()).commit();
+
+
+        binding.navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.attendance:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.bReplace, new ClassFragment()).commit();
+                    binding.topAppBar.setTitle("Attendance");
+                    break;
+                case R.id.fee:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.bReplace, new FeeFragment()).commit();
+                    binding.topAppBar.setTitle("Fee");
+                    break;
+                case R.id.remarks:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.bReplace, new RemarksFragment()).commit();
+                    binding.topAppBar.setTitle("Remarks");
+                    break;
+            }
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+
+            return true;
+        });
+
 
         binding.bottom.setOnItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) item -> {
             switch (item.getItemId()) {
@@ -85,16 +114,18 @@ public class HomeActivity extends AppCompatActivity {
                     binding.topAppBar.setTitle("Contacts");
                     break;
             }
+
             return true;
         });
+
     }
-    private void animateNavDrawer() {
+   private void animateNavDrawer() {
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                 //Scale the view based on current slide offset
-                final float diffScaledOffset = slideOffset * (1-END_SCALE);
-                final float offsetScale = 1-diffScaledOffset;
+                final float diffScaledOffset = slideOffset * (1 - END_SCALE);
+                final float offsetScale = 1 - diffScaledOffset;
                 binding.bReplace.setScaleX(offsetScale);
                 binding.bReplace.setScaleY(offsetScale);
                 // translate the view accounting of the scaled width
@@ -163,4 +194,5 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
 }

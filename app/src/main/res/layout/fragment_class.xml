@@ -2,17 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginTop="55dp"
     android:layout_height="match_parent"
-    android:background="@color/bg"
-    tools:context=".BottomFragments.ChatsFragment">
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:context=".attendance.ClassFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <ListView
+        android:id="@+id/classListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="50dp"
-        />
 
+        android:layout_height="wrap_content" />
 </FrameLayout>

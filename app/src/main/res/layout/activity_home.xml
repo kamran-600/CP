@@ -33,8 +33,9 @@
         <FrameLayout
             android:id="@+id/bReplace"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent">
+        </FrameLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -45,6 +46,7 @@
                 style="@style/Widget.MaterialComponents.BottomNavigationView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="600dp"
                 android:layout_alignParentBottom="true"
                 app:elevation="10dp"
                 app:itemIconTint="@drawable/bottom_icon"
