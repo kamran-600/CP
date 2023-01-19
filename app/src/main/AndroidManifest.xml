@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CollegeProject"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Chat.ConversationActivity"
+            android:exported="false" />
         <activity
             android:name=".attendance.AttendanceActivity"
             android:exported="false">

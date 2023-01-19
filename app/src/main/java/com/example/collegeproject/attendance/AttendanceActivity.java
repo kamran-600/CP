@@ -29,10 +29,12 @@ public class AttendanceActivity extends AppCompatActivity {
         binding = ActivityAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         binding.image.setImageResource(intent.getIntExtra("image",0));
         binding.className.setText(intent.getStringExtra("className"));
         binding.section.setText(intent.getStringExtra("section"));
+
+        */
 
 
         initData();
