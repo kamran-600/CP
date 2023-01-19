@@ -23,10 +23,10 @@ import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
-import com.example.collegeproject.Fee.FeeFragment;
 import com.example.collegeproject.Progress.ProgressFragment;
 import com.example.collegeproject.Remark.RemarkFragment;
-import com.example.collegeproject.Attendance.ClassFragment;
+import com.example.collegeproject.Fee.FeeFragment;
+import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -54,12 +54,9 @@ public class HomeActivity extends AppCompatActivity {
         Menu menu = binding.navigationView.getMenu();
         MenuItem menuItem = menu.findItem(R.id.logout);
 
-        menuItem.setTitle("  Logout  ");
         SpannableString logout = new SpannableString(menuItem.getTitle());
         ForegroundColorSpan fcs = new ForegroundColorSpan(getResources().getColor(R.color.bloodRed));
         logout.setSpan(fcs, 0,logout.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-       
         menuItem.setTitle(logout);
 
 
@@ -67,27 +64,46 @@ public class HomeActivity extends AppCompatActivity {
                 .replace(R.id.bReplace, new HomeFragment()).commit();
 
 
-        binding.navigationView.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.attendance:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.bReplace, new ClassFragment()).commit();
-                    binding.topAppBar.setTitle("Attendance");
-                    break;
-                case R.id.fee:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.bReplace, new FeeFragment()).commit();
-                    binding.topAppBar.setTitle("Fee");
-                    break;
-                case R.id.remarks:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.bReplace, new RemarksFragment()).commit();
-                    binding.topAppBar.setTitle("Remarks");
-                    break;
-            }
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new HomeFragment()).commit();
+                        binding.topAppBar.setTitle("Feed");
+                        break;
+                    case R.id.attendence:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new ClassFragment()).commit();
+                        binding.topAppBar.setTitle("Attendance");
+                        break;
+                    case R.id.fee:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new FeeFragment()).commit();
+                        binding.topAppBar.setTitle("Fees");
+                        break;
 
-            return true;
+                    case R.id.remark:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new RemarkFragment()).commit();
+                        binding.topAppBar.setTitle("Remark");
+                        break;
+                    case R.id.progress:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.bReplace, new ProgressFragment()).commit();
+                        binding.topAppBar.setTitle("Progress");
+                        break;
+                    case R.id.logout:
+                        startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                        finishAffinity();
+                        break;
+                }
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+
+                return true;
+
+            }
         });
 
 
@@ -151,47 +167,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        /* *************************************
-                 Navigation item access
-           *************************************
-        */
-
-        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new HomeFragment()).commit();
-                        binding.topAppBar.setTitle("feed");
-                        break;
-                    case R.id.fee:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new FeeFragment()).commit();
-                        binding.topAppBar.setTitle("Fees");
-                        break;
-
-                    case R.id.remark:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new RemarkFragment()).commit();
-                        binding.topAppBar.setTitle("Remark");
-                        break;
-                    case R.id.progress:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new ProgressFragment()).commit();
-                        binding.topAppBar.setTitle("Progress");
-                        break;
-                    case R.id.logout:
-                        startActivity(new Intent(HomeActivity.this,LoginActivity.class));
-                        finishAffinity();
-                        break;
-                }
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
-
-                return true;
-
-            }
-        });
 
     }
 
