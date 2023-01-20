@@ -28,6 +28,7 @@ import com.example.collegeproject.Remark.RemarkFragment;
 import com.example.collegeproject.Fee.FeeFragment;
 import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 

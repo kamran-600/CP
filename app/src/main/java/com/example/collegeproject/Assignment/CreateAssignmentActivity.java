@@ -27,23 +27,20 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
+import com.example.collegeproject.BottomFragments.HomeFragment;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.Calendar;
 
-public class CreateAssignmentActivity<Private> extends AppCompatActivity {
+public class CreateAssignmentActivity extends AppCompatActivity {
 
     private ActivityCreateAssignmentBinding binding;
     DatePickerDialog.OnDateSetListener setListener;
     BottomSheetDialog bottomSheetDialog;
     View sheetView;
     Intent cameraIntent;
-
-
-
-
 
 
     @Override
@@ -53,9 +50,8 @@ public class CreateAssignmentActivity<Private> extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.post.setOnClickListener(view -> {
-            getSupportFragmentManager().beginTransaction().replace(R.id.r,new AssignmentFragment()).commit();
+           getSupportFragmentManager().beginTransaction().replace(binding.r.getId(),new AssignmentFragment()).commit();
         });
-
 
 
         setSupportActionBar(binding.postBar);
@@ -243,17 +239,7 @@ public class CreateAssignmentActivity<Private> extends AppCompatActivity {
         }
 
     });
-    private String getMimeType(String url)
-    {
-        String parts[]=url.split("\\.");
-        String extension=parts[parts.length-1];
-        String type = null;
-        if (extension != null) {
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            type = mime.getMimeTypeFromExtension(extension);
-        }
-        return type;
-    }
+
 
     // Open document Intent
     ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
@@ -290,17 +276,28 @@ public class CreateAssignmentActivity<Private> extends AppCompatActivity {
         if(i < 900000){
             i/=Math.pow(10,3);
             binding.docSize.setVisibility(View.VISIBLE);
-            binding.docSize.setText(String.format("%.2f",i)+" KB");
+            binding.docSize.setText("Size : "+String.format("%.2f",i)+" KB");
         }
         else {
             i/=Math.pow(10,6);
             binding.docSize.setVisibility(View.VISIBLE);
-            binding.docSize.setText(String.format("%.2f",i) +" MB");
+            binding.docSize.setText("Size : "+String.format("%.2f",i) +" MB");
 
         }
         binding.docTitle.setVisibility(View.VISIBLE);
         binding.docTitle.setText(cursor.getString(nameIndex));
         cursor.close();
+    }
+    private String getMimeType(String url)
+    {
+        String parts[]=url.split("\\.");
+        String extension=parts[parts.length-1];
+        String type = null;
+        if (extension != null) {
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            type = mime.getMimeTypeFromExtension(extension);
+        }
+        return type;
     }
 
 

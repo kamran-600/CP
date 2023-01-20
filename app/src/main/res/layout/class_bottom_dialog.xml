@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:layout_width="55dp"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:src="@drawable/bottom_sheet"
@@ -20,11 +20,13 @@
         android:id="@+id/csradiogroup"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
+        android:divider="@color/upperBlue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <RadioButton
             android:id="@+id/cs1"
+            android:buttonTint="@color/upperBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -33,6 +35,7 @@
 
         <RadioButton
             android:id="@+id/cs2"
+            android:buttonTint="@color/upperBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -41,6 +44,7 @@
 
         <RadioButton
             android:id="@+id/cs3"
+            android:buttonTint="@color/upperBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -49,6 +53,7 @@
 
         <RadioButton
             android:id="@+id/cs4"
+            android:buttonTint="@color/upperBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

@@ -1,14 +1,25 @@
 package com.example.collegeproject.Remark;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
+import com.example.collegeproject.attendance.AttendanceClassAdapter;
+import com.example.collegeproject.attendance.AttendanceModelClass;
+import com.example.collegeproject.databinding.FragmentRemarkBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +68,34 @@ public class RemarkFragment extends Fragment {
         }
     }
 
+    private FragmentRemarkBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_remark, container, false);
+        binding = FragmentRemarkBinding.inflate(inflater,container,false);
+
+        List<AttendanceModelClass> classList = new ArrayList<>();
+
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
+
+        AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(),R.layout.single_row_attendance_class,classList);
+        binding.classListView.setAdapter(adapter);
+
+        binding.classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    startActivity(new Intent(getContext(),RemarkActivity.class));
+            }
+        });
+
+
+
+
+        return binding.getRoot();
     }
 }

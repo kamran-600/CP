@@ -8,6 +8,7 @@
     tools:context=".HomeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -19,6 +20,7 @@
             app:title="@string/feed"
             android:elevation="0dp"
             app:titleMarginStart="50dp"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:background="@color/upperBlue"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
 

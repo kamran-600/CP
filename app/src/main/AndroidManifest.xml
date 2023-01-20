@@ -15,6 +15,9 @@
         android:theme="@style/Theme.CollegeProject"
         tools:targetApi="31">
         <activity
+            android:name=".Remark.RemarkActivity"
+            android:exported="false" />
+        <activity
             android:name=".Chat.ConversationActivity"
             android:exported="false" />
         <activity
