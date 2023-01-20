@@ -29,7 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingStart="77dp"
-            android:text="CSE 1st Year" />
+            android:text="CSE 1st Year"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="12sp"/>
 
         <RadioButton
             android:id="@+id/cs2"
@@ -37,7 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingStart="77dp"
-            android:text="CSE 2nd Year" />
+            android:text="CSE 2nd Year"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="12sp"/>
 
         <RadioButton
             android:id="@+id/cs3"
@@ -45,7 +49,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingStart="77dp"
-            android:text="CSE 3rd Year" />
+            android:text="CSE 3rd Year"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="12sp"/>
 
         <RadioButton
             android:id="@+id/cs4"
@@ -54,7 +60,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:paddingStart="77dp"
-            android:text="CSE 4th Year" />
+            android:text="CSE 4th Year"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="12sp"/>
     </RadioGroup>
 
 

@@ -102,6 +102,18 @@ public class FeeFragment extends Fragment {
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
 
 
 

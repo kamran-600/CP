@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="60dp"
-                android:fontFamily="@font/opensans_bold"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/hello"
                 android:textColor="@color/white"
                 android:textSize="25sp"
@@ -59,11 +59,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="149dp"
                         android:layout_marginTop="15dp"
-                        android:fontFamily="@font/opensans_bold"
+                        android:fontFamily="sans-serif-medium"
                         android:text="@string/loginHead"
                         android:textColor="#C9373C"
                         android:textSize="20dp"
-                        android:textStyle="normal" />
+                        android:textStyle="normal|bold" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextTextEmailAddress"
@@ -73,7 +73,7 @@
                         android:layout_marginTop="25dp"
                         android:backgroundTint="@color/midBlue"
                         android:ems="10"
-                        android:fontFamily="@font/opensans_regular"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/email"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/black"
@@ -87,7 +87,7 @@
                         android:layout_marginTop="25dp"
                         android:backgroundTint="@color/midBlue"
                         android:ems="10"
-                        android:fontFamily="@font/opensans_regular"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/password"
                         android:inputType="textPassword"
                         android:textColor="@color/black"
@@ -99,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="200dp"
                         android:layout_marginTop="15dp"
-                        android:fontFamily="@font/opensans_regular"
+                        android:fontFamily="sans-serif-medium"
                         android:text="@string/forPassword"
                         android:textColor="@color/link" />
 
@@ -126,6 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="70dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="@string/no"
                     android:textColor="@color/white" />
 
@@ -134,8 +135,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="@string/register"
-                    android:textColor="@color/btn" />
+                    android:textColor="@color/btn"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>

@@ -15,23 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="80dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/Card"
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                android:src="@drawable/a0"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:elevation="1dp"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="15dp"
-                android:elevation="15dp"
-                app:cardCornerRadius="60dp"
-                app:cardElevation="10dp"
-                app:cardMaxElevation="10dp">
+                android:layout_marginStart="15dp"/>
 
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="centerCrop" />
-            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/stuName"
@@ -39,8 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="22dp"
-                android:layout_toRightOf="@id/Card"
-                android:fontFamily="@font/opensans_bold"
+                android:layout_toRightOf="@id/image"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
                 android:text="Kamran"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -52,8 +47,8 @@
                 android:layout_below="@id/stuName"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/Card"
-                android:fontFamily="@font/opensans_semibold"
+                android:layout_toRightOf="@id/image"
+                android:fontFamily="sans-serif-medium"
                 android:text="RollNo"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
@@ -64,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@id/Card"
+                android:layout_toRightOf="@id/image"
                 android:textOn="P"
                 android:textOff="A"
                 app:showText="true"
