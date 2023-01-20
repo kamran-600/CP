@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/fragment_contacts_scene"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/bg"
-    tools:context=".BottomFragments.ContactsFragment">
-
+    android:layout_gravity="center"
+    tools:context=".Remark.RemarkActivity">
 
 
 
@@ -112,39 +109,19 @@
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_below="@id/frame"
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="120dp"
         android:layout_gravity="center"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_below="@id/frame"
         android:alpha="0.2"
         app:srcCompat="@drawable/logo" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_below="@id/frame"
-        android:layout_marginTop="175dp"
         android:layout_width="match_parent"
-        android:layout_marginBottom="55dp"
         android:layout_height="match_parent"
         />
 
 
-
-</FrameLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</RelativeLayout>

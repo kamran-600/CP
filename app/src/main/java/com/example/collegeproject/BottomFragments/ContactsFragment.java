@@ -2,6 +2,7 @@ package com.example.collegeproject.BottomFragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.collegeproject.Contacts.ContactAdapter;
 import com.example.collegeproject.Contacts.ContactModel;
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 
 import java.util.ArrayList;
@@ -83,6 +85,24 @@ public class ContactsFragment extends Fragment {
 
         initData();
         initRecyclerView();
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                HomeActivity homeActivity = (HomeActivity) getActivity();
+                // scroll down
+                if(dy > 15 ){
+                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                }
+                // scroll up
+                if(dy < -10 ){
+                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
      /*   searchView  = v.findViewById(R.id.searchView);
         searchView.clearFocus();

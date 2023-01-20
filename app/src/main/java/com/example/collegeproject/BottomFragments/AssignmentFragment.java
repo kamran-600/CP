@@ -3,6 +3,7 @@ package com.example.collegeproject.BottomFragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.Assignment.AssignmentAdapter;
 import com.example.collegeproject.Assignment.AssignmentModal;
@@ -78,9 +80,7 @@ public class AssignmentFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAssignmentBinding.inflate(inflater, container, false);
 
-       
         binding.extendedFab.setOnClickListener(view ->{
-
             startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
 
         });
@@ -89,6 +89,25 @@ public class AssignmentFragment extends Fragment {
 
         initData();
         initRecyclerView();
+        binding.recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                HomeActivity homeActivity = (HomeActivity) getActivity();
+                // scroll down
+                if(dy > 15 && binding.extendedFab.isExtended()){
+                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                    binding.extendedFab.shrink();
+                }
+                // scroll up
+                if(dy < -10 && !binding.extendedFab.isExtended()){
+                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                    binding.extendedFab.extend();
+                }
+            }
+        });
 
          return binding.getRoot();
     }
@@ -109,5 +128,19 @@ public class AssignmentFragment extends Fragment {
         userList = new ArrayList<>();
 
         userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+
+
+
     }
 }

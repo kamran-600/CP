@@ -3,13 +3,17 @@ package com.example.collegeproject.attendance;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentClassBinding;
 
@@ -110,6 +114,7 @@ public class ClassFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
 
         return binding.getRoot();
 
