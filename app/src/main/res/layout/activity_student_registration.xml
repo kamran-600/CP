@@ -13,10 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
-        android:fontFamily="@font/opensans_bold"
+        android:fontFamily="sans-serif-medium"
         android:text="@string/stuHead"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
-                    android:fontFamily="@font/opensans_bold"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="@string/personal"
                     android:textColor="@color/bottomBlue"
@@ -75,7 +76,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="textPersonName"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
@@ -101,7 +102,7 @@
                         android:id="@+id/gender"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
 
@@ -128,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:inputType="date"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
@@ -147,7 +148,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/e_mail"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/midBlue"
@@ -168,7 +169,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/phone"
                         android:inputType="phone"
                         android:textColor="@color/midBlue"
@@ -188,7 +189,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/fatherName"
                         android:inputType="textPersonName"
                         android:textColor="@color/midBlue"
@@ -209,7 +210,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/fPhone"
                         android:inputType="phone"
                         android:textColor="@color/midBlue"
@@ -221,7 +222,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
-                    android:fontFamily="@font/opensans_bold"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="@string/ad"
                     android:textColor="@color/bottomBlue"
@@ -240,7 +241,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/roll"
                         android:inputType="number"
                         android:textColor="@color/midBlue"
@@ -264,7 +265,7 @@
                         android:id="@+id/department"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -285,7 +286,7 @@
                         android:id="@+id/academicyear"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -302,7 +303,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/batch"
                         android:inputType="number"
                         android:textColor="@color/midBlue"
@@ -322,7 +323,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/academicFee"
                         android:inputType="number"
                         android:textColor="@color/midBlue"
@@ -343,7 +344,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensans_semibold"
+                        android:fontFamily="sans-serif-medium"
                         android:hint="@string/hostelFee"
                         android:inputType="number"
                         android:textColor="@color/midBlue"
@@ -363,7 +364,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginBottom="35dp"
         android:backgroundTint="@color/btn"
-        android:fontFamily="@font/opensans_semibold"
+        android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="@string/conBtn"
         android:textAllCaps="false"

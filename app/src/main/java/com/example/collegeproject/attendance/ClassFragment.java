@@ -76,10 +76,29 @@ public class ClassFragment extends Fragment {
 
         List<AttendanceModelClass> classList = new ArrayList<>();
 
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a5));
 
         AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(),R.layout.single_row_attendance_class,classList);
         binding.classListView.setAdapter(adapter);

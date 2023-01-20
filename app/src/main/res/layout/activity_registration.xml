@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="60dp"
-            android:fontFamily="@font/opensans_bold"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/newReg"
             android:textColor="@color/white"
             android:textSize="25sp"
@@ -50,10 +50,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="70dp"
-                android:fontFamily="@font/opensans_bold"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/are_you"
                 android:textColor="@color/midBlue"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <RadioGroup
                 android:id="@+id/rgroup"
@@ -69,7 +70,7 @@
                     android:layout_marginTop="70dp"
                     android:background="@drawable/radio_selector"
                     android:button="@android:color/transparent"
-                    android:fontFamily="@font/opensans_bold"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="@string/student"
                     android:textColor="@drawable/text_color"
@@ -82,7 +83,7 @@
                     android:layout_marginTop="25dp"
                     android:background="@drawable/radio_selector"
                     android:button="@android:color/transparent"
-                    android:fontFamily="@font/opensans_bold"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="@string/teacher"
                     android:textColor="@drawable/text_color"
@@ -95,10 +96,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="180dp"
                 android:layout_marginTop="260dp"
-                android:fontFamily="@font/opensans_bold"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/qMark"
                 android:textColor="@color/midBlue"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/next"
@@ -121,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/already"
                 android:textColor="@color/white" />
 
@@ -129,8 +132,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/login"
-                android:textColor="@color/btn" />
+                android:textColor="@color/btn"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
