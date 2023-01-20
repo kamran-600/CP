@@ -1,4 +1,4 @@
-package com.example.collegeproject.attendance;
+package com.example.collegeproject.Remark;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,44 +6,33 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.collegeproject.Chat.ChatAdapter;
-import com.example.collegeproject.Chat.ChatModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
-import com.example.collegeproject.databinding.ActivityAttendanceBinding;
+import com.example.collegeproject.attendance.AttendanceAdapter;
+import com.example.collegeproject.attendance.AttendanceModel;
+import com.example.collegeproject.databinding.ActivityRemarkBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttendanceActivity extends AppCompatActivity {
+public class RemarkActivity extends AppCompatActivity {
 
-    ActivityAttendanceBinding binding;
+    private ActivityRemarkBinding binding;
     LinearLayoutManager layoutManager;
     List<AttendanceModel> userList;
-    AttendanceAdapter adapter;
-
+    RemarkAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAttendanceBinding.inflate(getLayoutInflater());
+        binding = ActivityRemarkBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-       /* Intent intent = getIntent();
-        binding.image.setImageResource(intent.getIntExtra("image",0));
-        binding.className.setText(intent.getStringExtra("className"));
-        binding.section.setText(intent.getStringExtra("section"));
-
-        */
 
 
         initData();
         initRecyclerView();
-
-
 
     }
     private void initData () {
@@ -80,7 +69,7 @@ public class AttendanceActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         binding.recyclerview.setLayoutManager(layoutManager);
-        adapter = new AttendanceAdapter(userList);
+        adapter = new RemarkAdapter(userList);
         binding.recyclerview.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
         binding.recyclerview.addItemDecoration(dividerItemDecoration);
