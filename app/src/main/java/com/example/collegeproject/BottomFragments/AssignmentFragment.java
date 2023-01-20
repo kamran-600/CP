@@ -1,5 +1,6 @@
 package com.example.collegeproject.BottomFragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -41,6 +42,7 @@ public class AssignmentFragment extends Fragment {
 
     public AssignmentFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -90,18 +92,19 @@ public class AssignmentFragment extends Fragment {
         initData();
         initRecyclerView();
         binding.recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if(dy > 15 && binding.extendedFab.isExtended()){
+                if(dy > 0 && binding.extendedFab.isExtended()){
                     homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     binding.extendedFab.shrink();
                 }
                 // scroll up
-                if(dy < -10 && !binding.extendedFab.isExtended()){
+                if(dy < -10 ){
                     homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     binding.extendedFab.extend();

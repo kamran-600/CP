@@ -89,7 +89,7 @@ public class ChatsFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if(dy > 15 ){
+                if(dy > 0 ){
                     homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                 }

@@ -8,11 +8,6 @@
     android:background="@color/bg"
     tools:context=".Assignment.CreateAssignmentActivity">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/r"/>
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

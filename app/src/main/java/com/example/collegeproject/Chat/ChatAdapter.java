@@ -13,9 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collegeproject.Fee.FeeSummaryFragment;
-import com.example.collegeproject.HomeActivity;
-import com.example.collegeproject.LoginActivity;
 import com.example.collegeproject.R;
 
 import java.util.List;

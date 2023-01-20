@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -25,10 +24,9 @@ import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
 import com.example.collegeproject.Progress.ProgressFragment;
 import com.example.collegeproject.Remark.RemarkFragment;
-import com.example.collegeproject.Fee.FeeFragment;
+import com.example.collegeproject.fee.FeeFragment;
 import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -113,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.home:
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.bReplace, new HomeFragment()).commit();
-                    binding.topAppBar.setTitle("feed");
+                    binding.topAppBar.setTitle("Feed");
                     break;
                 case R.id.assignment:
                     getSupportFragmentManager().beginTransaction()

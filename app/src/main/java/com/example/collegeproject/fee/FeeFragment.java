@@ -1,4 +1,4 @@
-package com.example.collegeproject.Fee;
+package com.example.collegeproject.fee;
 
 import android.os.Bundle;
 
@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.collegeproject.Chat.ChatAdapter;
-import com.example.collegeproject.Chat.ChatModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 
@@ -86,7 +84,7 @@ public class FeeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if(dy > 15 ){
+                if(dy > 0 ){
                     homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                 }

@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -28,9 +29,11 @@ import android.widget.Toast;
 
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -49,8 +52,16 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding = ActivityCreateAssignmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.post.setOnClickListener(view -> {
-           getSupportFragmentManager().beginTransaction().replace(binding.r.getId(),new AssignmentFragment()).commit();
+        HomeActivity homeActivity = new HomeActivity();
+
+        binding.post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Snackbar.make(view,"Assignment sent Successfully",Snackbar.LENGTH_SHORT).show();
+                //onBackPressed();
+            }
+
         });
 
 

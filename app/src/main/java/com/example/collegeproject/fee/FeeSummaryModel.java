@@ -1,4 +1,4 @@
-package com.example.collegeproject.Fee;
+package com.example.collegeproject.fee;
 
 public class FeeSummaryModel {
 

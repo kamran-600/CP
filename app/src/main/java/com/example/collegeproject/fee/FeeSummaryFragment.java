@@ -1,7 +1,8 @@
-package com.example.collegeproject.Fee;
+package com.example.collegeproject.fee;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,8 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.collegeproject.Chat.ChatAdapter;
-import com.example.collegeproject.Chat.ChatModel;
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FeeFragment#newInstance} factory method to
+ * Use the {@link FeeSummaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FeeFragment extends Fragment {
+public class FeeSummaryFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +34,7 @@ public class FeeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FeeFragment() {
+    public FeeSummaryFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +44,11 @@ public class FeeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FeeFragment.
+     * @return A new instance of fragment FeeSummaryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FeeFragment newInstance(String param1, String param2) {
-        FeeFragment fragment = new FeeFragment();
+    public static FeeSummaryFragment newInstance(String param1, String param2) {
+        FeeSummaryFragment fragment = new FeeSummaryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,44 +66,70 @@ public class FeeFragment extends Fragment {
     }
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    List<FeeModel> userList;
-    FeeAdapter adapter;
+    List<FeeSummaryModel> userList;
+    FeeSummaryAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_fee, container, false);
+        View v = inflater.inflate(R.layout.fragment_fee_summary, container, false);
+        recyclerView = v.findViewById(R.id.recyclerview);
 
-        recyclerView = v.findViewById(R.id.recyclerview1);
         initData();
         initRecyclerView();
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                HomeActivity homeActivity = (HomeActivity) getActivity();
+                // scroll down
+                if(dy > 0 ){
+                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                }
+                // scroll up
+                if(dy < -10 ){
+                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         return v;
     }
 
     private void initRecyclerView() {
 
+
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new FeeAdapter(userList);
+        adapter = new FeeSummaryAdapter(userList);
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
-
     }
 
     private void initData() {
-
         userList = new ArrayList<>();
 
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-
-
-
+        userList.add(new FeeSummaryModel(R.drawable.a0, "Ram", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Sita", " 19043101000759", "90000",
+                "56000"));
+        userList.add(new FeeSummaryModel(R.drawable.a5, "Mohan", "1904310100065", "89000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Kamran", " 19043101000706", "98000",
+                "55000"));
+        userList.add(new FeeSummaryModel(R.drawable.a4, "Tanveer", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a1, "Mark", " 19043101000756", "90000",
+                "55000"));
+        userList.add(new FeeSummaryModel(R.drawable.a5, "Pinku", "1904310100075", "85000",
+                "50000"));
+        userList.add(new FeeSummaryModel(R.drawable.a2, "Tony", " 19043101000756", "90000",
+                "55000"));
     }
 }

@@ -1,4 +1,4 @@
-package com.example.collegeproject.Fee;
+package com.example.collegeproject.fee;
 
 
 
@@ -12,12 +12,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.collegeproject.R;
-import com.example.collegeproject.Remark.RemarkFragment;
 
 import java.util.List;
 

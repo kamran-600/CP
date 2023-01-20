@@ -1,4 +1,4 @@
-package com.example.collegeproject.Fee;
+package com.example.collegeproject.fee;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collegeproject.Chat.ChatAdapter;
 import com.example.collegeproject.R;
 
 import java.util.List;
