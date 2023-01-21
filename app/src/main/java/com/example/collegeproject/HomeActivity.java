@@ -37,18 +37,14 @@ public class HomeActivity extends AppCompatActivity {
     ActionBarDrawerToggle toggle;
     static final float END_SCALE = 0.7f;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        toggle = new ActionBarDrawerToggle(HomeActivity.this, binding.drawerLayout, binding.topAppBar, R.string.open, R.string.close);
-        binding.drawerLayout.addDrawerListener(toggle);
-        binding.topAppBar.setTitle("Veika");
-        toggle.syncState();
         animateNavDrawer();
-
 
         Menu menu = binding.navigationView.getMenu();
         MenuItem menuItem = menu.findItem(R.id.logout);
@@ -59,42 +55,29 @@ public class HomeActivity extends AppCompatActivity {
         menuItem.setTitle(logout);
 
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.bReplace, new HomeFragment()).commit();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new HomeFragment()).commit();
 
         binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.home:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new HomeFragment()).commit();
-                        binding.topAppBar.setTitle("Feed");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new HomeFragment()).commit();
                         break;
                     case R.id.attendence:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new ClassFragment()).commit();
-                        binding.topAppBar.setTitle("Attendance");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ClassFragment()).commit();
                         break;
                     case R.id.fee:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new FeeFragment()).commit();
-                        binding.topAppBar.setTitle("Fees");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new FeeFragment()).commit();
                         break;
-
                     case R.id.remark:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new RemarkFragment()).commit();
-                        binding.topAppBar.setTitle("Remark");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new RemarkFragment()).commit();
                         break;
                     case R.id.progress:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.bReplace, new ProgressFragment()).commit();
-                        binding.topAppBar.setTitle("Progress");
+                        getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ProgressFragment()).commit();
                         break;
                     case R.id.logout:
-                        startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         finishAffinity();
                         break;
                 }
@@ -106,27 +89,21 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+
+
         binding.bottom.setOnItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) item -> {
             switch (item.getItemId()) {
                 case R.id.home:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.bReplace, new HomeFragment()).commit();
-                    binding.topAppBar.setTitle("Feed");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new HomeFragment()).commit();
                     break;
                 case R.id.assignment:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.bReplace, new AssignmentFragment()).commit();
-                    binding.topAppBar.setTitle("Assignment");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new AssignmentFragment()).commit();
                     break;
                 case R.id.chats:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.bReplace, new ChatsFragment()).commit();
-                    binding.topAppBar.setTitle("Chats");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ChatsFragment()).commit();
                     break;
                 case R.id.contacts:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.bReplace, new ContactsFragment()).commit();
-                    binding.topAppBar.setTitle("Contacts");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
                     break;
             }
 
@@ -134,7 +111,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-   private void animateNavDrawer() {
+
+    private void animateNavDrawer() {
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -168,5 +146,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+
 
 }

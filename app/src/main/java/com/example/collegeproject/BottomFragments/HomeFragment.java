@@ -1,19 +1,35 @@
 package com.example.collegeproject.BottomFragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.collegeproject.HomeActivity;
+import com.example.collegeproject.LoginActivity;
+import com.example.collegeproject.Progress.ProgressFragment;
 import com.example.collegeproject.R;
+import com.example.collegeproject.Remark.RemarkFragment;
+import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.databinding.FragmentAssignmentBinding;
 import com.example.collegeproject.databinding.FragmentHomeBinding;
+import com.example.collegeproject.fee.FeeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,13 +78,16 @@ public class HomeFragment extends Fragment {
         }
     }
   private FragmentHomeBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
+        binding.topAppBar.setTitle("Feed");
 
         return  binding.getRoot();
     }
+
 }

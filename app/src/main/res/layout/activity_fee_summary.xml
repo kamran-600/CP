@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/fragment_contacts_scene"
     android:background="@color/bg"
-    tools:context=".BottomFragments.ContactsFragment">
-
-
+    tools:context=".fee.FeeSummaryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarLayout"
@@ -20,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/top_menu"
-            app:title="Contacts"
+            app:title="Fee Summary"
             app:titleMarginStart="50dp"
             app:layout_scrollFlags="scroll|enterAlways"
             android:background="@color/upperBlue"
@@ -28,43 +25,21 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_below="@id/frame"
-        android:layout_gravity="center"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="50dp"
-        android:alpha="0.2"
-        app:srcCompat="@drawable/logo" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_below="@id/frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        />
-
-
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="35dp"
+            android:layout_gravity="center"
+            android:alpha="0.2"
+            app:srcCompat="@drawable/logo" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

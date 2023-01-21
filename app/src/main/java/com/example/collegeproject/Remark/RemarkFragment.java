@@ -82,6 +82,14 @@ public class RemarkFragment extends Fragment {
         classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
         classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
         classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
 
         AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(),R.layout.single_row_attendance_class,classList);
         binding.classListView.setAdapter(adapter);

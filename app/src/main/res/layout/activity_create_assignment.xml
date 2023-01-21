@@ -87,7 +87,7 @@
             app:drawableEndCompat="@drawable/arrow_drop_down" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/desc_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -100,6 +100,7 @@
             app:hintTextColor="@color/upperBlue">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textMultiLine"

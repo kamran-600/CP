@@ -90,12 +90,10 @@ public class ChatsFragment extends Fragment {
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
                 if(dy > 0 ){
-                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                 }
                 // scroll up
                 if(dy < -10 ){
-                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                 }
             }

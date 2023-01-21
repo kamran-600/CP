@@ -4,24 +4,31 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
@@ -33,6 +40,8 @@ import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
@@ -52,14 +61,19 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding = ActivityCreateAssignmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        HomeActivity homeActivity = new HomeActivity();
-
         binding.post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Snackbar.make(view,"Assignment sent Successfully",Snackbar.LENGTH_SHORT).show();
-                //onBackPressed();
+                Snackbar.make(view,"Assignment sent Successfully",Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onBackPressed();
+                    }
+                },1000);
+
             }
 
         });
@@ -155,12 +169,12 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
 
         binding.galleryImg.setOnClickListener(view -> {
-           // binding.editTextTextMultiLine.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
+            binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
             galleryLauncher.launch("image/*");
         });
 
         binding.docImg.setOnClickListener(view -> {
-          //  binding.editTextTextMultiLine.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
+            binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
             docLauncher.launch("application/*");
         });
 
@@ -311,10 +325,19 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         return type;
     }
 
-
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+
+        //AlertDialog.Builder builder = new AlertDialog.Builder(CreateAssignmentActivity.this);
+        builder.setTitle("Are You Sure ?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                onBackPressed();
+            }
+        }).show();
+
         return super.onSupportNavigateUp();
     }
 }

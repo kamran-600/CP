@@ -82,30 +82,30 @@ public class AssignmentFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAssignmentBinding.inflate(inflater, container, false);
 
+
         binding.extendedFab.setOnClickListener(view ->{
             startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
 
         });
 
-        
-
         initData();
         initRecyclerView();
+
         binding.recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                HomeActivity homeActivity = (HomeActivity) getActivity();
+                    HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
                 if(dy > 0 && binding.extendedFab.isExtended()){
-                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
+                    //homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     binding.extendedFab.shrink();
                 }
                 // scroll up
                 if(dy < -10 ){
-                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
+                   // homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     binding.extendedFab.extend();
                 }

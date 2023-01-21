@@ -2,6 +2,7 @@ package com.example.collegeproject.fee;
 
 
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +61,7 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
             @Override
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.bReplace, new FeeSummaryFragment()).commit();
-               // context.startActivity(new Intent(context,FeeFragment.class));
+                activity.startActivity(new Intent(activity,FeeSummaryActivity.class));
             }
         });
 
