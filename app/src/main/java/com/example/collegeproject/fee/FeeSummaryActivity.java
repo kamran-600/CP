@@ -1,15 +1,12 @@
 package com.example.collegeproject.fee;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.View;
-
-import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityFeeSummaryBinding;
 
@@ -23,6 +20,7 @@ public class FeeSummaryActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     List<FeeSummaryModel> userList;
     FeeSummaryAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,22 +29,25 @@ public class FeeSummaryActivity extends AppCompatActivity {
 
         initData();
         initRecyclerView();
-
-
-
-
     }
-    private void initRecyclerView() {
 
+    /* *****************************************
+               set data to adapter
+     ***************************************** */
+    private void initRecyclerView() {
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         binding.recyclerview.setLayoutManager(layoutManager);
         adapter = new FeeSummaryAdapter(userList);
         binding.recyclerview.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
         binding.recyclerview.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
     }
+
+    /* *****************************************
+           initialize the data for adapter
+     ***************************************** */
     private void initData() {
         userList = new ArrayList<>();
 

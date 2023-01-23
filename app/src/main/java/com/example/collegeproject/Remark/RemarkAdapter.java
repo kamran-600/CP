@@ -39,15 +39,20 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
         int resource = userList.get(position).getImage();
         String stuName = userList.get(position).getStuName();
         String roll = userList.get(position).getRoll();
+
+        holder.setData(resource, stuName, roll);
+        setAnimation(holder.itemView, position);
+
+        /* *****************************************
+                     Perform Rating
+           ***************************************** */
         holder.RatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 holder.rating_no.setVisibility(View.VISIBLE);
-                holder.rating_no.setText(String.valueOf(v)+"/"+ratingBar.getNumStars());
+                holder.rating_no.setText(v + "/" + ratingBar.getNumStars());
             }
         });
-        holder.setData(resource,stuName,roll);
-        setAnimation(holder.itemView,position);
     }
 
     @Override
@@ -55,11 +60,23 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
         return userList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    /* *****************************************
+                 Animate the RecyclerView
+       ***************************************** */
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.setAnimation(slideIn);
+            lastPosition = position;
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView image;
         private TextView stuName;
-        private TextView roll,rating_no;
+        private final TextView roll;
+        private final TextView rating_no;
         private AppCompatRatingBar RatingBar;
 
         public ViewHolder(@NonNull View itemView) {
@@ -72,19 +89,12 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
             RatingBar = itemView.findViewById(R.id.ratingBar);
 
         }
+
         public void setData(int resource, String stuName1, String roll1) {
             image.setImageResource(resource);
             stuName.setText(stuName1);
             roll.setText(roll1);
 
         }
-    }
-    private void setAnimation (View viewToAnimate, int position){
-        if (position > lastPosition) {
-            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.setAnimation(slideIn);
-            lastPosition = position;
-        }
-
     }
 }

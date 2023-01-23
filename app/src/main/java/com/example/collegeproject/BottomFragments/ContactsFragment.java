@@ -1,18 +1,15 @@
 package com.example.collegeproject.BottomFragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.collegeproject.Contacts.ContactAdapter;
 import com.example.collegeproject.Contacts.ContactModel;
@@ -73,7 +70,7 @@ public class ContactsFragment extends Fragment {
     LinearLayoutManager layoutManager;
     List<ContactModel> userList;
     ContactAdapter adapter;
-    private SearchView searchView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,13 +83,17 @@ public class ContactsFragment extends Fragment {
         initData();
         initRecyclerView();
 
+          /* *****************************************
+                          hide bottom bar
+             ***************************************** */
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if(dy > 0 ){
+                if (dy > 0) {
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                 }
                 // scroll up
@@ -139,8 +140,10 @@ public class ContactsFragment extends Fragment {
     }
    */
 
-
-    private void initData () {
+    /* *****************************************
+             initialize the data for adapter
+       ***************************************** */
+    private void initData() {
 
         userList = new ArrayList<>();
 
@@ -170,16 +173,17 @@ public class ContactsFragment extends Fragment {
 
     }
 
-    private void initRecyclerView () {
-
+    /* *****************************************
+                set data to adapter
+     ***************************************** */
+    private void initRecyclerView() {
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ContactAdapter(userList);
         recyclerView.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
-
     }
 }

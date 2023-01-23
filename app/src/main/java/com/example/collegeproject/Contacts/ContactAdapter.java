@@ -1,5 +1,6 @@
 package com.example.collegeproject.Contacts;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.collegeproject.R;
 
 import java.util.List;
@@ -20,19 +20,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     private final List<ContactModel> userList;
     private int lastPosition=-1;
-
-   /* public static void setFilterdList(List<ContactModel> filteredList) {
-
-    }
-
-    public void  setFilteredList(List<ContactModel> filteredList){
-        this.userList = filteredList;
-        notifyDataSetChanged();
-
-    }
-
-
-    */
 
    public ContactAdapter (List<ContactModel> userList){this.userList =userList;}
 
@@ -49,11 +36,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         String stuName = userList.get(position).getStuName();
         String stuRNumber = userList.get(position).getStuRNumber();
         String stuCNumber = userList.get(position).getStuCNumber();
-
-        holder.setData(resource,stuName,stuRNumber,stuCNumber);
-
-        setAnimation(holder.itemView,position);
-
+        holder.setData(resource, stuName, stuRNumber, stuCNumber);
+        setAnimation(holder.itemView, position);
     }
 
     @Override
@@ -61,12 +45,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return userList.size();
     }
 
-    public class ViewHolde extends  RecyclerView.ViewHolder {
+    /* *****************************************
+               Animate the RecyclerView
+     ***************************************** */
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.setAnimation(slideIn);
+            lastPosition = position;
+        }
+
+    }
+
+    public class ViewHolde extends RecyclerView.ViewHolder {
         private ImageView image;
         private TextView name;
         private TextView rNumber;
         private TextView cNumber;
-
+        private final ImageView call;
+        private final ImageView msg;
 
 
         public ViewHolde(@NonNull View itemView) {
@@ -75,8 +72,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             name = itemView.findViewById(R.id.stuName);
             rNumber = itemView.findViewById(R.id.stuRNumber);
             cNumber = itemView.findViewById(R.id.stuCNumber);
-
-
+            call = itemView.findViewById(R.id.call);
+            msg = itemView.findViewById(R.id.msg);
         }
 
         public void setData(int resource, String stuName, String stuRNumber, String stuCNumber) {
@@ -86,13 +83,5 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             cNumber.setText(stuCNumber);
 
         }
-    }
-    private void setAnimation (View viewToAnimate, int position){
-        if (position > lastPosition) {
-            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.setAnimation(slideIn);
-            lastPosition = position;
-        }
-
     }
 }
