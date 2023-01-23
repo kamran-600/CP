@@ -1,16 +1,15 @@
 package com.example.collegeproject.fee;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
@@ -78,25 +77,25 @@ public class FeeFragment extends Fragment {
         initData();
         initRecyclerView();
 
+
+        /* *****************************************
+                        Hide Bottom Bar
+           ***************************************** */
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if(dy > 0 ){
-                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.GONE);
+                if (dy > 0) {
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                 }
                 // scroll up
                 if(dy < -10 ){
-                    homeActivity.findViewById(R.id.appbarLayout).setVisibility(View.VISIBLE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                 }
             }
         });
-
-
         return v;
     }
 
@@ -132,8 +131,6 @@ public class FeeFragment extends Fragment {
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-
-
 
     }
 }

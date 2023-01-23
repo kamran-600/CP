@@ -39,7 +39,6 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
         String total = userList.get(position).getTotal();
         String submit = userList.get(position).getSubmit();
         holder.setData(resource,name,rno,total,submit);
-
         setAnimation(holder.itemView,position);
     }
 
@@ -74,6 +73,10 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
         }
     }
 
+
+    /* *****************************************
+               Animate the RecyclerView
+       ***************************************** */
     private void setAnimation(View viewToAnimate, int position) {
         if (position > lastPosition) {
             Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);

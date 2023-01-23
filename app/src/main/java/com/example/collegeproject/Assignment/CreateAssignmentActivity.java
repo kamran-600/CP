@@ -1,5 +1,6 @@
 package com.example.collegeproject.Assignment;
 
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -11,18 +12,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+
 import android.graphics.Color;
 import android.graphics.drawable.DrawableWrapper;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,9 +37,14 @@ import android.widget.DatePicker;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.collegeproject.BottomFragments.AssignmentFragment;
-import com.example.collegeproject.BottomFragments.HomeFragment;
-import com.example.collegeproject.HomeActivity;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -58,6 +64,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
     Intent cameraIntent;
 
 
+    @SuppressLint("QueryPermissionsNeeded")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +105,6 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding.chooseClass.setOnClickListener(view -> {
 
             bottomSheetDialog.show();
-
         });
         RadioGroup csRadioGroup = sheetView.findViewById(R.id.csradiogroup);
         csRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -114,7 +120,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                     bottomSheetDialog.dismiss();
                 }
                 if(i==R.id.cs3){
-                     binding.chooseClass.setText("CS 3rd Year");
+                    binding.chooseClass.setText("CS 3rd Year");
                     bottomSheetDialog.dismiss();
                 }
                 if(i==R.id.cs4){
@@ -123,7 +129,6 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -149,7 +154,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         };
 
         binding.cameraImg.setOnClickListener(view -> {
-        //    binding.editTextTextMultiLine.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
+            //    binding.editTextTextMultiLine.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
 
            /* ContentValues value = new ContentValues();
             value.put(MediaStore.Images.Media.TITLE,"new image");
@@ -158,16 +163,15 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,captureImageUri);
             */
 
-             cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
             if (cameraIntent.resolveActivity(getPackageManager()) != null) {
                 if(ActivityCompat.checkSelfPermission(CreateAssignmentActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                  // ActivityCompat.requestPermissions(CreateAssignmentActivity.this, new String[]{Manifest.permission.CAMERA},1);  //line 136-151
-                       requestLauncher.launch(Manifest.permission.CAMERA);
+                    // ActivityCompat.requestPermissions(CreateAssignmentActivity.this, new String[]{Manifest.permission.CAMERA},1);  //line 136-151
+                    requestLauncher.launch(Manifest.permission.CAMERA);
                 }else{
                     cameraLauncher.launch(cameraIntent);
                 }
-
             } else {
                 Toast.makeText(CreateAssignmentActivity.this, "There is no app that support this action",Toast.LENGTH_SHORT).show();
             }
@@ -238,7 +242,6 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                 binding.docTitle.setOnClickListener(view -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                         startActivity(intent);
                 });
             }
@@ -344,6 +347,8 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -351,7 +356,6 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
-
         return super.onSupportNavigateUp();
     }
 }

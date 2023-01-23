@@ -67,6 +67,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
 
         }
     }
+
     private void setAnimation (View viewToAnimate, int position){
         if (position > lastPosition) {
             Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);

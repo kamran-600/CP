@@ -45,6 +45,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolde> {
         String time = userList.get(position).getTime();
         holder.setData(resource,dname,ayear,lmsg,time);
         setAnimation(holder.itemView,position);
+
          /* ********************************************
                    onclick perform on objects.
            ********************************************
@@ -93,7 +94,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolde> {
             mTime.setText(time);
         }
     }
-    private void setAnimation (View viewToAnimate, int position){
+
+    /* *****************************************
+               Animate the RecyclerView
+     ***************************************** */
+    private void setAnimation(View viewToAnimate, int position) {
         if (position > lastPosition) {
             Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
             viewToAnimate.setAnimation(slideIn);

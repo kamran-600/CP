@@ -2,17 +2,13 @@ package com.example.collegeproject.Remark;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.example.collegeproject.HomeActivity;
+import androidx.fragment.app.Fragment;
+
 import com.example.collegeproject.R;
 import com.example.collegeproject.attendance.AttendanceClassAdapter;
 import com.example.collegeproject.attendance.AttendanceModelClass;
@@ -100,9 +96,6 @@ public class RemarkFragment extends Fragment {
                     startActivity(new Intent(getContext(),RemarkActivity.class));
             }
         });
-
-
-
 
         return binding.getRoot();
     }
