@@ -60,15 +60,17 @@
 
 
             <androidx.appcompat.widget.AppCompatRatingBar
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/Card"
-                android:layout_marginStart="60dp"
+                android:isIndicator="false"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="10dp"
                 android:numStars="5"
-                android:stepSize="0.5"
                 android:progressTint="@color/midBlue"
-                android:layout_marginTop="10dp"/>
+                android:stepSize="0.5" />
 
             <TextView
                 android:id="@+id/rating_no"

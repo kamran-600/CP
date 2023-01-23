@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/bg"
     tools:context=".Assignment.CreateAssignmentActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/postBar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/upperBlue"
-            app:title="Share Assignment">
-
-            <Button
-                android:id="@+id/post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="@android:color/transparent"
-                android:text="Post" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
- <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/postBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/upperBlue"
+                app:title="Share Assignment">
+
+                <Button
+                    android:id="@+id/post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@android:color/transparent"
+                    android:text="Post" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -72,7 +69,7 @@
         <TextView
             android:id="@+id/choose_class"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/box"
@@ -80,7 +77,8 @@
             android:focusable="true"
             android:fontFamily="sans-serif-light"
             android:paddingStart="10dp"
-            android:paddingTop="7dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="4dp"
             android:text="CS 1st Year"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -136,30 +134,80 @@
                 android:textCursorDrawable="@drawable/form_cursor" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <TextView
-            android:id="@+id/doc_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/assignment_card"
+            android:layout_width="250dp"
             android:layout_marginTop="15dp"
-            android:text=""
-            android:visibility="gone"/>
-
-        <TextView
-            android:id="@+id/doc_size"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:text=""
-            android:visibility="gone"/>
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="10dp">
+
+                <ImageView
+                    android:id="@+id/clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/clear"
+                    android:layout_marginStart="210dp"
+                    app:tint="@color/black" />
+
+                <ImageView
+                    android:id="@+id/doc_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:padding="2dp"
+                    android:background="@drawable/reg_box"
+                    android:src="@drawable/pdf"/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         " />
+
+                <TextView
+                    android:id="@+id/doc_title"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/doc_image"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Assignment_math.pdf"/>
+                <TextView
+                    android:id="@+id/doc_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/doc_image"
+                    android:layout_below="@+id/doc_title"
+                    android:text="pdf"/>
+
+                <TextView
+                    android:id="@+id/doc_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/doc_type"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/doc_image"
+                    android:text="500 KB"/>
+
+            </RelativeLayout>
+
+
+
+        </com.google.android.material.card.MaterialCardView>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:backgroundTint="@color/upperBlue"
             android:elevation="30dp"
             app:cardCornerRadius="30dp">
@@ -192,7 +240,7 @@
                     app:tint="@color/white" />
 
                 <ImageView
-                    android:id="@+id/docImg"
+                    android:id="@+id/documentImg"
                     android:layout_width="26dp"
                     android:layout_height="42dp"
                     android:layout_gravity="end"
@@ -206,7 +254,6 @@
 
 
     </LinearLayout>
- </ScrollView>
 
 
-</LinearLayout>
+</ScrollView>
