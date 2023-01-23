@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -21,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.DrawableWrapper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +43,7 @@ import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.dialog.MaterialDialogs;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -48,7 +51,7 @@ import java.util.Calendar;
 
 public class CreateAssignmentActivity extends AppCompatActivity {
 
-    private ActivityCreateAssignmentBinding binding;
+     ActivityCreateAssignmentBinding binding;
     DatePickerDialog.OnDateSetListener setListener;
     BottomSheetDialog bottomSheetDialog;
     View sheetView;
@@ -61,10 +64,14 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding = ActivityCreateAssignmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.clear.setOnClickListener(view -> {
+            binding.assignmentCard.setVisibility(View.GONE);
+        });
+
         binding.post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                binding.post.setEnabled(false);
                 Snackbar.make(view,"Assignment sent Successfully",Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
 
                 new Handler().postDelayed(new Runnable() {
@@ -173,7 +180,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             galleryLauncher.launch("image/*");
         });
 
-        binding.docImg.setOnClickListener(view -> {
+        binding.documentImg.setOnClickListener(view -> {
             binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
             docLauncher.launch("application/*");
         });
@@ -187,7 +194,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             if(result){
                 cameraLauncher.launch(cameraIntent);
             }
-            else Toast.makeText(CreateAssignmentActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(CreateAssignmentActivity.this, "Camera Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
         }
     });
 
@@ -226,7 +233,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
                 String path = MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"AssignmentImg",null);
 
-                binding.UserImage.setImageURI(Uri.parse(path));
+                binding.docImage.setImageURI(Uri.parse(path));
                 getTitleAndSize(Uri.parse(path));
                 binding.docTitle.setOnClickListener(view -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
@@ -254,7 +261,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
        binding.galleryImg.setImageBitmap(selectedImage);
 
        */
-            binding.UserImage.setImageURI(result);
+            binding.docImage.setImageURI(result);
             getTitleAndSize(result);
             binding.docTitle.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW,result);
@@ -300,12 +307,12 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         double i = Double.parseDouble(cursor.getString(sizeIndex));
         if(i < 900000){
             i/=Math.pow(10,3);
-            binding.docSize.setVisibility(View.VISIBLE);
+            binding.assignmentCard.setVisibility(View.VISIBLE);
             binding.docSize.setText("Size : "+String.format("%.2f",i)+" KB");
         }
         else {
             i/=Math.pow(10,6);
-            binding.docSize.setVisibility(View.VISIBLE);
+            binding.assignmentCard.setVisibility(View.VISIBLE);
             binding.docSize.setText("Size : "+String.format("%.2f",i) +" MB");
 
         }
@@ -336,7 +343,14 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 onBackPressed();
             }
-        }).show();
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
 
         return super.onSupportNavigateUp();
     }

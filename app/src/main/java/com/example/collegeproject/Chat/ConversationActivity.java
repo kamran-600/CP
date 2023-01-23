@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.collegeproject.R;
+import com.example.collegeproject.databinding.ActivityConversationBinding;
 
 public class ConversationActivity extends AppCompatActivity {
 
+    private ActivityConversationBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversation);
+        binding = ActivityConversationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
     }
 }

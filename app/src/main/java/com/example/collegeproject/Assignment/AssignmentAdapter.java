@@ -1,5 +1,6 @@
 package com.example.collegeproject.Assignment;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
@@ -44,8 +46,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         String time = userList.get(position).getTime();
 
         holder.setData(resource,tName,className,desc,duedate,time);
-
         setAnimation(holder.itemView,position);
+
+        // intent to Show Assignment
+        holder.itemView.setOnClickListener(view -> {
+            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+            activity.startActivity(new Intent(activity,AssignmentShowActivity.class));
+        });
     }
 
     @Override

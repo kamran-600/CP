@@ -3,6 +3,7 @@ package com.example.collegeproject.BottomFragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -102,42 +103,9 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-     /*   searchView  = v.findViewById(R.id.searchView);
-        searchView.clearFocus();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterList(newText);
-
-             return true;
-            }
-        });
-
-
-      */
-
         return v;
     }
 
-  /*  private void filterList(String text) {
-        List<ContactModel> filteredList = new ArrayList<>();
-        for (ContactModel item : userList){
-            if (item.getStuName().toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(item);
-            }
-            if (filteredList.isEmpty()){
-                Toast.makeText(getContext(), "No Student Find", Toast.LENGTH_SHORT).show();
-            }else{
-                ContactAdapter.setFilterdList(filteredList);
-            }
-        }
-    }
-   */
 
 
     private void initData () {
@@ -171,7 +139,6 @@ public class ContactsFragment extends Fragment {
     }
 
     private void initRecyclerView () {
-
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
