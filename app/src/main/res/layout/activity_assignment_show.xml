@@ -18,6 +18,7 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:background="@color/upperBlue"
             app:title="Show Assignment">
 
@@ -25,10 +26,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-
-
-        <RelativeLayout
+    <RelativeLayout
             android:layout_width="250dp"
             android:background="@drawable/reg_box"
             android:layout_height="wrap_content"
@@ -98,7 +96,6 @@
 
         </RelativeLayout>
 
-
     <TextView
         android:id="@+id/desc"
         android:layout_width="wrap_content"
@@ -106,13 +103,21 @@
         android:layout_marginHorizontal="20dp"
         android:text="This is the first assignment. I'll provide rest of the assignment next week of next Month of next year 2024."/>
 
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Submitted Assignment"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:text="List of the Students who have submitted the assignment "/>
 
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        />
 
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.example.collegeproject.Contacts.ContactAdapter;
@@ -93,12 +94,21 @@ public class ContactsFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if(dy > 0 ){
+                if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
+                    animate.setDuration(400);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
+
                 }
                 // scroll up
-                if(dy < -10 ){
+                if(dy < -10 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
+                    // duration of animation
+                    animate.setDuration(200);
+                    animate.setFillAfter(true);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
                 }
             }
         });

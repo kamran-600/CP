@@ -108,6 +108,7 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_marginStart="290dp"
+                        android:background="?selectableItemBackground"
                         android:layout_marginTop="20dp"
                         app:srcCompat="@drawable/ic_reg" />
 

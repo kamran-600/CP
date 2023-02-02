@@ -133,7 +133,6 @@ public class HomeActivity extends AppCompatActivity {
             }
             else{
                 Toast.makeText(HomeActivity.this, "Call Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
-                getSupportFragmentManager().beginTransaction().replace(R.id.bReplace,new HomeFragment()).commit();
             }
         }
     });
