@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -30,8 +31,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:background="@android:color/transparent"
                     android:text="Post" />
 
@@ -65,24 +64,31 @@
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <TextView
-            android:id="@+id/choose_class"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/box"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="sans-serif-light"
-            android:paddingStart="10dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="4dp"
-            android:text="CS 1st Year"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:drawableEndCompat="@drawable/arrow_drop_down" />
+            app:cardCornerRadius="20dp"
+            android:backgroundTint="@color/bg"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/choose_class"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/box"
+                android:foreground="?selectableItemBackground"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="10dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="4dp"
+                android:text="CS 1st Year"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/arrow_drop_down" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/desc_layout"
@@ -139,8 +145,8 @@
             android:layout_width="250dp"
             android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:visibility="gone"
+            android:layout_gravity="center_horizontal"
             app:cardCornerRadius="10dp">
 
             <RelativeLayout
@@ -152,9 +158,10 @@
                 <ImageView
                     android:id="@+id/clear"
                     android:layout_width="wrap_content"
+                    android:background="?selectableItemBackground"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/clear"
                     android:layout_marginStart="210dp"
+                    android:src="@drawable/clear"
                     app:tint="@color/black" />
 
                 <ImageView

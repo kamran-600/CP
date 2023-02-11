@@ -52,12 +52,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.dialog.MaterialDialogs;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.Calendar;
 
 public class CreateAssignmentActivity extends AppCompatActivity {
 
-     ActivityCreateAssignmentBinding binding;
+    ActivityCreateAssignmentBinding binding;
     DatePickerDialog.OnDateSetListener setListener;
     BottomSheetDialog bottomSheetDialog;
     View sheetView;
@@ -70,6 +73,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCreateAssignmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         binding.clear.setOnClickListener(view -> {
             binding.assignmentCard.setVisibility(View.GONE);
@@ -229,15 +233,17 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                 //binding.UserImage.setImageBitmap(bitmap);
 
                 //BitMap to URI
-                /*ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+               /* ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-                 bytes.toByteArray();
+                bytes.toByteArray();
+                */
 
-                 */
+
+
 
                 String path = MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"AssignmentImg",null);
-
-                binding.docImage.setImageURI(Uri.parse(path));
+                Picasso.get().load(path).into(binding.docImage);
+                //binding.docImage.setImageURI(Uri.parse(path));
                 getTitleAndSize(Uri.parse(path));
                 binding.docTitle.setOnClickListener(view -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
@@ -310,18 +316,16 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         double i = Double.parseDouble(cursor.getString(sizeIndex));
         if(i < 900000){
             i/=Math.pow(10,3);
-            binding.assignmentCard.setVisibility(View.VISIBLE);
             binding.docSize.setText("Size : "+String.format("%.2f",i)+" KB");
         }
         else {
             i/=Math.pow(10,6);
-            binding.assignmentCard.setVisibility(View.VISIBLE);
             binding.docSize.setText("Size : "+String.format("%.2f",i) +" MB");
 
         }
-        binding.docTitle.setVisibility(View.VISIBLE);
         binding.docTitle.setText(cursor.getString(nameIndex));
         cursor.close();
+        binding.assignmentCard.setVisibility(View.VISIBLE);
     }
     private String getMimeType(String url)
     {

@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/upperBlue</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="BottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">

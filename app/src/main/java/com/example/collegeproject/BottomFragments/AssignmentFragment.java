@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.animation.TranslateAnimation;
+
 import com.example.collegeproject.Assignment.AssignmentAdapter;
 import com.example.collegeproject.Assignment.AssignmentModal;
 import com.example.collegeproject.Assignment.CreateAssignmentActivity;
@@ -99,13 +101,25 @@ public class AssignmentFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if (dy > 0 && binding.extendedFab.isExtended()) {
+
+                if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
+                    animate.setDuration(400);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
                     binding.extendedFab.shrink();
                 }
                 // scroll up
-                if (dy < -10) {
+
+                if(dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
+                    // duration of animation
+                    animate.setDuration(200);
+                    animate.setFillAfter(true);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
                     binding.extendedFab.extend();
                 }
             }
@@ -134,19 +148,32 @@ public class AssignmentFragment extends Fragment {
        ***************************************** */
     private void initData() {
         userList = new ArrayList<>();
+        
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
+        userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
 
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
 
 
     }

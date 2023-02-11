@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
@@ -56,10 +58,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolde> {
 
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 Intent intent = new Intent(activity, ConversationActivity.class);
-                activity.startActivity(intent);
-                //activity.getSupportFragmentManager().beginTransaction()
-                        //.replace(R.id.bReplace, new ConversationFragment()).commit();
-                          }
+                intent.putExtra("image", resource);
+                intent.putExtra("dname", dname);
+                // OR use below commented code
+                //  ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.dName,"dnameTransition"),Pair.create(holder.image,"imageTransition"));
+                Pair[] pairs = new Pair[2];
+                pairs[0] = new Pair<View, String>(holder.dName, "dnameTransition");
+                pairs[1] = new Pair<View, String>(holder.image, "imageTransition");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
+                activity.startActivity(intent, options.toBundle());
+            }
         });
     }
 
