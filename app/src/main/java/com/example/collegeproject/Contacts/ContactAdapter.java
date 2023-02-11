@@ -38,15 +38,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     private List<ContactModel> userList;
     private int lastPosition=-1;
+    Intent intent;
 
 
    public ContactAdapter (List<ContactModel> userList){this.userList =userList;}
 
-
-    public ContactAdapter(List<ContactModel> userList) {
-        this.userList = userList;
-
-    }
 
 
     @NonNull
@@ -81,20 +77,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return userList.size();
-    }
-
-    /* *****************************************
-               Animate the RecyclerView
-     ***************************************** */
-    private void setAnimation(View viewToAnimate, int position) {
-        if (position > lastPosition) {
-            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.setAnimation(slideIn);
-            lastPosition = position;
-        }
-
-    }
+        return userList.size();}
 
     public class ViewHolde extends RecyclerView.ViewHolder {
         private ImageView image;

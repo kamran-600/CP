@@ -20,9 +20,9 @@
         <activity
 
             android:name=".profile.ProfileActivity"
-            android:exported="true">
+            android:exported="false">
         </activity>
-
+        <activity
             android:name=".Assignment.AssignmentShowActivity"
             android:exported="false" />
 

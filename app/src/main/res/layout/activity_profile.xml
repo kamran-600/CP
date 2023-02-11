@@ -69,12 +69,85 @@
             android:layout_height="match_parent"
             android:padding="30dp">
 
-            <TextView
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="information"
-                android:textColor="@color/black"
-                android:textSize="16dp"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="e-mail"
+                    android:textSize="20sp"
+                    android:textStyle="italic"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="cp@gmail.com"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/emailEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="35dp"
+                        android:backgroundTint="@color/bg"
+                        android:src="@drawable/edit"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="personal number"
+                    android:textSize="20sp"
+                    android:layout_marginTop="15dp"
+                    android:textStyle="italic"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="7524086770"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/phoneEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="35dp"
+                        android:backgroundTint="@color/bg"
+                        android:src="@drawable/edit"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
