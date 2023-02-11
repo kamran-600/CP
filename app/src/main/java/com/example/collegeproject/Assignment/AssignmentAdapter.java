@@ -1,5 +1,6 @@
 package com.example.collegeproject.Assignment;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
@@ -44,8 +46,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         String time = userList.get(position).getTime();
 
         holder.setData(resource,tName,className,desc,duedate,time);
-
         setAnimation(holder.itemView,position);
+
+        // intent to Show Assignment
+        holder.itemView.setOnClickListener(view -> {
+            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+            activity.startActivity(new Intent(activity,AssignmentShowActivity.class));
+        });
     }
 
     @Override
@@ -73,13 +80,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             time = itemView.findViewById(R.id.time);
 
         }
-        public void setData(int resource, String tName1, String className1, String desc1, String duedate1, String time1) {
+        public void setData(int resource, String tName1, String className1, String desc1, String dueDate1, String time1) {
             image.setImageResource(resource);
             tName.setText(tName1);
             className.setText(className1);
             desc.setText(desc1);
             desc.setSelected(true);
-            dueDate.setText(duedate1);
+            dueDate.setText(dueDate1);
             time.setText(time1);
         }
     }

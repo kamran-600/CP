@@ -1,14 +1,20 @@
 package com.example.collegeproject;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import android.Manifest;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -16,8 +22,10 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
+import com.example.collegeproject.Assignment.CreateAssignmentActivity;
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
@@ -56,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new HomeFragment()).commit();
-
+        binding.navigationView.setCheckedItem(R.id.home);
         binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -103,7 +111,12 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ChatsFragment()).commit();
                     break;
                 case R.id.contacts:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
+                    if(ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                        // ActivityCompat.requestPermissions(CreateAssignmentActivity.this, new String[]{Manifest.permission.CAMERA},1);  //line 136-151
+                        requestLauncher.launch(Manifest.permission.CALL_PHONE);
+                    }else{
+                        getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
+                    }
                     break;
             }
 
@@ -111,6 +124,18 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
+    ActivityResultLauncher<String> requestLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+            if(result){
+                getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
+            }
+            else{
+                Toast.makeText(HomeActivity.this, "Call Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
+            }
+        }
+    });
 
     private void animateNavDrawer() {
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {

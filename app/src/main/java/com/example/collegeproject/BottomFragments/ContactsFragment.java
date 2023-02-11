@@ -3,6 +3,7 @@ package com.example.collegeproject.BottomFragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.example.collegeproject.Contacts.ContactAdapter;
@@ -92,52 +94,28 @@ public class ContactsFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
-                if(dy > 0 ){
+                if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
+                    animate.setDuration(400);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
+
                 }
                 // scroll up
-                if(dy < -10 ){
+                if(dy < -10 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
+                    // duration of animation
+                    animate.setDuration(200);
+                    animate.setFillAfter(true);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
                 }
             }
         });
-
-     /*   searchView  = v.findViewById(R.id.searchView);
-        searchView.clearFocus();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterList(newText);
-
-             return true;
-            }
-        });
-
-
-      */
 
         return v;
     }
 
-  /*  private void filterList(String text) {
-        List<ContactModel> filteredList = new ArrayList<>();
-        for (ContactModel item : userList){
-            if (item.getStuName().toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(item);
-            }
-            if (filteredList.isEmpty()){
-                Toast.makeText(getContext(), "No Student Find", Toast.LENGTH_SHORT).show();
-            }else{
-                ContactAdapter.setFilterdList(filteredList);
-            }
-        }
-    }
-   */
 
 
     private void initData () {
@@ -171,7 +149,6 @@ public class ContactsFragment extends Fragment {
     }
 
     private void initRecyclerView () {
-
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
