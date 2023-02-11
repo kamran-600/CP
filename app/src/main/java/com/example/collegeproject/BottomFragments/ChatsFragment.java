@@ -1,6 +1,9 @@
 package com.example.collegeproject.BottomFragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,9 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
 import com.example.collegeproject.Chat.ChatAdapter;
@@ -84,13 +84,19 @@ public class ChatsFragment extends Fragment {
         initData();
         initRecyclerView();
 
+         /* *****************************************
+                          hide bottom bar
+            ***************************************** */
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
+
                 if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
                     animate.setDuration(400);
@@ -98,7 +104,9 @@ public class ChatsFragment extends Fragment {
 
                 }
                 // scroll up
+
                 if(dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
                     // duration of animation
@@ -112,15 +120,29 @@ public class ChatsFragment extends Fragment {
         return v;
     }
 
+    /* *****************************************
+            initialize the data for adapter
+       ***************************************** */
+    private void initData() {
 
-        private void initData () {
+        userList = new ArrayList<>();
 
-            userList = new ArrayList<>();
-
-            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                    "7:05 am"));
-            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                    "8:05 pm"));
+        userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
+        userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
+        userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
             userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
                     "2:05 pm"));
             userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
@@ -129,48 +151,39 @@ public class ChatsFragment extends Fragment {
                     "8:05 pm"));
             userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
                     "2:05 pm"));
-            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                    "7:05 am"));
-            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                    "8:05 pm"));
-            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                    "2:05 pm"));
-            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                    "7:05 am"));
-            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                    "8:05 pm"));
-            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                    "2:05 pm"));
-            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                    "7:05 am"));
-            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                    "8:05 pm"));
-            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                    "2:05 pm"));
-            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                    "7:05 am"));
-            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                    "8:05 pm"));
-            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                    "2:05 pm"));
-            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                    "7:05 am"));
-            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                    "8:05 pm"));
-            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                    "2:05 pm"));
+        userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
+        userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
+        userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
     }
 
-        private void initRecyclerView () {
+    /* *****************************************
+                set data to adapter
+       ***************************************** */
+    private void initRecyclerView() {
 
-            layoutManager = new LinearLayoutManager(getContext());
-            layoutManager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(layoutManager);
-            adapter = new ChatAdapter(userList);
-            recyclerView.setAdapter(adapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
-            recyclerView.addItemDecoration(dividerItemDecoration);
-            adapter.notifyDataSetChanged();
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new ChatAdapter(userList);
+        recyclerView.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter.notifyDataSetChanged();
 
-        }
+    }
     }

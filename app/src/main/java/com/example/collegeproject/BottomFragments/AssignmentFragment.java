@@ -1,8 +1,10 @@
 package com.example.collegeproject.BottomFragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,16 +12,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
-import com.example.collegeproject.HomeActivity;
-import com.example.collegeproject.R;
 import com.example.collegeproject.Assignment.AssignmentAdapter;
 import com.example.collegeproject.Assignment.AssignmentModal;
 import com.example.collegeproject.Assignment.CreateAssignmentActivity;
+import com.example.collegeproject.HomeActivity;
+import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentAssignmentBinding;
 
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class AssignmentFragment extends Fragment {
         binding = FragmentAssignmentBinding.inflate(inflater, container, false);
 
 
-        binding.extendedFab.setOnClickListener(view ->{
+        binding.extendedFab.setOnClickListener(view -> {
             startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
 
         });
@@ -92,14 +91,19 @@ public class AssignmentFragment extends Fragment {
         initData();
         initRecyclerView();
 
+         /* *****************************************
+                          hide bottom bar
+            ***************************************** */
         binding.recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                    HomeActivity homeActivity = (HomeActivity) getActivity();
+                HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
+
                 if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
                     animate.setDuration(400);
@@ -107,7 +111,9 @@ public class AssignmentFragment extends Fragment {
                     binding.extendedFab.shrink();
                 }
                 // scroll up
+
                 if(dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
                     // duration of animation
@@ -119,24 +125,30 @@ public class AssignmentFragment extends Fragment {
             }
         });
 
-         return binding.getRoot();
+        return binding.getRoot();
     }
 
+    /* *****************************************
+                  set data to adapter
+       ***************************************** */
     private void initRecyclerView() {
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         binding.recyclerview.setLayoutManager(layoutManager);
         adapter = new AssignmentAdapter(userList);
         binding.recyclerview.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
         binding.recyclerview.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 
     }
 
+    /* *****************************************
+            initialize the data for adapter
+       ***************************************** */
     private void initData() {
         userList = new ArrayList<>();
-
+        
         userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
         userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));
         userList.add(new AssignmentModal(R.drawable.cartoon,"Kamran","CS 1st Year",getString(R.string.teachHead),"12/01/2022","12:10AM"));

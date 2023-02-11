@@ -32,7 +32,6 @@
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_below="@id/frame"
         android:layout_gravity="center"
         android:layout_marginStart="0dp"
         android:layout_marginTop="50dp"
@@ -41,7 +40,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
-        android:layout_below="@id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"

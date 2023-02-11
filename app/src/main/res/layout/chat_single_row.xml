@@ -66,20 +66,20 @@
                 android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-light"
                 android:text="Last message"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
 
             <TextView
                 android:id="@+id/mTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/aYear"
                 android:layout_marginLeft="205dp"
                 android:layout_marginTop="6dp"
-                android:layout_below="@id/aYear"
                 android:layout_toRightOf="@id/image"
                 android:fontFamily="sans-serif-light"
                 android:text="7:00 am"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
 
         </RelativeLayout>

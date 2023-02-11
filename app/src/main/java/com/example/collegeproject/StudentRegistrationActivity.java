@@ -1,7 +1,6 @@
 package com.example.collegeproject;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +25,10 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         binding = ActivityStudentRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        /* *****************************************
+                     For Showing Calender
+           ***************************************** */
+
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
@@ -33,7 +36,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         binding.dobLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.dobLayout.setEndIconTintList(ContextCompat.getColorStateList(StudentRegistrationActivity.this,R.color.calender_icon));
+                binding.dobLayout.setEndIconTintList(ContextCompat.getColorStateList(StudentRegistrationActivity.this, R.color.calender_icon));
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         StudentRegistrationActivity.this
                         , setListener, year, month, day);

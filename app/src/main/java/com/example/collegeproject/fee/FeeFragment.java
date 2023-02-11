@@ -1,6 +1,9 @@
 package com.example.collegeproject.fee;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,11 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 
+import android.view.animation.TranslateAnimation;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 
@@ -79,6 +79,10 @@ public class FeeFragment extends Fragment {
         initData();
         initRecyclerView();
 
+
+        /* *****************************************
+                        Hide Bottom Bar
+           ***************************************** */
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -86,7 +90,9 @@ public class FeeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
+
                 if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
                     animate.setDuration(400);
@@ -94,7 +100,9 @@ public class FeeFragment extends Fragment {
 
                 }
                 // scroll up
+
                 if(dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
+
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
                     // duration of animation
@@ -104,8 +112,6 @@ public class FeeFragment extends Fragment {
                 }
             }
         });
-
-
         return v;
     }
 
@@ -141,8 +147,6 @@ public class FeeFragment extends Fragment {
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
         userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-
-
 
     }
 }
