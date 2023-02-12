@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.collegeproject.databinding.ActivityRegistrationBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -34,9 +35,11 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int itemSelectId = binding.rgroup.getCheckedRadioButtonId();
                 if (itemSelectId == R.id.student){
+
                     startActivity(new Intent(getApplicationContext(), StudentRegistrationActivity.class));
                 }
                 else if(itemSelectId == R.id.teacher) {
+
                     startActivity(new Intent(getApplicationContext(), TeacherRegistrationActivity.class));
                 }
                 else
@@ -45,4 +48,6 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

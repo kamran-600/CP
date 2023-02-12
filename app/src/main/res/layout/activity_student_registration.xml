@@ -74,6 +74,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fullName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="sans-serif-medium"
@@ -146,6 +147,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
@@ -167,6 +169,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/personalphone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
@@ -187,6 +190,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fathername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
@@ -208,6 +212,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fatherphone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
@@ -239,6 +244,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/rollnumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
@@ -301,6 +307,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/batch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
@@ -321,6 +328,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fee"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
@@ -342,6 +350,7 @@
                     app:hintTextColor="@color/upperBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/hostelFee"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
