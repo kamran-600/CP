@@ -32,6 +32,7 @@ public class RemarkFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FragmentRemarkBinding binding;
 
     public RemarkFragment() {
         // Required empty public constructor
@@ -64,36 +65,34 @@ public class RemarkFragment extends Fragment {
         }
     }
 
-    private FragmentRemarkBinding binding;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentRemarkBinding.inflate(inflater,container,false);
+        binding = FragmentRemarkBinding.inflate(inflater, container, false);
 
         List<AttendanceModelClass> classList = new ArrayList<>();
 
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.logo));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.logo));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.logo));
 
-        AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(),R.layout.single_row_attendance_class,classList);
+        AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(), R.layout.single_row_attendance_class, classList);
         binding.classListView.setAdapter(adapter);
 
         binding.classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    startActivity(new Intent(getContext(),RemarkActivity.class));
+                startActivity(new Intent(getContext(), RemarkActivity.class));
             }
         });
 

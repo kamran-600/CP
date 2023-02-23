@@ -20,26 +20,28 @@ import java.util.List;
 
 public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
     private List<FeeModel> userList;
-    private int lastPosition=-1;
+    private int lastPosition = -1;
 
-    public  FeeAdapter (List<FeeModel> userList){
+    public FeeAdapter(List<FeeModel> userList) {
         this.userList = userList;
 
     }
+
     @NonNull
     @Override
     public FeeAdapter.ViewHolde onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fee_single_row,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fee_single_row, parent, false);
         return new FeeAdapter.ViewHolde(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull FeeAdapter.ViewHolde holder, int position) {
 
         int resource = userList.get(position).getImage();
         String dname = userList.get(position).getdName();
         String ayear = userList.get(position).getaYear();
-        holder.setData(resource,dname,ayear);
-        setAnimation(holder.itemView,position);
+        holder.setData(resource, dname, ayear);
+        setAnimation(holder.itemView, position);
         /* ********************************************
                    onclick perform on objects.
            ********************************************

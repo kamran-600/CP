@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,8 +12,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import android.view.animation.TranslateAnimation;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 
@@ -30,11 +29,13 @@ public class FeeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    List<FeeModel> userList;
+    FeeAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public FeeFragment() {
         // Required empty public constructor
     }
@@ -65,10 +66,7 @@ public class FeeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
-    List<FeeModel> userList;
-    FeeAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,7 +89,7 @@ public class FeeFragment extends Fragment {
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
 
-                if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
+                if (dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.VISIBLE) {
 
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
@@ -101,7 +99,7 @@ public class FeeFragment extends Fragment {
                 }
                 // scroll up
 
-                if(dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
+                if (dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.GONE) {
 
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
@@ -122,7 +120,7 @@ public class FeeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new FeeAdapter(userList);
         recyclerView.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 

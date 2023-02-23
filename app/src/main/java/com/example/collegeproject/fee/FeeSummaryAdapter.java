@@ -38,13 +38,24 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
         String rno = userList.get(position).getRno();
         String total = userList.get(position).getTotal();
         String submit = userList.get(position).getSubmit();
-        holder.setData(resource,name,rno,total,submit);
-        setAnimation(holder.itemView,position);
+        holder.setData(resource, name, rno, total, submit);
+        setAnimation(holder.itemView, position);
     }
 
     @Override
     public int getItemCount() {
         return userList.size();
+    }
+
+    /* *****************************************
+               Animate the RecyclerView
+       ***************************************** */
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.setAnimation(slideIn);
+            lastPosition = position;
+        }
     }
 
     public class ViewHolde extends RecyclerView.ViewHolder {
@@ -70,18 +81,6 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
             rno.setText(rnum);
             total.setText(totalFee);
             submit.setText(submitFee);
-        }
-    }
-
-
-    /* *****************************************
-               Animate the RecyclerView
-       ***************************************** */
-    private void setAnimation(View viewToAnimate, int position) {
-        if (position > lastPosition) {
-            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.setAnimation(slideIn);
-            lastPosition = position;
         }
     }
 }

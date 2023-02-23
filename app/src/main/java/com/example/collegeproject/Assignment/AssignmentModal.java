@@ -1,7 +1,6 @@
 package com.example.collegeproject.Assignment;
 
 
-
 public class AssignmentModal {
 
     private final int image;

@@ -22,14 +22,14 @@ public class AttendanceClassAdapter extends ArrayAdapter<AttendanceModelClass> {
     public AttendanceClassAdapter(@NonNull Context context, int resource, @NonNull List<AttendanceModelClass> objects) {
         super(context, resource, objects);
         this.context = context;
-        this.mResource =resource;
+        this.mResource = resource;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        convertView = LayoutInflater.from(context).inflate(mResource,parent,false);
+        convertView = LayoutInflater.from(context).inflate(mResource, parent, false);
 
         ImageView classLogo = convertView.findViewById(R.id.image);
         TextView className = convertView.findViewById(R.id.className);

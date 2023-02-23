@@ -16,10 +16,10 @@ import java.util.List;
 
 public class RemarkActivity extends AppCompatActivity {
 
-    private ActivityRemarkBinding binding;
     LinearLayoutManager layoutManager;
     List<AttendanceModel> userList;
     RemarkAdapter adapter;
+    private ActivityRemarkBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

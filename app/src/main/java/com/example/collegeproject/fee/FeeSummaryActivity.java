@@ -15,11 +15,11 @@ import java.util.List;
 
 public class FeeSummaryActivity extends AppCompatActivity {
 
-    private ActivityFeeSummaryBinding binding;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     List<FeeSummaryModel> userList;
     FeeSummaryAdapter adapter;
+    private ActivityFeeSummaryBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

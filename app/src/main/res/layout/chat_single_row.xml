@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/bg">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:elevation="25dp"
-        app:cardElevation="15dp"
-        app:cardBackgroundColor="@color/chatRow">
+        app:cardBackgroundColor="@color/chatRow"
+        app:cardElevation="15dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,15 +18,15 @@
             android:background="@color/bg">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:elevation="1dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/a0"
-                    android:scaleType="centerCrop"
-                    android:transitionName="imageTransition"/>
+                android:id="@+id/image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:elevation="1dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/a0"
+                android:transitionName="imageTransition" />
 
 
             <TextView
@@ -37,11 +37,11 @@
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="bold"
                 android:text="@string/cse"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:transitionName="dnameTransition"/>
+                android:textStyle="bold"
+                android:transitionName="dnameTransition" />
 
             <TextView
                 android:id="@+id/aYear"

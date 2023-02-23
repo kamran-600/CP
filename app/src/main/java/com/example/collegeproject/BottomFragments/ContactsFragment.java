@@ -4,24 +4,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
-
 import com.example.collegeproject.Contacts.ContactAdapter;
 import com.example.collegeproject.Contacts.ContactModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
+import com.example.collegeproject.studentData.StudentData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +37,15 @@ public class ContactsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    RecyclerView recyclerView;
+    String roll, name, phoneNo;
+    LinearLayoutManager layoutManager;
+    List<ContactModel> userList;
+    ContactAdapter adapter;
+    FirebaseFirestore db;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public ContactsFragment() {
         // Required empty public constructor
     }
@@ -73,22 +77,43 @@ public class ContactsFragment extends Fragment {
         }
     }
 
-    RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
-    List<ContactModel> userList;
-    ContactAdapter adapter;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_contacts, container, false);
 
+        db = FirebaseFirestore.getInstance();
+
+
         recyclerView = v.findViewById(R.id.recyclerview);
 
-        initData();
-        initRecyclerView();
+        userList = new ArrayList<>();
+
+        db.collection("College_Project").document("student").collection("student_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<DocumentSnapshot> list = task.getResult().getDocuments();
+                        for (DocumentSnapshot document : list) {
+                            StudentData data = document.toObject(StudentData.class);
+                            phoneNo = data.getPersonal_phone();
+                            name = data.getFull_name();
+                            roll = data.getRoll_number();
+
+                            userList.add(new ContactModel(name, roll, phoneNo));
+                            adapter = new ContactAdapter(userList);
+                            layoutManager = new LinearLayoutManager(getContext());
+                            layoutManager.setOrientation(RecyclerView.VERTICAL);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setAdapter(adapter);
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                            recyclerView.addItemDecoration(dividerItemDecoration);
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    }
+                });
 
           /* *****************************************
                           hide bottom bar
@@ -101,7 +126,7 @@ public class ContactsFragment extends Fragment {
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
 
-                if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
+                if (dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.VISIBLE) {
 
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
@@ -110,7 +135,7 @@ public class ContactsFragment extends Fragment {
 
                 }
                 // scroll up
-                if(dy < -10 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
+                if (dy < -10 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.GONE) {
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
                     // duration of animation
@@ -128,18 +153,67 @@ public class ContactsFragment extends Fragment {
     /* *****************************************
              initialize the data for adapter
        ***************************************** */
-    private void initData() {
+   /* private void initData() {
+
+
 
         userList = new ArrayList<>();
+        db.collection("College_Project").document("student").collection("academic_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            List<DocumentSnapshot> list = task.getResult().getDocuments();
+                            rollNoList = new ArrayList<>();
+                         for(DocumentSnapshot document : list){
+                             AcademicData data = document.toObject(AcademicData.class);
+                            roll = data.getRoll_number();
+                            rollNoList.add(roll);
 
-        userList.add(new ContactModel(R.drawable.a0, "Ram", "9568324125745", "9876543210"));
-        userList.add(new ContactModel(R.drawable.a5, "Mark", "9568326352745", "9876536210"));
+                            Toast.makeText(getContext(), roll , Toast.LENGTH_SHORT).show();
+
+                         }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("personal_details")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<DocumentSnapshot> list = task.getResult().getDocuments();
+                        nameList = new ArrayList<>();
+                        phoneList = new ArrayList<>();
+                        for(DocumentSnapshot document : list) {
+                            PersonalData data = document.toObject(PersonalData.class);
+                            phoneNo = data.getPersonal_phone();
+                            System.out.println(phoneNo);
+                            phoneList.add(phoneNo);
+
+                            name = data.getFull_name();
+
+                            nameList.add(name);
+                            userList.add(new ContactModel(name,phoneNo));
+                            System.out.println(userList.size());
+                            adapter = new ContactAdapter(userList);
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    }
+                });
+
+           // System.out.println(nameList.size());
+
+
+
+
+        *//*userList.add(new ContactModel(R.drawable.a5, "Mark", "9568326352745", "9876536210"));
         userList.add(new ContactModel(R.drawable.a3, "Komal", "9568320005745", "98765363210"));
         userList.add(new ContactModel(R.drawable.a4, "Mahima", "9568300125745", "98766523210"));
         userList.add(new ContactModel(R.drawable.a5, "Soni", "9568324105745", "9876543000"));
         userList.add(new ContactModel(R.drawable.a3, "Hari", "9568324195745", "98765432650"));
         userList.add(new ContactModel(R.drawable.a3, "Kamran", "956832825745", "9876543220"));
-        userList.add(new ContactModel(R.drawable.a5, "Mohan", "9568324665745", "9876543560"));
+        userList.add(new ContactModel(R.drawable.a5, "Mohan", "9876543560"));
         userList.add(new ContactModel(R.drawable.a4, "Sita", "9568324165745", "9876543216"));
         userList.add(new ContactModel(R.drawable.a5, "Ganesh", "9568329625745", "98765432210"));
         userList.add(new ContactModel(R.drawable.a5, "Pappu", "9568324335745", "9876543213"));
@@ -155,8 +229,7 @@ public class ContactsFragment extends Fragment {
         userList.add(new ContactModel(R.drawable.a5, "Ram", "9568324126745", "9876543219"));
         userList.add(new ContactModel(R.drawable.a0, "Mark", "9568322525745", "9876543280"));
         userList.add(new ContactModel(R.drawable.a5, "Kamran", "9568354125745", "9876548210"));
-
-    }
+   *//* }*/
 
 
     /* *****************************************
@@ -164,7 +237,7 @@ public class ContactsFragment extends Fragment {
      ***************************************** */
    
 
-    private void initRecyclerView () {
+    /*private void initRecyclerView () {
 
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -174,5 +247,5 @@ public class ContactsFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
-    }
+    }*/
 }

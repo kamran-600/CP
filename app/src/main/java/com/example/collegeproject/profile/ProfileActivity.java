@@ -17,6 +17,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
-       // binding.userName.setText(intent.getStringExtra("name"));
+        // binding.userName.setText(intent.getStringExtra("name"));
     }
 }
