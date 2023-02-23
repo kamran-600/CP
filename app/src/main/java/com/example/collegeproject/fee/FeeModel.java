@@ -1,9 +1,9 @@
 package com.example.collegeproject.fee;
 
 public class FeeModel {
-        private int image;
-        private  String dName;
-        private String aYear;
+    private int image;
+    private String dName;
+    private String aYear;
 
 
     public FeeModel(int image, String dName, String aYear) {
@@ -24,7 +24,6 @@ public class FeeModel {
     public String getaYear() {
         return aYear;
     }
-
 
 
 }

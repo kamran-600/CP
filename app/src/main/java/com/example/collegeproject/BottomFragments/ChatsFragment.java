@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.animation.TranslateAnimation;
 
 import com.example.collegeproject.Chat.ChatAdapter;
 import com.example.collegeproject.Chat.ChatModel;
@@ -32,11 +31,13 @@ public class ChatsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    List<ChatModel> userList;
+    ChatAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public ChatsFragment() {
         // Required empty public constructor
     }
@@ -68,12 +69,6 @@ public class ChatsFragment extends Fragment {
         }
     }
 
-    RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
-    List<ChatModel> userList;
-    ChatAdapter adapter;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,7 +90,7 @@ public class ChatsFragment extends Fragment {
                 HomeActivity homeActivity = (HomeActivity) getActivity();
                 // scroll down
 
-                if(dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.VISIBLE ){
+                if (dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.VISIBLE) {
 
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
@@ -105,7 +100,7 @@ public class ChatsFragment extends Fragment {
                 }
                 // scroll up
 
-                if(dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() ==View.GONE ){
+                if (dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.GONE) {
 
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
@@ -143,14 +138,14 @@ public class ChatsFragment extends Fragment {
                 "7:05 am"));
         userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
                 "8:05 pm"));
-            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                    "2:05 pm"));
-            userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
-                    "7:05 am"));
-            userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
-                    "8:05 pm"));
-            userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
-                    "2:05 pm"));
+        userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
+        userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
+                "7:05 am"));
+        userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
+                "8:05 pm"));
+        userList.add(new ChatModel(R.drawable.cs2, "CS/IT Department", "Third Year", "Good Afternoon Everyone",
+                "2:05 pm"));
         userList.add(new ChatModel(R.drawable.cse, "CS/IT Department", "First Year", "Good Morning Everyone",
                 "7:05 am"));
         userList.add(new ChatModel(R.drawable.c, "CS/IT Department", "Second Year", "Good Night Everyone",
@@ -186,4 +181,4 @@ public class ChatsFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
     }
-    }
+}

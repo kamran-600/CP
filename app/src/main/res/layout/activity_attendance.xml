@@ -15,14 +15,14 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/upperBlue"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/top_menu"
             app:title="Attendance Record"
-            app:titleMarginStart="50dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:background="@color/upperBlue"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+            app:titleMarginStart="50dp" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,10 +35,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

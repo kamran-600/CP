@@ -1,22 +1,8 @@
 package com.example.collegeproject;
-import android.content.Intent;
-
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 
 import android.Manifest;
 import android.content.Intent;
-
 import android.content.pm.PackageManager;
-
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -24,18 +10,19 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.collegeproject.Assignment.CreateAssignmentActivity;
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
 import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
@@ -48,13 +35,29 @@ import com.example.collegeproject.fee.FeeFragment;
 import com.example.collegeproject.profile.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class HomeActivity extends AppCompatActivity {
 
-    private ActivityHomeBinding binding;
     static final float END_SCALE = 0.7f;
+    ActivityResultLauncher<String> requestLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+            if (result) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
+            } else {
+                Toast.makeText(HomeActivity.this, "Call Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
+            }
+        }
+    });
+    private ActivityHomeBinding binding;
+    private FirebaseAuth mAuth;
 
+
+    /* *****************************************
+                   Drawer Animation
+       ***************************************** */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,9 @@ public class HomeActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ProgressFragment()).commit();
                         break;
                     case R.id.logout:
+                        mAuth = FirebaseAuth.getInstance();
+                        mAuth.signOut();
+                        Toast.makeText(HomeActivity.this, "Sign Out", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         finishAffinity();
                         break;
@@ -153,10 +159,10 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ChatsFragment()).commit();
                     break;
                 case R.id.contacts:
-                    if(ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                    if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         // ActivityCompat.requestPermissions(CreateAssignmentActivity.this, new String[]{Manifest.permission.CAMERA},1);  //line 136-151
                         requestLauncher.launch(Manifest.permission.CALL_PHONE);
-                    }else{
+                    } else {
                         getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
                     }
                     break;
@@ -166,23 +172,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-
-
-    /* *****************************************
-                   Drawer Animation
-       ***************************************** */
-
-    ActivityResultLauncher<String> requestLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
-        @Override
-        public void onActivityResult(Boolean result) {
-            if(result){
-                getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
-            }
-            else{
-                Toast.makeText(HomeActivity.this, "Call Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
-            }
-        }
-    });
 
     private void animateNavDrawer() {
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {

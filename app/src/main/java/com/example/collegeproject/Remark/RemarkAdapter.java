@@ -20,7 +20,7 @@ import java.util.List;
 
 public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder> {
     private List<AttendanceModel> userList;
-    private int lastPosition=-1;
+    private int lastPosition = -1;
 
 
     public RemarkAdapter(List<AttendanceModel> userList) {
@@ -30,7 +30,7 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
     @NonNull
     @Override
     public RemarkAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_row_remark,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_row_remark, parent, false);
         return new ViewHolder(view);
     }
 
@@ -73,10 +73,10 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView image;
-        private TextView stuName;
         private final TextView roll;
         private final TextView rating_no;
+        private ImageView image;
+        private TextView stuName;
         private AppCompatRatingBar RatingBar;
 
         public ViewHolder(@NonNull View itemView) {

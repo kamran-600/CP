@@ -14,30 +14,30 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/upperBlue"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/top_menu"
             app:title="Fee Summary"
-            app:titleMarginStart="50dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:background="@color/upperBlue"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+            app:titleMarginStart="50dp" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="35dp"
-            android:layout_gravity="center"
-            android:alpha="0.2"
-            app:srcCompat="@drawable/logo" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            />
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="35dp"
+        android:alpha="0.2"
+        app:srcCompat="@drawable/logo" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

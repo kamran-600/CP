@@ -2,18 +2,13 @@ package com.example.collegeproject.attendance;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 
-import com.example.collegeproject.HomeActivity;
+import androidx.fragment.app.Fragment;
+
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentClassBinding;
 
@@ -35,6 +30,7 @@ public class ClassFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FragmentClassBinding binding;
 
     public ClassFragment() {
         // Required empty public constructor
@@ -66,51 +62,50 @@ public class ClassFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private FragmentClassBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentClassBinding.inflate(inflater,container,false);
+        binding = FragmentClassBinding.inflate(inflater, container, false);
 
         List<AttendanceModelClass> classList = new ArrayList<>();
 
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year","Section : B", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 3rd Year","Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year","Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a5));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
+        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
+        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a5));
 
-        AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(),R.layout.single_row_attendance_class,classList);
+        AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(), R.layout.single_row_attendance_class, classList);
         binding.classListView.setAdapter(adapter);
 
         binding.classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(getContext(),AttendanceActivity.class);
-                intent.putExtra("image",classList.get(i).getClassLogo());
-                intent.putExtra("className",classList.get(i).getClassName());
-                intent.putExtra("section",classList.get(i).getSection());
+                Intent intent = new Intent(getContext(), AttendanceActivity.class);
+                intent.putExtra("image", classList.get(i).getClassLogo());
+                intent.putExtra("className", classList.get(i).getClassName());
+                intent.putExtra("section", classList.get(i).getSection());
                 startActivity(intent);
             }
         });

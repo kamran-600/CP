@@ -312,7 +312,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
                         android:hint="@string/batch"
-                        android:inputType="number"
+                        android:inputType="textPhonetic"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
                         android:textSize="15sp" />

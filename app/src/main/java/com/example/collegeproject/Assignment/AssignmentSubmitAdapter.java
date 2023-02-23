@@ -1,31 +1,20 @@
 package com.example.collegeproject.Assignment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collegeproject.Chat.ConversationActivity;
 import com.example.collegeproject.R;
 
 import java.util.List;
@@ -43,7 +32,7 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
     @NonNull
     @Override
     public AssignmentSubmitAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_row_assignment_submit,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_row_assignment_submit, parent, false);
         return new Viewholder(view);
     }
 
@@ -61,7 +50,7 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
             Intent intent = new Intent(activity, AssignmentCheckActivity.class);
             intent.putExtra("image", resource);
             intent.putExtra("stuName", stuName);
-            intent.putExtra("time",submitDate);
+            intent.putExtra("time", submitDate);
             // OR use below commented code
             //  ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.dName,"dnameTransition"),Pair.create(holder.image,"imageTransition"));
             Pair[] pairs = new Pair[2];
@@ -94,9 +83,19 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
         return userList.size();
     }
 
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.setAnimation(slideIn);
+            lastPosition = position;
+        }
+
+    }
+
     static class Viewholder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView stuName,submitDate;
+        TextView stuName, submitDate;
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
@@ -104,19 +103,12 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
             submitDate = itemView.findViewById(R.id.submissionDate);
 
         }
-        public void setData(int resource,String stuName1,String submitDate1) {
+
+        public void setData(int resource, String stuName1, String submitDate1) {
             image.setImageResource(resource);
             stuName.setText(stuName1);
             submitDate.setText(submitDate1);
         }
-    }
-    private void setAnimation (View viewToAnimate, int position){
-        if (position > lastPosition) {
-            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.setAnimation(slideIn);
-            lastPosition = position;
-        }
-
     }
 
 }

@@ -3,15 +3,15 @@ package com.example.collegeproject.Assignment;
 public class AssignmentSubmitModal {
 
     int image;
-    String stuName,submitDate,submitTime;
-   // boolean expanded;
+    String stuName, submitDate, submitTime;
+    // boolean expanded;
 
     public AssignmentSubmitModal(int image, String stuName, String submitDate, String submitTime) {
         this.image = image;
         this.stuName = stuName;
         this.submitDate = submitDate;
         this.submitTime = submitTime;
-       // this.expanded = false;
+        // this.expanded = false;
     }
 
    /* public boolean isExpanded() {

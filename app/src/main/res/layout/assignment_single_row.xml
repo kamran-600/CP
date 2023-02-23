@@ -19,16 +19,15 @@
             android:background="@color/bg">
 
 
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:elevation="1dp"
-                    android:src="@drawable/a2"
-                    android:scaleType="centerCrop" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:elevation="1dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/a2" />
 
 
             <TextView
@@ -40,9 +39,9 @@
                 android:layout_toRightOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="Kamran Alam"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/className"

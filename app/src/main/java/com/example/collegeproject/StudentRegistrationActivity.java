@@ -13,11 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.collegeproject.databinding.ActivityStudentRegistrationBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -99,24 +96,34 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         binding.continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                studentPersonalData();
-                studentAcademicData();
-                startActivity(new Intent(StudentRegistrationActivity.this, UserPasswordActivity.class));
+                studentData();
+                Intent intent = new Intent(StudentRegistrationActivity.this, UserPasswordActivity.class);
+                intent.putExtra("id", 0);
+                intent.putExtra("rollNo", binding.rollnumber.getText().toString().trim());
+                intent.putExtra("email", binding.email.getText().toString().trim());
+                startActivity(intent);
             }
         });
     }
 
-    private void studentAcademicData() {
+    private void studentData() {
         Map<String, Object> sAD = new HashMap<>();
-        sAD.put("roll-number", binding.rollnumber.getText().toString().trim());
+        sAD.put("roll_number", binding.rollnumber.getText().toString().trim());
         sAD.put("department", binding.department.getText().toString().trim());
-        sAD.put("academic-year", binding.academicyear.getText().toString().trim());
+        sAD.put("academic_year", binding.academicyear.getText().toString().trim());
         sAD.put("batch", binding.batch.getText().toString().trim());
-        sAD.put("academic-fee", binding.fee.getText().toString().trim());
-        sAD.put("hostel-fee", binding.hostelFee.getText().toString().trim());
+        sAD.put("academic_fee", binding.fee.getText().toString().trim());
+        sAD.put("hostel_fee", binding.hostelFee.getText().toString().trim());
+        sAD.put("full_name", binding.fullName.getText().toString().trim());
+        sAD.put("gender", binding.gender.getText().toString().trim());
+        sAD.put("dob", binding.dob.getText().toString().trim());
+        sAD.put("e_mail", binding.email.getText().toString().trim());
+        sAD.put("personal_phone", binding.personalphone.getText().toString().trim());
+        sAD.put("father_name", binding.fathername.getText().toString().trim());
+        sAD.put("father_phone", binding.fatherphone.getText().toString().trim());
 
-        db.collection("College-Project").document("student")
-                .collection("academic-details").document(binding.rollnumber.getText().toString().trim()).set(sAD)
+        db.collection("College_Project").document("student")
+                .collection("student_details").document(binding.rollnumber.getText().toString().trim()).set(sAD)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -135,29 +142,4 @@ public class StudentRegistrationActivity extends AppCompatActivity {
     /* ===========================
             store in firestore
       ========================== */
-        private void studentPersonalData() {
-            Map<String, Object> sPD = new HashMap<>();
-            sPD.put("full-name", binding.fullName.getText().toString().trim());
-            sPD.put("gender", binding.gender.getText().toString().trim());
-            sPD.put("dob", binding.dob.getText().toString().trim());
-            sPD.put("e-mail", binding.email.getText().toString().trim());
-            sPD.put("personal-phone", binding.personalphone.getText().toString().trim());
-            sPD.put("father-name", binding.fathername.getText().toString().trim());
-            sPD.put("father-phone", binding.fatherphone.getText().toString().trim());
-
-            db.collection("College-Project").document("student")
-                    .collection("personal-details").document(binding.rollnumber.getText().toString().trim()).set(sPD)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(StudentRegistrationActivity.this, "success", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(StudentRegistrationActivity.this, "fail", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
+}

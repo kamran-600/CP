@@ -45,13 +45,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         String duedate = userList.get(position).getDueDate();
         String time = userList.get(position).getTime();
 
-        holder.setData(resource,tName,className,desc,duedate,time);
-        setAnimation(holder.itemView,position);
+        holder.setData(resource, tName, className, desc, duedate, time);
+        setAnimation(holder.itemView, position);
 
         // intent to Show Assignment
         holder.itemView.setOnClickListener(view -> {
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
-            activity.startActivity(new Intent(activity,AssignmentShowActivity.class));
+            activity.startActivity(new Intent(activity, AssignmentShowActivity.class));
         });
     }
 
@@ -60,7 +60,16 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         return userList.size();
     }
 
-    public  class ViewHolder extends RecyclerView.ViewHolder {
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.setAnimation(slideIn);
+            lastPosition = position;
+        }
+
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView image;
         private TextView tName;
@@ -80,6 +89,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             time = itemView.findViewById(R.id.time);
 
         }
+
         public void setData(int resource, String tName1, String className1, String desc1, String dueDate1, String time1) {
             image.setImageResource(resource);
             tName.setText(tName1);
@@ -89,15 +99,6 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             dueDate.setText(dueDate1);
             time.setText(time1);
         }
-    }
-
-    private void setAnimation (View viewToAnimate, int position){
-        if (position > lastPosition) {
-            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.setAnimation(slideIn);
-            lastPosition = position;
-        }
-
     }
 
 }

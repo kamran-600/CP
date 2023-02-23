@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:elevation="25dp"
-        app:cardElevation="15dp"
-        app:cardBackgroundColor="@color/bg">
+        app:cardBackgroundColor="@color/bg"
+        app:cardElevation="15dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,13 +18,13 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image"
-                android:src="@drawable/a0"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:elevation="1dp"
                 android:scaleType="centerCrop"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="15dp"/>
+                android:src="@drawable/a0" />
 
 
             <TextView
@@ -35,10 +35,10 @@
                 android:layout_marginTop="22dp"
                 android:layout_toRightOf="@id/image"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="bold"
                 android:text="Kamran"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/roll"
@@ -60,10 +60,10 @@
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/image"
-                android:textOn="P"
                 android:textOff="A"
-                app:showText="true"
+                android:textOn="P"
                 android:thumb="@drawable/thumb"
+                app:showText="true"
                 app:track="@drawable/track" />
 
 

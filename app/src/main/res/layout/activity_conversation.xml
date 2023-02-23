@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -131,12 +130,11 @@
 </RelativeLayout>
 
 -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/bg"
     tools:context=".Chat.ConversationActivity">
 
@@ -147,69 +145,69 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_menu"
             android:background="@color/upperBlue"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary">
+            app:menu="@menu/top_menu">
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/back_card"
-                    android:layout_width="65dp"
-                    android:layout_height="43dp"
-                    app:cardCornerRadius="25dp"
-                    android:layout_centerVertical="true"
-                    android:background="?selectableItemBackground"
-                    app:cardElevation="0dp"
-                    android:backgroundTint="@color/upperBlue">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/back_card"
+                android:layout_width="65dp"
+                android:layout_height="43dp"
+                android:layout_centerVertical="true"
+                android:background="?selectableItemBackground"
+                android:backgroundTint="@color/upperBlue"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/backButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/arrow_back_white"/>
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profileImage"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="25dp"
-                        android:src="@drawable/cse"
-                        android:transitionName="imageTransition"/>
-
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <LinearLayout
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/backButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_back_white" />
 
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="Student Name"
-                        android:textColor="?colorOnPrimary"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:transitionName="dnameTransition"/>
-
-                    <TextView
-                        android:id="@+id/subTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="Online"
-                        android:textColor="@color/material_on_primary_emphasis_medium"
-                        android:textSize="15sp" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="25dp"
+                    android:src="@drawable/cse"
+                    android:transitionName="imageTransition" />
 
 
-                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Student Name"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:transitionName="dnameTransition" />
+
+                <TextView
+                    android:id="@+id/subTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Online"
+                    android:textColor="@color/material_on_primary_emphasis_medium"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
 
         </com.google.android.material.appbar.MaterialToolbar>
 

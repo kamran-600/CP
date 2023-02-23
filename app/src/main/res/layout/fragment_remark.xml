@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Remark.RemarkFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -13,14 +13,14 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/upperBlue"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/top_menu"
             app:title="Remark"
-            app:titleMarginStart="50dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:background="@color/upperBlue"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+            app:titleMarginStart="50dp" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -29,6 +29,6 @@
         android:id="@+id/classListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

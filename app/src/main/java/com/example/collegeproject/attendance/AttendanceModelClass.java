@@ -2,7 +2,7 @@ package com.example.collegeproject.attendance;
 
 public class AttendanceModelClass {
 
-    String className,section;
+    String className, section;
     int classLogo;
 
     public AttendanceModelClass(String className, String section, int classLogo) {
