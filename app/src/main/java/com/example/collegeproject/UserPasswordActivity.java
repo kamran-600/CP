@@ -29,15 +29,6 @@ public class UserPasswordActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            startActivity(new Intent(UserPasswordActivity.this, HomeActivity.class));
-            finishAffinity();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +59,6 @@ public class UserPasswordActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             startActivity(new Intent(UserPasswordActivity.this, HomeActivity.class));
                             Toast.makeText(UserPasswordActivity.this, "Login", Toast.LENGTH_SHORT).show();
                             finishAffinity();
@@ -76,7 +66,7 @@ public class UserPasswordActivity extends AppCompatActivity {
 
                         } else {
 
-                            Toast.makeText(UserPasswordActivity.this, "This email is already registered",
+                            Toast.makeText(UserPasswordActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
