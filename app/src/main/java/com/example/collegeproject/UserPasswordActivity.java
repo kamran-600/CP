@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.collegeproject.databinding.ActivityUserPasswordBinding;
+import com.example.collegeproject.profile.ProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +42,10 @@ public class UserPasswordActivity extends AppCompatActivity {
         intent = getIntent();
 
 
+
+
+
+
         binding.continueBtnPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +64,9 @@ public class UserPasswordActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(UserPasswordActivity.this, HomeActivity.class));
+                           Intent intent1 = new Intent(UserPasswordActivity.this, HomeActivity.class);
+                           intent1.putExtra("id",intent.getIntExtra("id", 0));
+                           startActivity(intent1);
                             Toast.makeText(UserPasswordActivity.this, "Login", Toast.LENGTH_SHORT).show();
                             finishAffinity();
 

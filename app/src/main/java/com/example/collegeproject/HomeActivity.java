@@ -65,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        System.out.println(getIntent().getIntExtra("id",0));
+
         animateNavDrawer(); //calling for animation
 
         Menu menu = binding.navigationView.getMenu(); //taking reference of logout menu option
@@ -129,14 +131,14 @@ public class HomeActivity extends AppCompatActivity {
         TextView role = (TextView) headerView.findViewById(R.id.role);
         name.setText("Mark");
         name.setSelected(true);
-        role.setText("H.O.D");
+        role.setText("Hod");
         role.setSelected(true);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 intent.putExtra("name", name.getText().toString().trim());
-                intent.putExtra("role", role.getText().toString().trim());
+                intent.putExtra("id",getIntent().getIntExtra("id",0));
                 startActivity(intent);
             }
         });
