@@ -6,26 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.collegeproject.databinding.ActivityStudentRegistrationBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class StudentRegistrationActivity extends AppCompatActivity {
 
     DatePickerDialog.OnDateSetListener setListener;
     private ActivityStudentRegistrationBinding binding;
-    private FirebaseFirestore db;
 
 
     @Override
@@ -33,9 +24,6 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityStudentRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        db = FirebaseFirestore.getInstance();
-
 
         /* *****************************************
                      For Showing Calender
@@ -96,17 +84,28 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         binding.continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                studentData();
                 Intent intent = new Intent(StudentRegistrationActivity.this, UserPasswordActivity.class);
                 intent.putExtra("id", 0);
-                intent.putExtra("rollNo", binding.rollnumber.getText().toString().trim());
+                intent.putExtra("roll_number", binding.rollnumber.getText().toString().trim());
                 intent.putExtra("email", binding.email.getText().toString().trim());
+                intent.putExtra("department", binding.department.getText().toString().trim());
+                intent.putExtra("academic_year", binding.academicyear.getText().toString().trim());
+                intent.putExtra("batch", binding.batch.getText().toString().trim());
+                intent.putExtra("academic_fee", binding.fee.getText().toString().trim());
+                intent.putExtra("hostel_fee", binding.hostelFee.getText().toString().trim());
+                intent.putExtra("full_name", binding.fullName.getText().toString().trim());
+                intent.putExtra("gender", binding.gender.getText().toString().trim());
+                intent.putExtra("dob", binding.dob.getText().toString().trim());
+                intent.putExtra("personal_phone", binding.personalphone.getText().toString().trim());
+                intent.putExtra("father_name", binding.fathername.getText().toString().trim());
+                intent.putExtra("father_phone", binding.fatherphone.getText().toString().trim());
+
                 startActivity(intent);
             }
         });
     }
 
-    private void studentData() {
+    /*private void studentData() {
         Map<String, Object> sAD = new HashMap<>();
         sAD.put("roll_number", binding.rollnumber.getText().toString().trim());
         sAD.put("department", binding.department.getText().toString().trim());
@@ -137,9 +136,5 @@ public class StudentRegistrationActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-    /* ===========================
-            store in firestore
-      ========================== */
+*/
 }

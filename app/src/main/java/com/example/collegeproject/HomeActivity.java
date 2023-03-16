@@ -33,9 +33,19 @@ import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.example.collegeproject.fee.FeeFragment;
 import com.example.collegeproject.profile.ProfileActivity;
+import com.example.collegeproject.studentData.StudentData;
+import com.example.collegeproject.teacherData.TeacherData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -53,6 +63,7 @@ public class HomeActivity extends AppCompatActivity {
     });
     private ActivityHomeBinding binding;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
 
     /* *****************************************
@@ -65,7 +76,9 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        System.out.println(getIntent().getIntExtra("id",0));
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
 
         animateNavDrawer(); //calling for animation
 
@@ -117,7 +130,7 @@ public class HomeActivity extends AppCompatActivity {
                         finishAffinity();
                         break;
                 }
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                binding.drawerLayout.closeDrawer(GravityCompat.START,true);
                 return true;
             }
         });
@@ -126,19 +139,359 @@ public class HomeActivity extends AppCompatActivity {
                  goto to profile activity
            ***************************************** */
         View headerView = binding.navigationView.getHeaderView(0);
-        ImageView edit = (ImageView) headerView.findViewById(R.id.edit);
-        TextView name = (TextView) headerView.findViewById(R.id.name);
-        TextView role = (TextView) headerView.findViewById(R.id.role);
-        name.setText("Mark");
-        name.setSelected(true);
-        role.setText("Hod");
-        role.setSelected(true);
+        ImageView edit = headerView.findViewById(R.id.edit);
+        TextView name = headerView.findViewById(R.id.name);
+        TextView role = headerView.findViewById(R.id.role);
+
+
+
+        /*db.collection("College_Project").document("C.S.E").collection("student").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot academicYear : task.getResult()){
+                        System.out.println(academicYear.getId());
+                        db.collection("College_Project").document("C.S.E").collection("student")
+                                .document(academicYear.getId()).collection(mAuth.getCurrentUser().getUid()).document(mAuth.getCurrentUser().getEmail())
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            StudentData data = task.getResult().toObject(StudentData.class);
+
+                                            System.out.println(data.getFull_name());
+                                            name.setText(data.getFull_name());
+
+                                            name.setSelected(true);
+                                            role.setText("Student");
+                                            role.setSelected(true);
+
+                                        }
+                                        else
+                                            Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                    }
+                }
+                else Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+        // student
+
+        db.collection("College_Project").document("student").collection("4th Year").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                        StudentData data = rollNo.toObject(StudentData.class);
+                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                            name.setText(data.getFull_name());
+                                            role.setText(data.getRole());
+                                        }
+                                        /*if(data!=null){
+                                            db.collection("College_Project").document("student").collection("4th Year")
+                                                    .document(rollNo.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                            if (task.isSuccessful() && mAuth.getCurrentUser().getEmail().equals(task.getResult().getData().get("email"))){
+
+                                                            }
+                                                        }
+                                                    });
+                                        }*/
+                                    }
+                                }
+                            }
+                        });
+
+        db.collection("College_Project").document("student").collection("3rd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                    name.setText(data.getFull_name());
+                                    role.setText(data.getRole());
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("2nd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                    name.setText(data.getFull_name());
+                                    role.setText(data.getRole());
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("1st Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                    name.setText(data.getFull_name());
+                                    role.setText(data.getRole());
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+        // teacher
+
+        db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                    name.setText(data.getFull_name());
+                                    role.setText(data.getRole());
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+/*
+        db.collection("College_Project").document("C.S.E/student/2nd Year/"+mAuth.getCurrentUser().getUid()+"/"+mAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    StudentData data = task.getResult().toObject(StudentData.class);
+                    if(data !=null) {
+                        name.setText(data.getFull_name());
+                        role.setText("Student");
+                    }
+                }
+            }
+        });
+
+        db.collection("College_Project").document("C.S.E/student/1st Year/"+mAuth.getCurrentUser().getUid()+"/"+mAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    StudentData data = task.getResult().toObject(StudentData.class);
+                    if(data !=null) {
+                        name.setText(data.getFull_name());
+                        role.setText("Student");
+                    }
+                }
+            }
+        });
+
+
+        // teacher
+
+        db.collection("College_Project").document("C.S.E/teacher/"+mAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    TeacherData data = task.getResult().toObject(TeacherData.class);
+                    if(data !=null) {
+                        name.setText(data.getFull_name());
+                        role.setText(data.getRole());
+                    }
+                }
+            }
+        });*/
+
+
+
+
+        //1
+        /*db.collection("College_Project").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot department : task.getResult()){
+
+                        db.collection("College_Project").document(department.getId()).collection("student")
+                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            for(QueryDocumentSnapshot academicYear : task.getResult()){
+                                                System.out.println(academicYear.getId());
+                                                db.collection("College_Project").document(department.getId()).collection("student")
+                                                        .document(academicYear.getId()).collection(mAuth.getCurrentUser().getUid()).document(mAuth.getCurrentUser().getEmail())
+                                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                if(task.isSuccessful()){
+                                                                    StudentData data = task.getResult().toObject(StudentData.class);
+
+                                                                    System.out.println(data.getFull_name());
+                                                                    name.setText(data.getFull_name());
+
+                                                                    name.setSelected(true);
+                                                                    role.setText("Student");
+                                                                    role.setSelected(true);
+
+                                                                }
+                                                                else
+                                                                    Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                        else {
+                                            Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            System.out.println(task.getException().getMessage());
+                                        }                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+
+                }
+                else {
+                    Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println(task.getException().getMessage());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+
+       /* db.collection("College_Project").document("student").collection("student_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                StudentData data = document.toObject(StudentData.class);
+                                if (data != null) {
+                                    db.collection("College_Project").document("student").collection("student_details")
+                                            .document(document.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful() && mAuth.getCurrentUser().getEmail().equals(task.getResult().getData().get("e_mail"))) {
+                                                        // Toast.makeText(ProfileActivity.this, "data Found", Toast.LENGTH_SHORT).show();
+
+                                                        name.setText(data.getFull_name());
+                                                        name.setSelected(true);
+                                                        role.setText("Student");
+                                                        role.setSelected(true);
+                                                    }
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            });
+
+
+                                }
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(HomeActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                */
+
+
+        //1
+        /*db.collection("College_Project").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot department : task.getResult()) {
+                        if (department != null) {
+                            db.collection("College_Project").document(department.getId()).collection("teacher").document(mAuth.getCurrentUser().getEmail())
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                TeacherData data = task.getResult().toObject(TeacherData.class);
+                                                name.setText(data.getFull_name());
+                                                name.setSelected(true);
+                                                role.setText(data.getRole());
+                                                name.setSelected(true);
+                                            }
+                                            else
+                                                Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                        else Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+
+
+
+
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 intent.putExtra("name", name.getText().toString().trim());
-                intent.putExtra("id",getIntent().getIntExtra("id",0));
                 startActivity(intent);
             }
         });
@@ -189,16 +542,18 @@ public class HomeActivity extends AppCompatActivity {
                 final float xOffsetDiff = binding.bReplace.getWidth() * diffScaledOffset / 2;
                 final float xTranslation = xOffset - xOffsetDiff;
                 binding.bReplace.setTranslationX(xTranslation);
+                binding.bottom.setVisibility(View.GONE);
             }
+
 
             @Override
             public void onDrawerOpened(@NonNull View drawerView) {
-
+                binding.bottom.setVisibility(View.GONE);
             }
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-
+                    binding.bottom.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -210,5 +565,13 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                    binding.drawerLayout.openDrawer(GravityCompat.START,true);
 
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

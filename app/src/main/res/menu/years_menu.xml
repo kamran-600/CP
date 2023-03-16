@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:id="@+id/year_grp">
+        <item
+            android:id="@+id/first"
+            android:title="1st Year" />
+        <item
+            android:id="@+id/second"
+            android:title="2nd Year" />
+        <item
+            android:id="@+id/third"
+            android:title="3rd Year" />
+        <item
+            android:id="@+id/fourth"
+            android:title="4th Year" />
+    </group>
+</menu>

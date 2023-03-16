@@ -43,13 +43,10 @@ public class UserPasswordActivity extends AppCompatActivity {
 
 
 
-
-
-
         binding.continueBtnPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                passwordData();
+
                 signUp(intent.getStringExtra("email"), binding.confirmPassword.getText().toString().trim());
 
             }
@@ -64,10 +61,10 @@ public class UserPasswordActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                           Intent intent1 = new Intent(UserPasswordActivity.this, HomeActivity.class);
-                           intent1.putExtra("id",intent.getIntExtra("id", 0));
-                           startActivity(intent1);
-                            Toast.makeText(UserPasswordActivity.this, "Login", Toast.LENGTH_SHORT).show();
+                            passwordData(mAuth.getCurrentUser().getEmail());
+                            Intent intent1 = new Intent(UserPasswordActivity.this, HomeActivity.class);
+                            startActivity(intent1);
+                            Toast.makeText(UserPasswordActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             finishAffinity();
 
 
@@ -80,12 +77,29 @@ public class UserPasswordActivity extends AppCompatActivity {
                 });
     }
 
-    private void passwordData() {
-        Map<String, Object> pass = new HashMap<>();
-        pass.put("password", binding.confirmPassword.getText().toString().trim());
+    private void passwordData(String currentUserEmail) {
+        Map<String, Object> details = new HashMap<>();
+        details.put("password", binding.confirmPassword.getText().toString().trim());
+
         if (intent.getIntExtra("id", 0) == 0) {
-            db.collection("College_Project").document("student")
-                    .collection("student_details").document(intent.getStringExtra("rollNo")).set(pass, SetOptions.merge())
+            details.put("roll_number", intent.getStringExtra("roll_number"));
+            details.put("department", intent.getStringExtra("department"));
+            details.put("academic_year", intent.getStringExtra("academic_year"));
+            details.put("batch", intent.getStringExtra("batch"));
+            details.put("academic_fee", intent.getStringExtra("academic_fee"));
+            details.put("hostel_fee", intent.getStringExtra("hostel_fee"));
+            details.put("full_name", intent.getStringExtra("full_name"));
+            details.put("gender", intent.getStringExtra("gender"));
+            details.put("dob", intent.getStringExtra("dob") );
+            details.put("email", intent.getStringExtra("email"));
+            details.put("personal_phone", intent.getStringExtra("personal_phone"));
+            details.put("father_name", intent.getStringExtra("father_name"));
+            details.put("father_phone", intent.getStringExtra("father_phone"));
+
+            details.put("role", "Student");
+
+            db.collection("College_Project").document("student").collection(intent.getStringExtra("academic_year"))
+                    .document(intent.getStringExtra("roll_number")).set(details)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -99,9 +113,16 @@ public class UserPasswordActivity extends AppCompatActivity {
                     });
         }
         if (intent.getIntExtra("id", 0) == 1) {
-            db.collection("College_Project").document("teacher")
-                    .collection("teacher_details")
-                    .document(intent.getStringExtra("name") + "_" + intent.getStringExtra("phoneNo")).set(pass, SetOptions.merge())
+
+            details.put("full_name", intent.getStringExtra("full_name"));
+            details.put("gender",intent.getStringExtra("gender"));
+            details.put("email", intent.getStringExtra("email"));
+            details.put("phone_no", intent.getStringExtra("phone_no"));
+            details.put("department", intent.getStringExtra("department"));
+            details.put("role",intent.getStringExtra("role"));
+
+            db.collection("College_Project").document("teacher").collection("teacher_details")
+                    .document(currentUserEmail).set(details)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -114,7 +135,6 @@ public class UserPasswordActivity extends AppCompatActivity {
                         }
                     });
         }
-
 
     }
 }

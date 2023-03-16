@@ -1,12 +1,18 @@
 package com.example.collegeproject.BottomFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,9 +22,14 @@ import com.example.collegeproject.Contacts.ContactAdapter;
 import com.example.collegeproject.Contacts.ContactModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
+import com.example.collegeproject.databinding.FragmentContactsBinding;
+import com.example.collegeproject.profile.ProfileActivity;
 import com.example.collegeproject.studentData.StudentData;
+import com.example.collegeproject.teacherData.TeacherData;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,12 +48,13 @@ public class ContactsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    RecyclerView recyclerView;
+
     String roll, name, phoneNo;
     LinearLayoutManager layoutManager;
     List<ContactModel> userList;
     ContactAdapter adapter;
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -76,50 +88,386 @@ public class ContactsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    FragmentContactsBinding binding;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_contacts, container, false);
-
-        db = FirebaseFirestore.getInstance();
-
-
-        recyclerView = v.findViewById(R.id.recyclerview);
-
+        binding = FragmentContactsBinding.inflate(inflater,container,false);
         userList = new ArrayList<>();
 
-        db.collection("College_Project").document("student").collection("student_details")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+
+        // teacher
+
+        db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<DocumentSnapshot> list = task.getResult().getDocuments();
-                        for (DocumentSnapshot document : list) {
-                            StudentData data = document.toObject(StudentData.class);
-                            phoneNo = data.getPersonal_phone();
-                            name = data.getFull_name();
-                            roll = data.getRoll_number();
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
 
-                            userList.add(new ContactModel(name, roll, phoneNo));
-                            adapter = new ContactAdapter(userList);
-                            layoutManager = new LinearLayoutManager(getContext());
-                            layoutManager.setOrientation(RecyclerView.VERTICAL);
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setAdapter(adapter);
-                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
-                            recyclerView.addItemDecoration(dividerItemDecoration);
-                            adapter.notifyDataSetChanged();
+                                    binding.topAppBar.inflateMenu(R.menu.years_menu);
 
+                                    db.collection("College_Project").document("student").collection("4th Year").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        binding.topAppBar.setTitle("Contacts of 4th Year");
+                                                        userList.clear();
+                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                                            if(data !=null){
+                                                                phoneNo = data.getPersonal_phone();
+                                                                name = data.getFull_name();
+                                                                roll = data.getRoll_number();
+                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                adapter = new ContactAdapter(userList);
+                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                binding.recyclerview.setAdapter(adapter);
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+                                            });
+
+                                    binding.topAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem item) {
+                                            switch (item.getItemId()){
+                                                case R.id.first:
+                                                    db.collection("College_Project").document("student").collection("1st Year").get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if(task.isSuccessful()){
+                                                                        binding.topAppBar.setTitle("Contacts of 1st Year");
+                                                                        int size = userList.size();
+                                                                        userList.clear();
+                                                                        if(size !=0){
+                                                                            adapter.notifyItemRangeRemoved(0, size);
+                                                                        }
+                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                                                            if(data !=null){
+                                                                                phoneNo = data.getPersonal_phone();
+                                                                                name = data.getFull_name();
+                                                                                roll = data.getRoll_number();
+                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                adapter = new ContactAdapter(userList);
+                                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                                binding.recyclerview.setAdapter(adapter);
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                adapter.notifyDataSetChanged();
+                                                                            }
+
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
+                                                    break;
+
+                                                case R.id.second:
+                                                    db.collection("College_Project").document("student").collection("2nd Year").get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if(task.isSuccessful()){
+                                                                        binding.topAppBar.setTitle("Contacts of 2nd Year");
+                                                                        int size = userList.size();
+                                                                        userList.clear();
+                                                                        if(size !=0){
+                                                                            adapter.notifyItemRangeRemoved(0, size);
+                                                                        }
+                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                                                            if(data !=null){
+                                                                                phoneNo = data.getPersonal_phone();
+                                                                                name = data.getFull_name();
+                                                                                roll = data.getRoll_number();
+                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                adapter = new ContactAdapter(userList);
+                                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                                binding.recyclerview.setAdapter(adapter);
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                adapter.notifyDataSetChanged();
+                                                                            }
+
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
+                                                    break;
+
+                                                case R.id.third:
+                                                    db.collection("College_Project").document("student").collection("3rd Year").get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if(task.isSuccessful()){
+                                                                        binding.topAppBar.setTitle("Contacts of 3rd Year");
+                                                                        int size = userList.size();
+                                                                        userList.clear();
+                                                                        if(size !=0){
+                                                                            adapter.notifyItemRangeRemoved(0, size);
+                                                                        }
+                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                                                            if(data !=null){
+                                                                                phoneNo = data.getPersonal_phone();
+                                                                                name = data.getFull_name();
+                                                                                roll = data.getRoll_number();
+                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                adapter = new ContactAdapter(userList);
+                                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                                binding.recyclerview.setAdapter(adapter);
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                adapter.notifyDataSetChanged();
+                                                                            }
+
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
+                                                    break;
+
+                                                case R.id.fourth:
+                                                    db.collection("College_Project").document("student").collection("4th Year").get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if(task.isSuccessful()){
+                                                                        binding.topAppBar.setTitle("Contacts of 4th Year");
+                                                                        int size = userList.size();
+                                                                        userList.clear();
+                                                                        if(size !=0){
+                                                                            adapter.notifyItemRangeRemoved(0, size);
+                                                                        }
+                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                                                            if(data !=null){
+                                                                                phoneNo = data.getPersonal_phone();
+                                                                                name = data.getFull_name();
+                                                                                roll = data.getRoll_number();
+                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                adapter = new ContactAdapter(userList);
+                                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                                binding.recyclerview.setAdapter(adapter);
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                adapter.notifyDataSetChanged();
+                                                                            }
+
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
+                                                    break;
+                                            }
+
+                                            return true;
+                                        }
+
+
+                                    });
+
+                                }
+                            }
                         }
                     }
                 });
+
+
+        // student
+
+        db.collection("College_Project").document("student").collection("1st Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                    db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                                            TeacherData data1 = teacherEmail.toObject(TeacherData.class);
+                                                            if(data1!=null){
+                                                                phoneNo = data1.getPhone_no();
+                                                                name = data1.getFull_name();
+
+                                                                userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                adapter = new ContactAdapter(userList);
+                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                binding.recyclerview.setAdapter(adapter);
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("2nd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                    db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                                            TeacherData data1 = teacherEmail.toObject(TeacherData.class);
+                                                            if(data1!=null){
+                                                                phoneNo = data1.getPhone_no();
+                                                                name = data1.getFull_name();
+
+                                                                userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                adapter = new ContactAdapter(userList);
+                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                binding.recyclerview.setAdapter(adapter);
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("3rd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                    db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                                            TeacherData data1 = teacherEmail.toObject(TeacherData.class);
+                                                            if(data1!=null){
+                                                                phoneNo = data1.getPhone_no();
+                                                                name = data1.getFull_name();
+
+                                                                userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                adapter = new ContactAdapter(userList);
+                                                                layoutManager = new LinearLayoutManager(getContext());
+                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                binding.recyclerview.setLayoutManager(layoutManager);
+                                                                binding.recyclerview.setAdapter(adapter);
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("4th Year").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                        StudentData data = stuRollNo.toObject(StudentData.class);
+                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                            db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                            if(task.isSuccessful()){
+                                                                for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                                                    TeacherData data1 = teacherEmail.toObject(TeacherData.class);
+                                                                    if(data1!=null){
+                                                                        phoneNo = data1.getPhone_no();
+                                                                        name = data1.getFull_name();
+
+                                                                        userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                        adapter = new ContactAdapter(userList);
+                                                                        layoutManager = new LinearLayoutManager(getContext());
+                                                                        layoutManager.setOrientation(RecyclerView.VERTICAL);
+                                                                        binding.recyclerview.setLayoutManager(layoutManager);
+                                                                        binding.recyclerview.setAdapter(adapter);
+                                                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                        binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                        adapter.notifyDataSetChanged();
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+
 
           /* *****************************************
                           hide bottom bar
              ***************************************** */
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -146,7 +494,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        return v;
+        return binding.getRoot();
     }
 
 

@@ -60,10 +60,7 @@
     </string-array>
 
     <string-array name="Department_Array">
-        <item>C.S.E/I.T</item>
-        <item>M.E</item>
-        <item>C.E</item>
-        <item>E.E</item>
+        <item>C.S.E</item>
     </string-array>
 
     <string-array name="Year_Array">

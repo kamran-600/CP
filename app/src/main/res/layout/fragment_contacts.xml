@@ -21,7 +21,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/top_menu"
             app:title="Contacts"
             app:titleMarginStart="50dp" />
 

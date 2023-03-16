@@ -72,6 +72,7 @@ public class AssignmentFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    HomeActivity homeActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,10 +80,14 @@ public class AssignmentFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAssignmentBinding.inflate(inflater, container, false);
 
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.setSupportActionBar(binding.topAppBar);
+        homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+
 
         binding.extendedFab.setOnClickListener(view -> {
             startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
-
         });
 
         initData();

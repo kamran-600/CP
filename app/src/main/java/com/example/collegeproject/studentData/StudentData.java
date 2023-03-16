@@ -2,21 +2,22 @@ package com.example.collegeproject.studentData;
 
 public class StudentData {
 
-    String full_name, father_name, personal_phone, gender, dob, father_phone, e_mail;
+    String full_name, father_name, personal_phone, gender, dob, father_phone, email,role;
     String roll_number, academic_fee, department, batch, hostel_fee, academic_year, password;
 
 
     public StudentData() {
     }
 
-    public StudentData(String full_name, String father_name, String personal_phone, String gender, String dob, String father_phone, String e_mail, String roll_number, String academic_fee, String department, String batch, String hostel_fee, String academic_year, String password) {
+    public StudentData(String full_name, String father_name, String personal_phone, String gender, String dob, String father_phone, String email, String role, String roll_number, String academic_fee, String department, String batch, String hostel_fee, String academic_year, String password) {
         this.full_name = full_name;
         this.father_name = father_name;
         this.personal_phone = personal_phone;
         this.gender = gender;
         this.dob = dob;
         this.father_phone = father_phone;
-        this.e_mail = e_mail;
+        this.email = email;
+        this.role = role;
         this.roll_number = roll_number;
         this.academic_fee = academic_fee;
         this.department = department;
@@ -74,12 +75,20 @@ public class StudentData {
         this.father_phone = father_phone;
     }
 
-    public String getE_mail() {
-        return e_mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setE_mail(String e_mail) {
-        this.e_mail = e_mail;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getRoll_number() {

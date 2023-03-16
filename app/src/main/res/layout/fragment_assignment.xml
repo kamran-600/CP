@@ -19,9 +19,26 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/top_menu"
-            app:title="Assignment"
-            app:titleMarginStart="50dp" />
+            app:title="@string/assignment"
+            app:menu="@menu/top_menu">
+
+           <!-- <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userImage"
+                android:src="@drawable/cs2"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="35dp"
+                android:layout_height="35dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:text="Assignment"
+                android:textStyle="bold|normal"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>-->
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

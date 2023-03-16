@@ -20,16 +20,12 @@ import java.util.Map;
 public class TeacherRegistrationActivity extends AppCompatActivity {
 
     private ActivityTeacherRegistrationBinding binding;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityTeacherRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
-        db = FirebaseFirestore.getInstance();
 
         // For Gender Dropdown Menu
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -60,26 +56,21 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
         binding.continueBtnTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadTeacherData();
                 Intent intent = new Intent(TeacherRegistrationActivity.this, UserPasswordActivity.class);
                 intent.putExtra("id", 1);
-                intent.putExtra("name", binding.Tname.getText().toString().trim().split(" ")[0]);
-                intent.putExtra("phoneNo", binding.phoneNo.getText().toString().trim());
+               // intent.putExtra("name", binding.Tname.getText().toString().trim().split(" ")[0]);
+                intent.putExtra("full_name", binding.Tname.getText().toString().trim());
+                intent.putExtra("gender", binding.gender.getText().toString().trim());
                 intent.putExtra("email", binding.email.getText().toString().trim());
+                intent.putExtra("phone_no", binding.phoneNo.getText().toString().trim());
+                intent.putExtra("department", binding.department.getText().toString().trim());
+                intent.putExtra("role", binding.role.getText().toString().trim());
                 startActivity(intent);
             }
         });
-        /* binding.button2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                  //  if (getResources().getStringArray(R.array.Department_Array)[0] == binding.department.getText().toString() ) {
-                        binding.ttc.getRoot().setVisibility(View.VISIBLE);
-                    }
-            });
-
-            */
     }
 
+/*
     private void uploadTeacherData() {
         Map<String, Object> uTD = new HashMap<>();
         uTD.put("full_name", binding.Tname.getText().toString().trim());
@@ -104,4 +95,5 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
                     }
                 });
     }
+*/
 }

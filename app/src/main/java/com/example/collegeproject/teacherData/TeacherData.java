@@ -1,19 +1,19 @@
 package com.example.collegeproject.teacherData;
 
 public class TeacherData {
-    String department,email,full_name,gender,password,phone_no,roll;
+    String department,email,full_name,gender,password,phone_no,role;
 
     public TeacherData() {
     }
 
-    public TeacherData(String department, String email, String full_name, String gender, String password, String phone_no, String roll) {
+    public TeacherData(String department, String email, String full_name, String gender, String password, String phone_no, String role) {
         this.department = department;
         this.email = email;
         this.full_name = full_name;
         this.gender = gender;
         this.password = password;
         this.phone_no = phone_no;
-        this.roll = roll;
+        this.role = role;
     }
 
     public String getDepartment() {
@@ -64,11 +64,11 @@ public class TeacherData {
         this.phone_no = phone_no;
     }
 
-    public String getRoll() {
-        return roll;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoll(String roll) {
-        this.roll = roll;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
