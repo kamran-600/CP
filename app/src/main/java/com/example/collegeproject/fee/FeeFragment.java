@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
+import com.example.collegeproject.attendance.AttendanceModelClass;
+import com.example.collegeproject.databinding.FragmentFeeBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +31,8 @@ public class FeeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    List<FeeModel> userList;
+    List<AttendanceModelClass> userList;
     FeeAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,14 +67,15 @@ public class FeeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    FragmentFeeBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_fee, container, false);
+        binding = FragmentFeeBinding.inflate(inflater,container,false);
 
-        recyclerView = v.findViewById(R.id.recyclerview1);
+
         initData();
         initRecyclerView();
 
@@ -81,7 +83,7 @@ public class FeeFragment extends Fragment {
         /* *****************************************
                         Hide Bottom Bar
            ***************************************** */
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.recyclerview1.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -110,18 +112,18 @@ public class FeeFragment extends Fragment {
                 }
             }
         });
-        return v;
+        return binding.getRoot();
     }
 
     private void initRecyclerView() {
 
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
+        binding.recyclerview1.setLayoutManager(layoutManager);
         adapter = new FeeAdapter(userList);
-        recyclerView.setAdapter(adapter);
+        binding.recyclerview1.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        binding.recyclerview1.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 
     }
@@ -130,21 +132,10 @@ public class FeeFragment extends Fragment {
 
         userList = new ArrayList<>();
 
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new FeeModel(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Second Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Third Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Fourth Year"));
 
     }
 }

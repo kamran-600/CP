@@ -1,42 +1,47 @@
-package com.example.collegeproject.fee;
+package com.example.collegeproject.Remark;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
 import com.example.collegeproject.attendance.AttendanceModelClass;
+import com.example.collegeproject.fee.FeeModel;
+import com.example.collegeproject.fee.FeeSummaryActivity;
 
 import java.util.List;
 
-public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
+public class RemarkClassAdapter extends RecyclerView.Adapter<RemarkClassAdapter.ViewHolde> {
     private List<AttendanceModelClass> userList;
     private int lastPosition = -1;
 
-    public FeeAdapter(List<AttendanceModelClass> userList) {
+    public RemarkClassAdapter(List<AttendanceModelClass> userList) {
         this.userList = userList;
 
     }
 
     @NonNull
     @Override
-    public FeeAdapter.ViewHolde onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RemarkClassAdapter.ViewHolde onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fee_single_row, parent, false);
-        return new FeeAdapter.ViewHolde(view);
+        return new RemarkClassAdapter.ViewHolde(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeeAdapter.ViewHolde holder, int position) {
+    public void onBindViewHolder(@NonNull RemarkClassAdapter.ViewHolde holder, int position) {
 
         int resource = userList.get(position).getImage();
         String dname = userList.get(position).getdName();
@@ -51,7 +56,7 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
             @Override
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                activity.startActivity(new Intent(activity, FeeSummaryActivity.class));
+                activity.startActivity(new Intent(activity, RemarkActivity.class));
             }
         });
     }
@@ -93,3 +98,4 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
         }
     }
 }
+
