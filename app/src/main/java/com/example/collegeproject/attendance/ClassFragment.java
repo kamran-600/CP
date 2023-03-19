@@ -5,12 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentClassBinding;
+import com.example.collegeproject.fee.FeeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,9 @@ public class ClassFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private FragmentClassBinding binding;
+    LinearLayoutManager layoutManager;
+    List<AttendanceModelClass> userList;
+    AttendanceClassAdapter adapter;
 
     public ClassFragment() {
         // Required empty public constructor
@@ -69,49 +79,68 @@ public class ClassFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentClassBinding.inflate(inflater, container, false);
 
-        List<AttendanceModelClass> classList = new ArrayList<>();
+        initData();
+        initRecyclerView();
 
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a5));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : A", R.drawable.a0));
-        classList.add(new AttendanceModelClass("CSE 2nd Year", "Section : B", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 3rd Year", "Section : A", R.drawable.a3));
-        classList.add(new AttendanceModelClass("CSE 4th Year", "Section : A", R.drawable.a5));
 
-        AttendanceClassAdapter adapter = new AttendanceClassAdapter(getContext(), R.layout.single_row_attendance_class, classList);
-        binding.classListView.setAdapter(adapter);
+        /* *****************************************
+                        Hide Bottom Bar
+           ***************************************** */
+        binding.recyclerview1.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-        binding.classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                HomeActivity homeActivity = (HomeActivity) getActivity();
+                // scroll down
 
-                Intent intent = new Intent(getContext(), AttendanceActivity.class);
-                intent.putExtra("image", classList.get(i).getClassLogo());
-                intent.putExtra("className", classList.get(i).getClassName());
-                intent.putExtra("section", classList.get(i).getSection());
-                startActivity(intent);
+                if (dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.VISIBLE) {
+
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
+                    animate.setDuration(400);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
+
+                }
+                // scroll up
+
+                if (dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.GONE) {
+
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
+                    // duration of animation
+                    animate.setDuration(200);
+                    animate.setFillAfter(true);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
+                }
             }
         });
 
 
         return binding.getRoot();
+
+    }
+    private void initRecyclerView() {
+
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        binding.recyclerview1.setLayoutManager(layoutManager);
+        adapter = new AttendanceClassAdapter(userList);
+        binding.recyclerview1.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+        binding.recyclerview1.addItemDecoration(dividerItemDecoration);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    private void initData() {
+
+        userList = new ArrayList<>();
+
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "First Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Second Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Third Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Fourth Year"));
 
     }
 }
