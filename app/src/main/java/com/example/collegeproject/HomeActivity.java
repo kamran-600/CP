@@ -28,23 +28,20 @@ import com.example.collegeproject.BottomFragments.ChatsFragment;
 import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
 import com.example.collegeproject.Progress.ProgressFragment;
-import com.example.collegeproject.Remark.RemarkFragment;
-import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
+import com.example.collegeproject.studentData.Remark.RemarkFragment;
+import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.fee.FeeFragment;
 import com.example.collegeproject.profile.ProfileActivity;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 

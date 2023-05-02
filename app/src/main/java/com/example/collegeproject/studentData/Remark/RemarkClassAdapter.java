@@ -1,26 +1,21 @@
-package com.example.collegeproject.Remark;
+package com.example.collegeproject.studentData.Remark;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
 import com.example.collegeproject.attendance.AttendanceModelClass;
-import com.example.collegeproject.fee.FeeModel;
-import com.example.collegeproject.fee.FeeSummaryActivity;
 
 import java.util.List;
 

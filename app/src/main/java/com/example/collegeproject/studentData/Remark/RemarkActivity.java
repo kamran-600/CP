@@ -1,4 +1,4 @@
-package com.example.collegeproject.Remark;
+package com.example.collegeproject.studentData.Remark;
 
 import android.os.Bundle;
 
