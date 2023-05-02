@@ -1,13 +1,29 @@
 package com.example.collegeproject.BottomFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegeproject.HomeActivity;
+import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentHomeBinding;
+import com.example.collegeproject.databinding.TextFeedBinding;
+import com.example.collegeproject.feed.FeedPostActivity;
+import com.example.collegeproject.feed.adapter.FeedAdapter;
+import com.example.collegeproject.feed.models.ImageFeedModel;
+import com.example.collegeproject.feed.models.Item;
+import com.example.collegeproject.feed.models.TextFeedModel;
+import com.example.collegeproject.feed.models.TextImageFeedModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,13 +73,73 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    HomeActivity homeActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        binding.topAppBar.setTitle("Feed");
+
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.setSupportActionBar(binding.topAppBar);
+        homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+
+        binding.feedPost.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), FeedPostActivity.class));
+        });
+
+        List<Item> items = new ArrayList<>();
+
+        ImageFeedModel imageFeedModel = new ImageFeedModel("Kamran Alam",R.drawable.a0,R.drawable.a2);
+        items.add(new Item(1,imageFeedModel));
+
+        TextFeedModel textFeedModel = new TextFeedModel("Ram Singh","hii everyone...",R.drawable.a2);
+        items.add(new Item(0,textFeedModel));
+
+        TextImageFeedModel textImageFeedModel = new TextImageFeedModel("Kamran Alam","Good Morning",R.drawable.a4,R.drawable.a5);
+        items.add(new Item(2,textImageFeedModel));
+
+
+        binding.feedRecyclerview.setAdapter(new FeedAdapter(items));
+
+           /* *****************************************
+                          hide bottom bar
+            ***************************************** */
+        binding.feedRecyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                HomeActivity homeActivity = (HomeActivity) getActivity();
+                // scroll down
+
+                if (dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.VISIBLE) {
+                   // binding.feedPost.setVisibility(View.GONE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
+                    animate.setDuration(400);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
+
+                }
+                // scroll up
+
+                if (dy < -5 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.GONE) {
+                    //binding.feedPost.setVisibility(View.GONE);
+                    homeActivity.findViewById(R.id.bottom).setVisibility(View.VISIBLE);
+                    TranslateAnimation animate = new TranslateAnimation(0, 0, homeActivity.findViewById(R.id.bottom).getHeight(), 0);
+                    // duration of animation
+                    animate.setDuration(200);
+                    animate.setFillAfter(true);
+                    homeActivity.findViewById(R.id.bottom).startAnimation(animate);
+
+                }
+            }
+        });
+
+
+
 
         return binding.getRoot();
     }

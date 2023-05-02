@@ -72,7 +72,45 @@ public class CreateAssignmentActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener setListener;
     BottomSheetDialog bottomSheetDialog;
     View sheetView;
-    Intent cameraIntent;
+    
+ 
+    
+    // Request Camera Permissions
+    ActivityResultLauncher<String> requestLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+            if (result) {
+                cameraLauncher.launch(cameraIntent);
+            } else
+                Toast.makeText(CreateAssignmentActivity.this, "Camera Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
+        }
+    });
+    // Launch Gallery
+    ActivityResultLauncher<String> galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
+
+        if (result != null) {
+
+            binding.docImage.setImageURI(result);
+            getTitleAndSize(result);
+
+        }
+
+    });
+    // Open document Intent
+    ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri result) {
+            if (result != null) {
+
+                getTitleAndSize(result);
+
+            }
+
+        }
+    });
+
+    @SuppressLint("QueryPermissionsNeeded")
+=======
     FirebaseStorage storage;
     StorageReference storageReference;
     UploadTask uploadTask;
@@ -80,6 +118,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     Uri captureImageUri;
     File image;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -277,7 +316,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         }
     });*/
 
-    ActivityResultLauncher<Uri> cameraLauncher =registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
+    ActivityResultLauncher<Uri> cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
             Toast.makeText(CreateAssignmentActivity.this, "return\n"+ result+ captureImageUri , Toast.LENGTH_SHORT).show();
@@ -427,12 +466,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(Uri result) {
             if (result != null) {
-                /*
-                DocumentFile documentFile = DocumentFile.fromSingleUri(CreateAssignmentActivity.this, result);
-                String fileName = documentFile.getName();
-                binding.docTitle.setText(fileName);
-
-                 */
+               
                 getTitleAndSize(result);
 
                 StorageReference docsReference = storageReference.child("docs/"+binding.docTitle.getText().toString());
@@ -511,26 +545,23 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding.assignmentCard.setVisibility(View.VISIBLE);
     }
 
-    private String getMimeType(String url) {
-        String parts[] = url.split("\\.");
-        String extension = parts[parts.length - 1];
-        String type = null;
-        if (extension != null) {
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            type = mime.getMimeTypeFromExtension(extension);
-        }
-        return type;
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
 
         builder.setTitle("Are You Sure ?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                onBackPressed();
+                CreateAssignmentActivity.super.onBackPressed();
+                dialogInterface.dismiss();
             }
         });
 
@@ -542,6 +573,5 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
-        return super.onSupportNavigateUp();
     }
 }

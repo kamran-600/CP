@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".feed.FeedPostActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/postBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/upperBlue"
+            app:title="Create feed">
+
+            <Button
+                android:id="@+id/feedPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="Post"
+                android:textAllCaps="false"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+  <LinearLayout
+      android:id="@+id/line"
+      android:layout_width="match_parent"
+      android:layout_height="4dp"
+      android:orientation="horizontal"
+      android:background="@color/bloodRed"
+      android:layout_below="@+id/appbarLayout"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/line"
+        android:background="@color/bg">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userProfile"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/a4"
+            android:elevation="2dp"
+            android:background="@drawable/image_outline"
+            android:layout_margin="15dp"/>
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Veika"
+            android:textColor="@color/black"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/userProfile"
+            android:layout_marginTop="15dp"
+            />
+
+            <EditText
+                android:id="@+id/feedMsg"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/userProfile"
+                android:gravity="top"
+                android:hint="What's on your mind?"
+                android:padding="10dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:background="@color/bg"
+                android:textCursorDrawable="@drawable/cursor"/>
+
+        <LinearLayout
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            android:background="@color/bloodRed"
+            android:layout_below="@+id/feedMsg"/>
+        <LinearLayout
+            android:id="@+id/gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line2"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/feedgallery"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="13dp"
+                android:text="Images/Gallery"
+                android:textColor="#858585"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            android:background="@color/bloodRed"
+            android:layout_below="@+id/gallery"/>
+        <LinearLayout
+            android:id="@+id/camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line3"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/camerafeed"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="13dp"
+                android:text="Camera"
+                android:textColor="#858585"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            android:background="@color/bloodRed"
+            android:layout_below="@+id/camera"/>
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
