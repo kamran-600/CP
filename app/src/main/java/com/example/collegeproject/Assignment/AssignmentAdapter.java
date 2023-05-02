@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
+import com.example.collegeproject.databinding.AssignmentSingleRowBinding;
 
 import java.util.List;
 
@@ -31,7 +32,8 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
     @Override
     public AssignmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.assignment_single_row, parent, false);
-
+//        AssignmentSingleRowBinding binding = AssignmentSingleRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+//        return new ViewHolder(binding);
         return new ViewHolder(view);
     }
 

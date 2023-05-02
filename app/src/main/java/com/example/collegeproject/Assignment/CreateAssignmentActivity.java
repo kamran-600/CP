@@ -106,23 +106,8 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
         if (result != null) {
 
-            /*  InputStream inputStream = null;
-        try {
-            inputStream = getContentResolver().openInputStream(result);
-        } catch (FileNotFoundException e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
-        Bitmap selectedImage = BitmapFactory.decodeStream(inputStream);
-
-       binding.galleryImg.setImageBitmap(selectedImage);
-
-       */
             binding.docImage.setImageURI(result);
             getTitleAndSize(result);
-            binding.docTitle.setOnClickListener(view -> {
-                Intent intent = new Intent(Intent.ACTION_VIEW, result);
-                startActivity(intent);
-            });
 
         }
 
@@ -132,20 +117,8 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(Uri result) {
             if (result != null) {
-                /*
-                DocumentFile documentFile = DocumentFile.fromSingleUri(CreateAssignmentActivity.this, result);
-                String fileName = documentFile.getName();
-                binding.docTitle.setText(fileName);
-
-                 */
 
                 getTitleAndSize(result);
-                binding.docTitle.setOnClickListener(view -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(result, "application/pdf");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                });
 
             }
 
@@ -300,19 +273,15 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding.assignmentCard.setVisibility(View.VISIBLE);
     }
 
-    private String getMimeType(String url) {
-        String parts[] = url.split("\\.");
-        String extension = parts[parts.length - 1];
-        String type = null;
-        if (extension != null) {
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            type = mime.getMimeTypeFromExtension(extension);
-        }
-        return type;
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
 
         //AlertDialog.Builder builder = new AlertDialog.Builder(CreateAssignmentActivity.this);
@@ -320,7 +289,8 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                onBackPressed();
+                CreateAssignmentActivity.super.onBackPressed();
+                dialogInterface.dismiss();
             }
         });
 
@@ -332,6 +302,5 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
-        return super.onSupportNavigateUp();
     }
 }
