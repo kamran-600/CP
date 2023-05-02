@@ -20,6 +20,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.CollegeProject"
         tools:targetApi="31">
@@ -42,7 +43,7 @@
             android:name=".fee.FeeSummaryActivity"
             android:exported="false" />
         <activity
-            android:name=".Remark.RemarkActivity"
+            android:name=".studentData.Remark.RemarkActivity"
             android:exported="false" />
         <activity
             android:name=".Chat.ConversationActivity"
@@ -130,6 +131,16 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.collegeproject.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

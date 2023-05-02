@@ -1,12 +1,10 @@
-package com.example.collegeproject.Remark;
+package com.example.collegeproject.studentData.Remark;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,10 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
-import com.example.collegeproject.attendance.AttendanceClassAdapter;
 import com.example.collegeproject.attendance.AttendanceModelClass;
 import com.example.collegeproject.databinding.FragmentRemarkBinding;
-import com.example.collegeproject.fee.FeeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
