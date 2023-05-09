@@ -77,6 +77,8 @@ public class FeeFragment extends Fragment {
 
 
         initData();
+
+
         initRecyclerView();
 
 

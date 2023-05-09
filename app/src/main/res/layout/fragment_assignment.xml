@@ -42,13 +42,27 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!--<TextView
+        android:id="@+id/newAdded"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:textColor="@color/upperBlue"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/box"
+        android:textSize="16sp"
+        android:paddingTop="8dp"
+        android:paddingStart="12dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:text="New Assignment Added"/>-->
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extended_fab"
@@ -60,6 +74,7 @@
         android:backgroundTint="#2196F3"
         android:contentDescription="Add Assignment"
         android:text="Add"
+        android:visibility="gone"
         android:textColor="@color/white"
         app:icon="@drawable/ic_baseline_add_24"
         app:iconTint="@color/white" />

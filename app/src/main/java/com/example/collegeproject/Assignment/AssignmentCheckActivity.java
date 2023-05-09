@@ -18,6 +18,9 @@ import com.example.collegeproject.databinding.ActivityAssignmentCheckBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 public class AssignmentCheckActivity extends AppCompatActivity {
 
     ActivityAssignmentCheckBinding binding;
@@ -73,6 +76,20 @@ public class AssignmentCheckActivity extends AppCompatActivity {
         binding.AssignmentNameChecked.setText(cursor.getString(nameIndex));
         binding.expendableLayout2.setVisibility(View.VISIBLE);
         binding.submit.setEnabled(true);
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH)+1;
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR);
+        if(hour == 0)
+            hour = 12;
+        final int minutes = calendar.get(Calendar.MINUTE);
+        final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
+
+        final String currentDate = String.format(Locale.ENGLISH,"%02d/"+"%02d/",day,month)+year;
+        final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
+
+        binding.time2.setText(currentTime);
         cursor.close();
     }
 

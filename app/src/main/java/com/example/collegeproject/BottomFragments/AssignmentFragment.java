@@ -2,6 +2,7 @@ package com.example.collegeproject.BottomFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,15 @@ import com.example.collegeproject.Assignment.AssignmentModal;
 import com.example.collegeproject.Assignment.CreateAssignmentActivity;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
+import com.example.collegeproject.assignmentData.AssignmentData;
 import com.example.collegeproject.databinding.FragmentAssignmentBinding;
+import com.example.collegeproject.teacherData.TeacherData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +49,7 @@ public class AssignmentFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private FragmentAssignmentBinding binding;
+
     public AssignmentFragment() {
         // Required empty public constructor
 
@@ -73,6 +82,9 @@ public class AssignmentFragment extends Fragment {
         }
     }
     HomeActivity homeActivity;
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
+    private FragmentAssignmentBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,18 +92,61 @@ public class AssignmentFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAssignmentBinding.inflate(inflater, container, false);
 
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        userList = new ArrayList<>();
+
+
         homeActivity = (HomeActivity) getActivity();
         homeActivity.setSupportActionBar(binding.topAppBar);
         homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
 
 
+        //teacher
+
+        db.collection("College_Project").document("teacher").collection("teacher_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                    binding.extendedFab.setVisibility(View.VISIBLE);
+
+                                    db.collection("College_Project").document("teacher").collection("assignments")
+                                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                                            if(documentSnapshot!=null){
+                                                                AssignmentData data = documentSnapshot.toObject(AssignmentData.class);
+                                                                if(data !=null){
+                                                                    userList.add(new AssignmentModal(R.drawable.cartoon, data.getTeacherName(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(), data.getAssignmentUrl()));
+                                                                }
+                                                            }
+                                                        }
+                                                        adapter = new AssignmentAdapter(userList);
+                                                        binding.recyclerview.setAdapter(adapter);
+                                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                        binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                }
+                                            });
+
+                                }
+                            }
+                        }
+                    }
+                });
+
         binding.extendedFab.setOnClickListener(view -> {
             startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
         });
-
-        initData();
-        initRecyclerView();
 
          /* *****************************************
                           hide bottom bar
@@ -130,52 +185,38 @@ public class AssignmentFragment extends Fragment {
         return binding.getRoot();
     }
 
-    /* *****************************************
-                  set data to adapter
-       ***************************************** */
-    private void initRecyclerView() {
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.recyclerview.setLayoutManager(layoutManager);
-        adapter = new AssignmentAdapter(userList);
-        binding.recyclerview.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
-        binding.recyclerview.addItemDecoration(dividerItemDecoration);
-        adapter.notifyDataSetChanged();
+    @Override
+    public void onResume() {
+        super.onResume();
+        db.collection("College_Project").document("teacher").collection("assignments")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            int size = userList.size();
+                            userList.clear();
+                            if(size !=0){
+                                adapter.notifyItemRangeRemoved(0, size);
+                            }
+                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                if(documentSnapshot!=null){
+                                    AssignmentData data = documentSnapshot.toObject(AssignmentData.class);
+                                    if(data !=null){
+                                        userList.add(new AssignmentModal(R.drawable.cartoon, data.getTeacherName(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl()));
+                                    }
+                                }
+                            }
+                            adapter = new AssignmentAdapter(userList);
+                            binding.recyclerview.setAdapter(adapter);
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                            binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                            adapter.notifyDataSetChanged();
 
-    }
+                            //binding.recyclerview.smoothScrollToPosition(userList.size());
+                            // binding.newAdded.setVisibility(View.VISIBLE);
 
-    /* *****************************************
-            initialize the data for adapter
-       ***************************************** */
-    private void initData() {
-        userList = new ArrayList<>();
-
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-        userList.add(new AssignmentModal(R.drawable.cartoon, "Kamran", "CS 1st Year", getString(R.string.teachHead), "12/01/2022", "12:10AM"));
-
-
+                        }
+                    }
+                });
     }
 }

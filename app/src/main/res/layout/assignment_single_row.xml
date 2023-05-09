@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="185dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_toRightOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="Due Date :"
@@ -89,13 +89,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_toRightOf="@id/dueDateTitle"
                 android:fontFamily="sans-serif-medium"
                 android:text="12/01/2022"
                 android:textColor="@color/black"
                 android:textSize="11sp" />
 
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="55dp"
+                android:layout_toRightOf="@id/time"
+                android:fontFamily="sans-serif-light"
+                android:text="12/10/2001"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/time"
@@ -105,7 +115,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_toRightOf="@id/image"
                 android:fontFamily="sans-serif-light"
-                android:text="7:00 am"
+                android:text="7:00 AM"
                 android:textSize="11sp" />
 
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
+    android:animateLayoutChanges="true"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".Assignment.AssignmentShowActivity">
@@ -21,6 +22,17 @@
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
             app:title="Show Assignment">
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:enabled="false"
+                android:text="Submit" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -48,8 +60,8 @@
             android:layout_height="70dp"
             android:layout_marginTop="2dp"
             android:padding="2dp"
+            android:transitionName="ImageTransition"
             android:src="@drawable/pdf" />
-        " />
 
         <TextView
             android:id="@+id/doc_title"
@@ -84,13 +96,23 @@
             android:text="500 KB" />
 
         <TextView
-            android:id="@+id/dueDate"
+            android:id="@+id/dueDateTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/doc_size"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/doc_image"
-            android:text="Due Date  :  23/01/2023"
+            android:text="Due Date  :  "
+            android:textColor="@color/bloodRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/doc_size"
+            android:layout_toEndOf="@id/dueDateTitle"
+            android:text="23/01/2023"
             android:textColor="@color/bloodRed"
             android:textStyle="bold" />
 
@@ -104,10 +126,86 @@
         android:layout_marginHorizontal="20dp"
         android:text="This is the first assignment. I'll provide rest of the assignment next week of next Month of next year 2024." />
 
+
+    <RelativeLayout
+        android:id="@+id/AssignmentCardStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:visibility="gone"
+        android:background="@drawable/reg_box">
+
+        <ImageView
+            android:id="@+id/AssignmentImage2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:elevation="1dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pdf" />
+
+        <TextView
+            android:id="@+id/CompletedAssignmentName"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/AssignmentImage2"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Kamran Alam_assignment_.pdf"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/time2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="200dp"
+            android:layout_toEndOf="@id/AssignmentImage2"
+            android:fontFamily="sans-serif-medium"
+            android:text="7:00 am"
+            android:textColor="@color/black"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="2dp"
+            android:layout_toEndOf="@id/time2"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/clear"
+            app:tint="@color/black" />
+
+
+    </RelativeLayout>
+
+
+
+    <Button
+        android:id="@+id/AttachAssignmentBtnStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/upperBlue"
+        android:text="Attach Completed Assignment"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        android:textSize="12sp"
+        app:cornerRadius="20dp" />
+
     <TextView
+        android:id="@+id/listOfStudentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:text="List of the Students who have submitted the assignment "
         android:textColor="@color/black"
         android:textStyle="bold" />
@@ -116,6 +214,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="10dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 

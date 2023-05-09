@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".feed.FeedPostActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -26,7 +27,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:text="Post"
+                android:text="POST"
                 android:textAllCaps="false"/>
 
         </com.google.android.material.appbar.MaterialToolbar>
@@ -61,7 +62,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Veika"
+            android:text=""
             android:textColor="@color/black"
             android:padding="5dp"
             android:textStyle="bold"
@@ -82,13 +83,43 @@
                 android:background="@color/bg"
                 android:textCursorDrawable="@drawable/cursor"/>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imageCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/feedMsg"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="20dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:background="?actionBarItemBackground"
+                android:src="@drawable/clear"
+                app:tint="@color/black" />
+
+
+            <ImageView
+                android:id="@+id/imageCardImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+
         <LinearLayout
             android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:orientation="horizontal"
             android:background="@color/bloodRed"
-            android:layout_below="@+id/feedMsg"/>
+            android:layout_below="@+id/imageCard"/>
         <LinearLayout
             android:id="@+id/gallery"
             android:layout_width="match_parent"

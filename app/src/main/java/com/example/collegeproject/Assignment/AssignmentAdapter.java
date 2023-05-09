@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
-import com.example.collegeproject.databinding.AssignmentSingleRowBinding;
 
 import java.util.List;
 
@@ -46,14 +45,21 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         String desc = userList.get(position).getDesc();
         String duedate = userList.get(position).getDueDate();
         String time = userList.get(position).getTime();
+        String date = userList.get(position).getDate();
+        String url = userList.get(position).getAssignmentUrl();
 
-        holder.setData(resource, tName, className, desc, duedate, time);
+        holder.setData(resource, tName, className, desc, duedate,date, time);
         setAnimation(holder.itemView, position);
 
         // intent to Show Assignment
         holder.itemView.setOnClickListener(view -> {
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
-            activity.startActivity(new Intent(activity, AssignmentShowActivity.class));
+            Intent intent = new Intent(activity, AssignmentShowActivity.class);
+            intent.putExtra("url", url);
+            intent.putExtra("dueDate", duedate);
+            intent.putExtra("desc", desc);
+            activity.startActivity(intent);
+
         });
     }
 
@@ -79,6 +85,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         private TextView desc;
         private TextView dueDate;
         private TextView time;
+        private TextView date;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -89,16 +96,18 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             desc = itemView.findViewById(R.id.desc);
             dueDate = itemView.findViewById(R.id.dueDate);
             time = itemView.findViewById(R.id.time);
+            date = itemView.findViewById(R.id.date);
 
         }
 
-        public void setData(int resource, String tName1, String className1, String desc1, String dueDate1, String time1) {
+        public void setData(int resource, String tName1, String className1, String desc1, String dueDate1, String date1, String time1) {
             image.setImageResource(resource);
             tName.setText(tName1);
             className.setText(className1);
             desc.setText(desc1);
             desc.setSelected(true);
             dueDate.setText(dueDate1);
+            date.setText(date1);
             time.setText(time1);
         }
     }

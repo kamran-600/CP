@@ -36,7 +36,6 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         binding.dobLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.dobLayout.setEndIconTintList(ContextCompat.getColorStateList(StudentRegistrationActivity.this, R.color.calender_icon));
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         StudentRegistrationActivity.this
                         , setListener, year, month, day);
@@ -58,7 +57,6 @@ public class StudentRegistrationActivity extends AppCompatActivity {
 // Specify the layout to use when the list of choices appears
         gAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        binding.genderLayout.setEndIconTintList(ContextCompat.getColorStateList(StudentRegistrationActivity.this, R.color.calender_icon));
         binding.gender.setAdapter(gAdapter);
 
         // For department Dropdown Menu
@@ -68,7 +66,6 @@ public class StudentRegistrationActivity extends AppCompatActivity {
 // Specify the layout to use when the list of choices appears
         dAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        binding.departmentLayout.setEndIconTintList(ContextCompat.getColorStateList(StudentRegistrationActivity.this, R.color.calender_icon));
         binding.department.setAdapter(dAdapter);
 
         // For Academic Year Dropdown Menu
@@ -78,7 +75,6 @@ public class StudentRegistrationActivity extends AppCompatActivity {
 // Specify the layout to use when the list of choices appears
         yAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        binding.academicLayout.setEndIconTintList(ContextCompat.getColorStateList(StudentRegistrationActivity.this, R.color.calender_icon));
         binding.academicyear.setAdapter(yAdapter);
 
         binding.continueBtn.setOnClickListener(new View.OnClickListener() {

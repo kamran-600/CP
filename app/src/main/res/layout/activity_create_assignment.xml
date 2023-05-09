@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:background="@android:color/transparent"
                     android:text="Post" />
 
@@ -59,7 +60,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="15dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Kamran Alam"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -82,7 +83,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="4dp"
-                android:text="CS 1st Year"
+                android:text="CSE 1st Year"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:drawableEndCompat="@drawable/arrow_drop_down" />
@@ -99,7 +100,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:ems="10"
-            android:hint="Description"
+            android:hint="Description*"
             app:boxStrokeColor="@color/upperBlue"
             app:hintTextColor="@color/upperBlue">
 
@@ -115,14 +116,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dobLayout"
+            android:id="@+id/dueDateLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:hint="Due Date"
+            android:hint="Due Date*"
             app:boxStrokeColor="@color/upperBlue"
             app:endIconContentDescription="Calender"
             app:endIconDrawable="@drawable/ic_dob_icon"
@@ -131,10 +132,10 @@
 
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dob"
+                android:id="@+id/dueDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:maxLength="10"
                 android:inputType="date"
                 android:textColor="@color/midBlue"
                 android:textCursorDrawable="@drawable/form_cursor" />
@@ -171,7 +172,6 @@
                     android:background="@drawable/reg_box"
                     android:padding="2dp"
                     android:src="@drawable/pdf" />
-                " />
 
                 <TextView
                     android:id="@+id/doc_title"

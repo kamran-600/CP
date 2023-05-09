@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/phoneLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:endIconMode="clear_text"
+        android:layout_centerHorizontal="true"
+        app:boxStrokeColor="@color/upperBlue"
+        app:hintTextColor="@color/upperBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/personalphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:hint="@string/phone"
+            android:inputType="phone"
+            android:textColor="@color/midBlue"
+            android:textCursorDrawable="@drawable/form_cursor"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fphoneLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:endIconMode="clear_text"
+        android:layout_centerHorizontal="true"
+        app:boxStrokeColor="@color/upperBlue"
+        app:hintTextColor="@color/upperBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fatherphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:hint="@string/fPhone"
+            android:inputType="phone"
+            android:textColor="@color/midBlue"
+            android:textCursorDrawable="@drawable/form_cursor"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/academicFeeLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/upperBlue"
+        app:hintTextColor="@color/upperBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:hint="@string/academicFee"
+            android:inputType="number"
+            android:textColor="@color/midBlue"
+            android:textCursorDrawable="@drawable/form_cursor"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/hostelFeeLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:endIconMode="clear_text"
+        android:layout_centerHorizontal="true"
+        app:boxStrokeColor="@color/upperBlue"
+        app:hintTextColor="@color/upperBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/hostelFee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:hint="@string/hostelFee"
+            android:inputType="number"
+            android:textColor="@color/midBlue"
+            android:textCursorDrawable="@drawable/form_cursor"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        app:endIconMode="clear_text"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        app:boxStrokeColor="@color/upperBlue"
+        app:hintTextColor="@color/upperBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:hint="@string/e_mail"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/midBlue"
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@drawable/form_cursor"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+</RelativeLayout>

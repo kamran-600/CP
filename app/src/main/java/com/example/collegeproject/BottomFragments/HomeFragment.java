@@ -1,12 +1,18 @@
 package com.example.collegeproject.BottomFragments;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +27,8 @@ import com.example.collegeproject.feed.models.ImageFeedModel;
 import com.example.collegeproject.feed.models.Item;
 import com.example.collegeproject.feed.models.TextFeedModel;
 import com.example.collegeproject.feed.models.TextImageFeedModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +82,18 @@ public class HomeFragment extends Fragment {
     }
 
     HomeActivity homeActivity;
+    List<Item> items;
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
+    FeedAdapter feedAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         homeActivity = (HomeActivity) getActivity();
         homeActivity.setSupportActionBar(binding.topAppBar);
@@ -87,22 +101,25 @@ public class HomeFragment extends Fragment {
         homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
 
         binding.feedPost.setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), FeedPostActivity.class));
+            intentActivityResultLauncher.launch(new Intent(getContext(), FeedPostActivity.class) );
+           // startActivity(new Intent(getContext(), FeedPostActivity.class));
         });
 
-        List<Item> items = new ArrayList<>();
-
-        ImageFeedModel imageFeedModel = new ImageFeedModel("Kamran Alam",R.drawable.a0,R.drawable.a2);
-        items.add(new Item(1,imageFeedModel));
+        items = new ArrayList<>();
 
         TextFeedModel textFeedModel = new TextFeedModel("Ram Singh","hii everyone...",R.drawable.a2);
         items.add(new Item(0,textFeedModel));
+
+        ImageFeedModel imageFeedModel = new ImageFeedModel("Kamran Alam",R.drawable.a0,R.drawable.a2);
+        items.add(new Item(1,imageFeedModel));
 
         TextImageFeedModel textImageFeedModel = new TextImageFeedModel("Kamran Alam","Good Morning",R.drawable.a4,R.drawable.a5);
         items.add(new Item(2,textImageFeedModel));
 
 
-        binding.feedRecyclerview.setAdapter(new FeedAdapter(items));
+        feedAdapter = new FeedAdapter(items);
+
+        binding.feedRecyclerview.setAdapter(feedAdapter);
 
            /* *****************************************
                           hide bottom bar
@@ -138,10 +155,18 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
-
         return binding.getRoot();
     }
+
+    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == Activity.RESULT_OK){
+                items.add(new Item(0,new TextFeedModel(mAuth.getCurrentUser().getEmail(), result.getData().getStringExtra("feedText"), R.drawable.a0)));
+              //  items.add(new Item(2,new TextImageFeedModel(mAuth.getCurrentUser().getEmail(), result.getData().getStringExtra("feedText"), result.getData().getParcelableExtra("feedImage") , result.getData().getParcelableExtra("feedImage"))));
+                feedAdapter.notifyDataSetChanged();
+            }
+        }
+    });
 
 }
