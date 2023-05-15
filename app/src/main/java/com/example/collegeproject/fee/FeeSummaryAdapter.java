@@ -37,7 +37,7 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
         String name = userList.get(position).getName();
         String rno = userList.get(position).getRno();
         String total = userList.get(position).getTotal();
-         String submit = userList.get(position).getSubmit();
+        String submit = userList.get(position).getSubmit();
         holder.setData(resource, name, rno, total, submit);
 
         setAnimation(holder.itemView, position);

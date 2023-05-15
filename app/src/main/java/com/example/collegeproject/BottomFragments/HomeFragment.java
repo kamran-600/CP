@@ -2,7 +2,8 @@ package com.example.collegeproject.BottomFragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,22 +15,34 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegeproject.Assignment.AssignmentOpenActivity;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentHomeBinding;
-import com.example.collegeproject.databinding.TextFeedBinding;
 import com.example.collegeproject.feed.FeedPostActivity;
 import com.example.collegeproject.feed.adapter.FeedAdapter;
 import com.example.collegeproject.feed.models.ImageFeedModel;
 import com.example.collegeproject.feed.models.Item;
 import com.example.collegeproject.feed.models.TextFeedModel;
 import com.example.collegeproject.feed.models.TextImageFeedModel;
+import com.example.collegeproject.studentData.StudentData;
+import com.example.collegeproject.teacherData.TeacherData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +99,8 @@ public class HomeFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     FeedAdapter feedAdapter;
+    FirebaseStorage storage;
+    StorageReference storageReference;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,6 +109,184 @@ public class HomeFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+
+        db.collection("College_Project").document("student").collection("4th Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.profilePic.setImageBitmap(fullBitmap);
+                                                    binding.profilePic.setOnClickListener(v -> {
+                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
+                                                        intent.putExtra("byte", bytes);
+                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
+                                                        startActivity(intent, optionsCompat.toBundle());
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("3rd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.profilePic.setImageBitmap(fullBitmap);
+                                                    binding.profilePic.setOnClickListener(v -> {
+                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
+                                                        intent.putExtra("byte", bytes);
+                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
+                                                        startActivity(intent, optionsCompat.toBundle());
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("2nd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.profilePic.setImageBitmap(fullBitmap);
+                                                    binding.profilePic.setOnClickListener(v -> {
+                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
+                                                        intent.putExtra("byte", bytes);
+                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
+                                                        startActivity(intent, optionsCompat.toBundle());
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("1st Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.profilePic.setImageBitmap(fullBitmap);
+                                                    binding.profilePic.setOnClickListener(v -> {
+                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
+                                                        intent.putExtra("byte", bytes);
+                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
+                                                        startActivity(intent, optionsCompat.toBundle());
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+        // teacher
+
+        db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.profilePic.setImageBitmap(fullBitmap);
+                                                    binding.profilePic.setOnClickListener(v -> {
+                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
+                                                        intent.putExtra("byte", bytes);
+                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
+                                                        startActivity(intent, optionsCompat.toBundle());
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+
 
         homeActivity = (HomeActivity) getActivity();
         homeActivity.setSupportActionBar(binding.topAppBar);

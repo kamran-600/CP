@@ -43,7 +43,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:backgroundTint="@color/white"
-            app:headerLayout="@layout/drawer_header"
             app:itemRippleColor="@color/upperBlue"
             app:itemTextColor="@color/black"
             app:menu="@menu/teacher_drawer_menu"

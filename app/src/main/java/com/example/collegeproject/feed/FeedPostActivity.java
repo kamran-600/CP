@@ -1,41 +1,40 @@
 package com.example.collegeproject.feed;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Adapter;
-
-import com.example.collegeproject.BottomFragments.HomeFragment;
-import com.example.collegeproject.HomeActivity;
-import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityFeedPostBinding;
-import com.example.collegeproject.databinding.ActivityProfileBinding;
-import com.example.collegeproject.feed.models.ImageFeedModel;
-import com.example.collegeproject.feed.models.Item;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
 
 public class FeedPostActivity extends AppCompatActivity {
 
     ActivityFeedPostBinding binding;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
+    FirebaseStorage storage;
+    StorageReference storageReference;
     Uri imageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,8 @@ public class FeedPostActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
 
         db.collection("College_Project").document("student").collection("4th Year").get()
@@ -52,10 +53,25 @@ public class FeedPostActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
-                                StudentData data = stuRollNo.toObject(StudentData.class);
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                     binding.userName.setText(data.getFull_name());
+
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.userProfile.setImageBitmap(fullBitmap);
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -67,32 +83,58 @@ public class FeedPostActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
-                                StudentData data = stuRollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     binding.userName.setText(data.getFull_name());
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.userProfile.setImageBitmap(fullBitmap);
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
                     }
                 });
-
 
         db.collection("College_Project").document("student").collection("2nd Year").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
-                                StudentData data = stuRollNo.toObject(StudentData.class);
+                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                StudentData data = rollNo.toObject(StudentData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                     binding.userName.setText(data.getFull_name());
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.userProfile.setImageBitmap(fullBitmap);
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
                     }
                 });
-
 
         db.collection("College_Project").document("student").collection("1st Year").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -103,17 +145,31 @@ public class FeedPostActivity extends AppCompatActivity {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                     binding.userName.setText(data.getFull_name());
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.userProfile.setImageBitmap(fullBitmap);
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
                     }
                 });
 
+
         // teacher
 
-
-        db.collection("College_Project").document("teacher").collection("teacher_details")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
@@ -121,11 +177,26 @@ public class FeedPostActivity extends AppCompatActivity {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                     binding.userName.setText(data.getFull_name());
+
+                                    if(data.getProfileImageUrl() != null){
+                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
+                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if(bytes != null){
+                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                    binding.userProfile.setImageBitmap(fullBitmap);
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
                     }
                 });
+
 
         binding.gallery.setOnClickListener(v -> {
             galLauncher.launch("image/*");
@@ -162,4 +233,6 @@ public class FeedPostActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
+
+
 }

@@ -2,7 +2,7 @@ package com.example.collegeproject.studentData;
 
 public class StudentData {
 
-    String full_name, father_name, personal_phone, gender, dob, father_phone, email,role;
+    String full_name, father_name, personal_phone, gender, dob, father_phone, email,role, profileImageUrl;
     String roll_number, academic_fee, department, batch, hostel_fee, academic_year, password;
 
 
@@ -25,6 +25,14 @@ public class StudentData {
         this.hostel_fee = hostel_fee;
         this.academic_year = academic_year;
         this.password = password;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     public String getFull_name() {

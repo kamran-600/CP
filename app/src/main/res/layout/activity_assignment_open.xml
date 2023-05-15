@@ -14,7 +14,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/black"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Open Assignment">
+            app:title="Open">
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -28,8 +28,31 @@
         android:src="@drawable/cartoon"
         android:layout_marginTop="?actionBarSize"
         android:layout_marginBottom="?actionBarSize"
+        android:visibility="gone"
         android:transitionName="ImageTransition"
         />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminateBehavior="cycle"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
+
+    <!--<com.pdfview.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:visibility="gone"/>-->
+
+
+   <!-- <com.joanzapata.pdfview.PDFView
+        android:id="@+id/pdfview"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"/>-->
 </RelativeLayout>

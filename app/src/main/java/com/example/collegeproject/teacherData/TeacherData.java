@@ -1,7 +1,7 @@
 package com.example.collegeproject.teacherData;
 
 public class TeacherData {
-    String department,email,full_name,gender,password,phone_no,role;
+    String department,email,full_name,gender,password,phone_no,role, profileImageUrl;
 
     public TeacherData() {
     }
@@ -14,6 +14,14 @@ public class TeacherData {
         this.password = password;
         this.phone_no = phone_no;
         this.role = role;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     public String getDepartment() {

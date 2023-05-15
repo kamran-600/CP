@@ -2,7 +2,6 @@ package com.example.collegeproject.BottomFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,30 +115,31 @@ public class AssignmentFragment extends Fragment {
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                     binding.extendedFab.setVisibility(View.VISIBLE);
 
-                                    db.collection("College_Project").document("teacher").collection("assignments")
-                                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
-                                                        for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
-                                                            if(documentSnapshot!=null){
-                                                                AssignmentData data = documentSnapshot.toObject(AssignmentData.class);
-                                                                if(data !=null){
-                                                                    userList.add(new AssignmentModal(R.drawable.cartoon, data.getTeacherName(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(), data.getAssignmentUrl()));
-                                                                }
-                                                            }
-                                                        }
-                                                        adapter = new AssignmentAdapter(userList);
-                                                        binding.recyclerview.setAdapter(adapter);
-                                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                        binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                        adapter.notifyDataSetChanged();
-                                                    }
-                                                }
-                                            });
-
                                 }
                             }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("teacher").collection("assignments")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                if(documentSnapshot!=null){
+                                    AssignmentData data = documentSnapshot.toObject(AssignmentData.class);
+                                    if(data !=null){
+                                        userList.add(new AssignmentModal(R.drawable.cartoon, data.getTeacherName(), documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(), data.getAssignmentUrl()));
+                                    }
+                                }
+                            }
+
+                            adapter = new AssignmentAdapter(userList);
+                            binding.recyclerview.setAdapter(adapter);
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                            binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 });
@@ -202,7 +202,7 @@ public class AssignmentFragment extends Fragment {
                                 if(documentSnapshot!=null){
                                     AssignmentData data = documentSnapshot.toObject(AssignmentData.class);
                                     if(data !=null){
-                                        userList.add(new AssignmentModal(R.drawable.cartoon, data.getTeacherName(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl()));
+                                        userList.add(new AssignmentModal(R.drawable.cartoon, data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl()));
                                     }
                                 }
                             }

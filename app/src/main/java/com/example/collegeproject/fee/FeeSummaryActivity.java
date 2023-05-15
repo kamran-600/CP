@@ -24,8 +24,7 @@ import java.util.List;
 
 public class FeeSummaryActivity extends AppCompatActivity {
 
-    LinearLayoutManager layoutManager;
-    String name, roll,tFee;
+
     List<FeeSummaryModel> userList;
     FeeSummaryAdapter adapter;
     FirebaseFirestore db;
@@ -64,13 +63,12 @@ public class FeeSummaryActivity extends AppCompatActivity {
 
 
                             }
+                            if(userList.size() == 0){
+                                Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });
-
-        if(userList.size() == 0){
-            Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_LONG).show();
-        }
 
 
     }

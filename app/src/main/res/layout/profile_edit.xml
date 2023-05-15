@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:hint="@string/phone"
+            android:maxLength="10"
             android:inputType="phone"
             android:textColor="@color/midBlue"
             android:textCursorDrawable="@drawable/form_cursor"
@@ -49,6 +50,7 @@
             android:fontFamily="sans-serif-medium"
             android:hint="@string/fPhone"
             android:inputType="phone"
+            android:maxLength="10"
             android:textColor="@color/midBlue"
             android:textCursorDrawable="@drawable/form_cursor"
             android:textSize="15sp" />

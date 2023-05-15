@@ -45,7 +45,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:elevation="1dp"
             android:padding="5dp"
             android:scaleType="centerCrop"
@@ -54,7 +54,7 @@
 
         <TextView
             android:id="@+id/stuName"
-            android:layout_width="160dp"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
@@ -63,7 +63,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
-            android:text="Student_Name"
+            android:text="Student_Namjariaefe"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:transitionName="stuNameTransition" />
@@ -73,13 +73,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="210dp"
+            android:layout_marginStart="155dp"
             android:layout_marginTop="14dp"
             android:layout_toEndOf="@id/image"
             android:fontFamily="sans-serif-medium"
             android:text="12/01/2022"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:transitionName="dateTransition"/>
+
+        <TextView
+            android:id="@+id/submissionTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="14dp"
+            android:layout_toEndOf="@id/submissionDate"
+            android:fontFamily="sans-serif-medium"
+            android:text="12:10 AM"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:transitionName="timeTransition"/>
 
     </RelativeLayout>
 
@@ -100,11 +115,12 @@
             android:layout_marginStart="15dp"
             android:elevation="1dp"
             android:scaleType="centerCrop"
+            android:transitionName="ImageTransition"
             android:src="@drawable/pdf" />
 
         <TextView
             android:id="@+id/AssignmentName"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
@@ -116,28 +132,17 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="200dp"
-            android:layout_toEndOf="@id/AssignmentImage"
-            android:fontFamily="sans-serif-medium"
-            android:text="7:00 am"
-            android:textColor="@color/black"
-            android:textSize="11sp" />
-
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/expendableLayout2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginHorizontal="40dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/reg_box"
+        android:animateLayoutChanges="true"
         android:visibility="gone">
 
         <ImageView
@@ -152,7 +157,7 @@
 
         <TextView
             android:id="@+id/AssignmentNameChecked"
-            android:layout_width="160dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
@@ -164,25 +169,15 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/time2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="200dp"
-            android:layout_toEndOf="@id/AssignmentImage2"
-            android:fontFamily="sans-serif-medium"
-            android:text="7:00 am"
-            android:textColor="@color/black"
-            android:textSize="11sp" />
+
 
         <ImageView
             android:id="@+id/clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="2dp"
-            android:layout_toEndOf="@id/time2"
+            android:layout_marginStart="215dp"
+            android:layout_toEndOf="@id/AssignmentImage2"
             android:background="?selectableItemBackground"
             android:src="@drawable/clear"
             app:tint="@color/black" />

@@ -29,7 +29,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
     @NonNull
     @Override
-    public AssignmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.assignment_single_row, parent, false);
 //        AssignmentSingleRowBinding binding = AssignmentSingleRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
 //        return new ViewHolder(binding);
@@ -37,7 +37,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AssignmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         int resource = userList.get(position).getImage();
         String tName = userList.get(position).gettName();
@@ -56,8 +56,10 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             Intent intent = new Intent(activity, AssignmentShowActivity.class);
             intent.putExtra("url", url);
+            intent.putExtra("postedDate",date+", "+time);
             intent.putExtra("dueDate", duedate);
             intent.putExtra("desc", desc);
+            intent.putExtra("id", userList.get(position).getId());
             activity.startActivity(intent);
 
         });

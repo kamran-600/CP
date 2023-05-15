@@ -4,14 +4,12 @@ package com.example.collegeproject.feed.adapter;
 
 
 
-import android.content.ClipData;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ImageFeedBinding;
 import com.example.collegeproject.databinding.TextFeedBinding;
 import com.example.collegeproject.databinding.TextImageFeedBinding;

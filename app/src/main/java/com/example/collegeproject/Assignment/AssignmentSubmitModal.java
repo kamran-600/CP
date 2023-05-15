@@ -2,9 +2,11 @@ package com.example.collegeproject.Assignment;
 
 public class AssignmentSubmitModal {
 
-    int image;
-    String stuName, submitDate, submitTime;
-    // boolean expanded;
+    int profileImage;
+    String studentName, submittedAssignmentUrl , date , time;
+
+    String checkedAssignmentUrl, checkedDate, checkedTime;
+    /*// boolean expanded;
 
     public AssignmentSubmitModal(int image, String stuName, String submitDate, String submitTime) {
         this.image = image;
@@ -14,45 +16,87 @@ public class AssignmentSubmitModal {
         // this.expanded = false;
     }
 
-   /* public boolean isExpanded() {
+    public boolean isExpanded() {
         return expanded;
     }
 
     public void setExpanded(boolean expanded) {
         this.expanded = expanded;
+    }*/
+
+   public AssignmentSubmitModal() {
+   }
+
+    public AssignmentSubmitModal(int profileImage, String studentName, String submittedAssignmentUrl, String date, String time) {
+        this.profileImage = profileImage;
+        this.studentName = studentName;
+        this.submittedAssignmentUrl = submittedAssignmentUrl;
+        this.date = date;
+        this.time = time;
     }
 
-    */
 
-    public int getImage() {
-        return image;
+    public String getCheckedAssignmentUrl() {
+        return checkedAssignmentUrl;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setCheckedAssignmentUrl(String checkedAssignmentUrl) {
+        this.checkedAssignmentUrl = checkedAssignmentUrl;
     }
 
-    public String getStuName() {
-        return stuName;
+    public String getCheckedDate() {
+        return checkedDate;
     }
 
-    public void setStuName(String stuName) {
-        this.stuName = stuName;
+    public void setCheckedDate(String checkedDate) {
+        this.checkedDate = checkedDate;
     }
 
-    public String getSubmitDate() {
-        return submitDate;
+    public String getCheckedTime() {
+        return checkedTime;
     }
 
-    public void setSubmitDate(String submitDate) {
-        this.submitDate = submitDate;
+    public void setCheckedTime(String checkedTime) {
+        this.checkedTime = checkedTime;
     }
 
-    public String getSubmitTime() {
-        return submitTime;
+    public int getProfileImage() {
+        return profileImage;
     }
 
-    public void setSubmitTime(String submitTime) {
-        this.submitTime = submitTime;
+    public void setProfileImage(int profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getSubmittedAssignmentUrl() {
+        return submittedAssignmentUrl;
+    }
+
+    public void setSubmittedAssignmentUrl(String submittedAssignmentUrl) {
+        this.submittedAssignmentUrl = submittedAssignmentUrl;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

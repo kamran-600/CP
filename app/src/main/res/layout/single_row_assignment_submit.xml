@@ -11,7 +11,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="10dp"
         android:elevation="1dp"
         android:padding="5dp"
         android:scaleType="centerCrop"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/stuName"
-        android:layout_width="160dp"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="15dp"
@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
-        android:text="Student_Name"
+        android:text="Student_Namjariaefe"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
@@ -37,11 +37,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="210dp"
+        android:layout_marginStart="155dp"
         android:layout_marginTop="14dp"
         android:layout_toEndOf="@id/image"
         android:fontFamily="sans-serif-medium"
         android:text="12/01/2022"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/submissionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@id/submissionDate"
+        android:fontFamily="sans-serif-medium"
+        android:text="12:10 AM"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
