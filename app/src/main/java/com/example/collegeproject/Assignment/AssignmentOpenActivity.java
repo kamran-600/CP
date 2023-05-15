@@ -55,8 +55,8 @@ public class AssignmentOpenActivity extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(AssignmentOpenActivity.this, "Success", Toast.LENGTH_SHORT).show();
                         binding.progressBar.setVisibility(View.GONE);
-                        /*binding.pdfView.setVisibility(View.VISIBLE);
-                        binding.pdfView.fromFile(file).show();*/
+                        binding.pdfView.setVisibility(View.VISIBLE);
+                        binding.pdfView.fromFile(file).show();
                     }
                 });
             } catch (IOException e) {

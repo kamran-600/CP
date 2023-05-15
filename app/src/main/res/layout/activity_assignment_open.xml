@@ -42,12 +42,12 @@
         android:visibility="gone"/>
 
 
-    <!--<com.pdfview.PDFView
+    <com.pdfview.PDFView
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize"
-        android:visibility="gone"/>-->
+        android:visibility="gone"/>
 
 
    <!-- <com.joanzapata.pdfview.PDFView
