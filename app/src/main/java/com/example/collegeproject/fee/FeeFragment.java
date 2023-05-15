@@ -12,10 +12,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegeproject.Contacts.ContactAdapter;
+import com.example.collegeproject.Contacts.ContactModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.attendance.AttendanceModelClass;
 import com.example.collegeproject.databinding.FragmentFeeBinding;
+import com.example.collegeproject.studentData.StudentData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +40,8 @@ public class FeeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    LinearLayoutManager layoutManager;
-    List<AttendanceModelClass> userList;
-    FeeAdapter adapter;
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -68,19 +76,23 @@ public class FeeFragment extends Fragment {
         }
     }
     FragmentFeeBinding binding;
-
+    String department, year;
+    LinearLayoutManager layoutManager;
+    List<FeeModel> userList;
+    FeeAdapter adapter;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentFeeBinding.inflate(inflater,container,false);
 
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         initData();
-
-
         initRecyclerView();
-
 
         /* *****************************************
                         Hide Bottom Bar
@@ -134,10 +146,10 @@ public class FeeFragment extends Fragment {
 
         userList = new ArrayList<>();
 
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Second Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Third Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Fourth Year"));
+        userList.add(new FeeModel(R.drawable.cse, "C.S.E Department", "1st Year"));
+        userList.add(new FeeModel(R.drawable.cse, "C.S.E Department", "2nd Year"));
+        userList.add(new FeeModel(R.drawable.cse, "C.S.E Department", "3rd Year"));
+        userList.add(new FeeModel(R.drawable.cse, "C.S.E Department", "4th Year"));
 
     }
 }

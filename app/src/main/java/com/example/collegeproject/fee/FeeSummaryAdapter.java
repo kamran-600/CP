@@ -37,8 +37,9 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
         String name = userList.get(position).getName();
         String rno = userList.get(position).getRno();
         String total = userList.get(position).getTotal();
-        String submit = userList.get(position).getSubmit();
+         String submit = userList.get(position).getSubmit();
         holder.setData(resource, name, rno, total, submit);
+
         setAnimation(holder.itemView, position);
     }
 
@@ -75,12 +76,12 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
             submit = itemView.findViewById(R.id.submitFee);
         }
 
-        public void setData(int resource, String name, String rnum, String totalFee, String submitFee) {
-            image.setImageResource(resource);
+        public void setData( int uImage,String name, String rnum, String totalFee, String submit1) {
+            image.setImageResource(uImage);
             Name.setText(name);
             rno.setText(rnum);
             total.setText(totalFee);
-            submit.setText(submitFee);
+            submit.setText(submit1);
         }
     }
 }

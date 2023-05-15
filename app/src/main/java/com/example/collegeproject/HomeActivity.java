@@ -81,6 +81,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Menu menu = binding.navigationView.getMenu(); //taking reference of logout menu option
         MenuItem menuItem = menu.findItem(R.id.logout);
+        menu.findItem(R.id.progress).setVisible(false);
+
 
         /* *****************************************
                  for Coloring the logout option
@@ -142,49 +144,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-        /*db.collection("College_Project").document("C.S.E").collection("student").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot academicYear : task.getResult()){
-                        System.out.println(academicYear.getId());
-                        db.collection("College_Project").document("C.S.E").collection("student")
-                                .document(academicYear.getId()).collection(mAuth.getCurrentUser().getUid()).document(mAuth.getCurrentUser().getEmail())
-                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if(task.isSuccessful()){
-                                            StudentData data = task.getResult().toObject(StudentData.class);
-
-                                            System.out.println(data.getFull_name());
-                                            name.setText(data.getFull_name());
-
-                                            name.setSelected(true);
-                                            role.setText("Student");
-                                            role.setSelected(true);
-
-                                        }
-                                        else
-                                            Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                    }
-                }
-                else Toast.makeText(HomeActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
         // student
 
         db.collection("College_Project").document("student").collection("4th Year").get()
@@ -197,18 +156,8 @@ public class HomeActivity extends AppCompatActivity {
                                         if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                             name.setText(data.getFull_name());
                                             role.setText(data.getRole());
+                                            menu.findItem(R.id.fee).setVisible(false);
                                         }
-                                        /*if(data!=null){
-                                            db.collection("College_Project").document("student").collection("4th Year")
-                                                    .document(rollNo.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                            if (task.isSuccessful() && mAuth.getCurrentUser().getEmail().equals(task.getResult().getData().get("email"))){
-
-                                                            }
-                                                        }
-                                                    });
-                                        }*/
                                     }
                                 }
                             }
@@ -224,6 +173,7 @@ public class HomeActivity extends AppCompatActivity {
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     name.setText(data.getFull_name());
                                     role.setText(data.getRole());
+                                    menu.findItem(R.id.fee).setVisible(false);
                                 }
                             }
                         }
@@ -240,6 +190,7 @@ public class HomeActivity extends AppCompatActivity {
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                     name.setText(data.getFull_name());
                                     role.setText(data.getRole());
+                                    menu.findItem(R.id.fee).setVisible(false);
                                 }
                             }
                         }
@@ -256,6 +207,7 @@ public class HomeActivity extends AppCompatActivity {
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
                                     name.setText(data.getFull_name());
                                     role.setText(data.getRole());
+                                    menu.findItem(R.id.fee).setVisible(false);
                                 }
                             }
                         }

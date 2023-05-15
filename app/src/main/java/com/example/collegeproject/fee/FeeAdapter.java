@@ -20,10 +20,10 @@ import com.example.collegeproject.attendance.AttendanceModelClass;
 import java.util.List;
 
 public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
-    private List<AttendanceModelClass> userList;
+    private List<FeeModel> userList;
     private int lastPosition = -1;
 
-    public FeeAdapter(List<AttendanceModelClass> userList) {
+    public FeeAdapter(List<FeeModel> userList) {
         this.userList = userList;
 
     }
@@ -51,7 +51,9 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
             @Override
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                activity.startActivity(new Intent(activity, FeeSummaryActivity.class));
+                Intent intent = new Intent(activity, FeeSummaryActivity.class);
+                intent.putExtra("year", ayear);
+                activity.startActivity(intent);
             }
         });
     }
