@@ -82,6 +82,7 @@ public class FeeFragment extends Fragment {
     FeeAdapter adapter;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
+    HomeActivity homeActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,6 +94,12 @@ public class FeeFragment extends Fragment {
 
         initData();
         initRecyclerView();
+
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.setSupportActionBar(binding.topAppBar);
+        homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+
 
         /* *****************************************
                         Hide Bottom Bar

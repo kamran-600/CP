@@ -1,8 +1,11 @@
 package com.example.collegeproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -21,11 +24,25 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
 
     private ActivityTeacherRegistrationBinding binding;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityTeacherRegistrationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // for hide keyboard
+        binding.getRoot().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if(getCurrentFocus() !=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // For Gender Dropdown Menu
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -70,30 +87,4 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
         });
     }
 
-/*
-    private void uploadTeacherData() {
-        Map<String, Object> uTD = new HashMap<>();
-        uTD.put("full_name", binding.Tname.getText().toString().trim());
-        uTD.put("gender", binding.gender.getText().toString().trim());
-        uTD.put("email", binding.email.getText().toString().trim());
-        uTD.put("phone_no", binding.phoneNo.getText().toString().trim());
-        uTD.put("department", binding.department.getText().toString().trim());
-        uTD.put("role", binding.role.getText().toString().trim());
-
-        db.collection("College_Project").document("teacher")
-                .collection("teacher_details").document(binding.Tname.getText().toString().trim().split(" ")[0] + "_" + binding.phoneNo.getText().toString().trim()).set(uTD)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(TeacherRegistrationActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(TeacherRegistrationActivity.this, "Failed to Upload", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-*/
 }

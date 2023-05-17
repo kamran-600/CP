@@ -33,10 +33,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.example.collegeproject.databinding.ClassBottomDialogBinding;
+import com.example.collegeproject.feed.FeedPostActivity;
 import com.example.collegeproject.teacherData.TeacherData;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -126,21 +129,13 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     binding.UserName.setText(data.getFull_name());
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    binding.UserImage.setImageBitmap(fullBitmap);
-                                                }
-                                            }
-                                        });
+                                    if (data.getProfileImageBlob() != null) {
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.UserImage.setImageBitmap(fullBitmap);
                                     }
                                 }
                             }
@@ -258,48 +253,6 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
-
-/*
-    ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-
-            if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                Toast.makeText(CreateAssignmentActivity.this, "return ", Toast.LENGTH_SHORT).show();
-                binding.docImage.setImageURI(captureImageUri);
-             //   binding.assignmentCard.setVisibility(View.VISIBLE);
-              //  binding.docImage.setImageBitmap(bitmap);
-              *//*  Bundle bundle = result.getData().getExtras();
-                Bitmap bitmap = (Bitmap) bundle.get("data");
-                binding.UserImage.setImageBitmap(bitmap);*/
-    /*
-
-
-                //BitMap to URI
-                *//* ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-                bytes.toByteArray();
-                *//*
-
-                getTitleAndSize(captureImageUri);
-
-               */
-    /* String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "AssignmentImg", null);
-                binding.docImage.setImageURI(Uri.parse(path));
-                getTitleAndSize(Uri.parse(path));
-                /*binding.docTitle.setOnClickListener(view -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                });*//*
-            }
-        }
-    });*/
-
     ActivityResultLauncher<Uri> cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
@@ -316,14 +269,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
 
                 try {
-                    /* Bitmap fullBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), captureImageUri);
-                    int scaleWidth = fullBitmap.getWidth()/4;
-                    int scaleHeight = fullBitmap.getHeight()/4;
 
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(fullBitmap, scaleWidth, scaleHeight, true);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100,baos);
-                    byte[] downSizeBytes = baos.toByteArray();*/
                     Bitmap fullBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), captureImageUri);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -431,6 +377,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                                                         Map<String,Object> map = new HashMap<>();
                                                         map.put("assignmentUrl", downloadUrl);
                                                         map.put("teacherName", teacherName);
+                                                        map.put("email", mAuth.getCurrentUser().getEmail());
                                                         map.put("className", binding.chooseClass.getText().toString());
                                                         map.put("desc", binding.desc.getText().toString());
                                                         map.put("dueDate", binding.dueDate.getText().toString());
@@ -504,15 +451,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding.docImage.setImageBitmap(bitmap);
         return baos.toByteArray();
     }
-    /*private byte[] compressImage2(Bitmap image) {
-        int size = image.getRowBytes() * image.getHeight();
-        while(size>400){
-            size -=10;
-        }
-        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
-        image.copyPixelsToBuffer(byteBuffer);
-        return byteBuffer.array();
-    }*/
+
     // Launch Gallery
     ActivityResultLauncher<String> galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
 
@@ -629,6 +568,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                                                     Map<String,Object> map = new HashMap<>();
                                                     map.put("assignmentUrl", downloadUrl);
                                                     map.put("teacherName", teacherName);
+                                                    map.put("email", mAuth.getCurrentUser().getEmail());
                                                     map.put("className", binding.chooseClass.getText().toString());
                                                     map.put("desc", binding.desc.getText().toString());
                                                     map.put("dueDate", binding.dueDate.getText().toString());
@@ -772,6 +712,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                                                     Map<String,Object> map = new HashMap<>();
                                                     map.put("assignmentUrl", downloadUrl);
                                                     map.put("teacherName", teacherName);
+                                                    map.put("email", mAuth.getCurrentUser().getEmail());
                                                     map.put("className", binding.chooseClass.getText().toString());
                                                     map.put("desc", binding.desc.getText().toString());
                                                     map.put("dueDate", binding.dueDate.getText().toString());

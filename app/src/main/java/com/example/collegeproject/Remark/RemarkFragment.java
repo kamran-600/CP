@@ -1,4 +1,4 @@
-package com.example.collegeproject.studentData.Remark;
+package com.example.collegeproject.Remark;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
@@ -39,6 +40,8 @@ public class RemarkFragment extends Fragment {
     LinearLayoutManager layoutManager;
     List<AttendanceModelClass> userList;
     RemarkClassAdapter adapter;
+    HomeActivity homeActivity;
+
 
     public RemarkFragment() {
         // Required empty public constructor
@@ -79,6 +82,12 @@ public class RemarkFragment extends Fragment {
 
         initData();
         initRecyclerView();
+
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.setSupportActionBar(binding.topAppBar);
+        homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+
 
 
         /* *****************************************
@@ -134,10 +143,9 @@ public class RemarkFragment extends Fragment {
 
         userList = new ArrayList<>();
 
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Second Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Third Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Fourth Year"));
-
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "1st Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "2nd Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "3rd Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "4th Year"));
     }
 }

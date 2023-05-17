@@ -27,7 +27,7 @@
                 android:layout_marginTop="20dp"
                 android:elevation="1dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/a2" />
+                android:src="@drawable/cartoon" />
 
 
             <TextView

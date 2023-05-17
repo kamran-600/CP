@@ -43,7 +43,7 @@
             android:name=".fee.FeeSummaryActivity"
             android:exported="false" />
         <activity
-            android:name=".studentData.Remark.RemarkActivity"
+            android:name=".Remark.RemarkActivity"
             android:exported="false" />
         <activity
             android:name=".Chat.ConversationActivity"
@@ -71,13 +71,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".TeacherTeachingClassActivity"
-            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -111,13 +104,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".RegistrationActivity"
             android:exported="false">
             <meta-data
@@ -131,6 +117,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

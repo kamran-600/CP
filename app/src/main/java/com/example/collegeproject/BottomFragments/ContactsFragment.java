@@ -83,6 +83,7 @@ public class ContactsFragment extends Fragment {
         }
     }
     FragmentContactsBinding binding;
+    HomeActivity homeActivity;
 
 
     @Override
@@ -95,6 +96,12 @@ public class ContactsFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.setSupportActionBar(binding.topAppBar);
+        homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+
 
 
         // teacher
@@ -123,7 +130,7 @@ public class ContactsFragment extends Fragment {
                                                                 phoneNo = data.getPersonal_phone();
                                                                 name = data.getFull_name();
                                                                 roll = data.getRoll_number();
-                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -161,7 +168,7 @@ public class ContactsFragment extends Fragment {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -196,7 +203,7 @@ public class ContactsFragment extends Fragment {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -231,7 +238,7 @@ public class ContactsFragment extends Fragment {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -266,7 +273,7 @@ public class ContactsFragment extends Fragment {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -318,7 +325,7 @@ public class ContactsFragment extends Fragment {
                                                                 phoneNo = data1.getPhone_no();
                                                                 name = data1.getFull_name();
 
-                                                                userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -357,7 +364,7 @@ public class ContactsFragment extends Fragment {
                                                                 phoneNo = data1.getPhone_no();
                                                                 name = data1.getFull_name();
 
-                                                                userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -396,7 +403,7 @@ public class ContactsFragment extends Fragment {
                                                                 phoneNo = data1.getPhone_no();
                                                                 name = data1.getFull_name();
 
-                                                                userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 layoutManager = new LinearLayoutManager(getContext());
                                                                 layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -435,7 +442,7 @@ public class ContactsFragment extends Fragment {
                                                                         phoneNo = data1.getPhone_no();
                                                                         name = data1.getFull_name();
 
-                                                                        userList.add(new ContactModel(name, data1.getEmail(), phoneNo));
+                                                                        userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                         adapter = new ContactAdapter(userList);
                                                                         layoutManager = new LinearLayoutManager(getContext());
                                                                         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -491,103 +498,4 @@ public class ContactsFragment extends Fragment {
         return binding.getRoot();
     }
 
-
-    /* *****************************************
-             initialize the data for adapter
-       ***************************************** */
-   /* private void initData() {
-
-
-
-        userList = new ArrayList<>();
-        db.collection("College_Project").document("student").collection("academic_details")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            List<DocumentSnapshot> list = task.getResult().getDocuments();
-                            rollNoList = new ArrayList<>();
-                         for(DocumentSnapshot document : list){
-                             AcademicData data = document.toObject(AcademicData.class);
-                            roll = data.getRoll_number();
-                            rollNoList.add(roll);
-
-                            Toast.makeText(getContext(), roll , Toast.LENGTH_SHORT).show();
-
-                         }
-                        }
-                    }
-                });
-
-        db.collection("College_Project").document("student").collection("personal_details")
-                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<DocumentSnapshot> list = task.getResult().getDocuments();
-                        nameList = new ArrayList<>();
-                        phoneList = new ArrayList<>();
-                        for(DocumentSnapshot document : list) {
-                            PersonalData data = document.toObject(PersonalData.class);
-                            phoneNo = data.getPersonal_phone();
-                            System.out.println(phoneNo);
-                            phoneList.add(phoneNo);
-
-                            name = data.getFull_name();
-
-                            nameList.add(name);
-                            userList.add(new ContactModel(name,phoneNo));
-                            System.out.println(userList.size());
-                            adapter = new ContactAdapter(userList);
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    }
-                });
-
-           // System.out.println(nameList.size());
-
-
-
-
-        *//*userList.add(new ContactModel(R.drawable.a5, "Mark", "9568326352745", "9876536210"));
-        userList.add(new ContactModel(R.drawable.a3, "Komal", "9568320005745", "98765363210"));
-        userList.add(new ContactModel(R.drawable.a4, "Mahima", "9568300125745", "98766523210"));
-        userList.add(new ContactModel(R.drawable.a5, "Soni", "9568324105745", "9876543000"));
-        userList.add(new ContactModel(R.drawable.a3, "Hari", "9568324195745", "98765432650"));
-        userList.add(new ContactModel(R.drawable.a3, "Kamran", "956832825745", "9876543220"));
-        userList.add(new ContactModel(R.drawable.a5, "Mohan", "9876543560"));
-        userList.add(new ContactModel(R.drawable.a4, "Sita", "9568324165745", "9876543216"));
-        userList.add(new ContactModel(R.drawable.a5, "Ganesh", "9568329625745", "98765432210"));
-        userList.add(new ContactModel(R.drawable.a5, "Pappu", "9568324335745", "9876543213"));
-        userList.add(new ContactModel(R.drawable.a0, "Sidharth", "9568334125745", "9876544210"));
-        userList.add(new ContactModel(R.drawable.a3, "Yash", "9568324129745", "9876543217"));
-        userList.add(new ContactModel(R.drawable.a4, "Ambika", "956832435745", "9876543610"));
-        userList.add(new ContactModel(R.drawable.a3, "Babu Rao", "9568323125745", "9876443210"));
-        userList.add(new ContactModel(R.drawable.a5, "Shyam", "9568324125795", "9876543610"));
-        userList.add(new ContactModel(R.drawable.a4, "Raju Rastogi", "9568024125745", "8876543210"));
-        userList.add(new ContactModel(R.drawable.a5, "Om Puri", "9568624125745", "9876563210"));
-        userList.add(new ContactModel(R.drawable.a3, "Tanveer", "9568327125745", "9876546210"));
-        userList.add(new ContactModel(R.drawable.a0, "Yash", "9568324155745", "9876543215"));
-        userList.add(new ContactModel(R.drawable.a5, "Ram", "9568324126745", "9876543219"));
-        userList.add(new ContactModel(R.drawable.a0, "Mark", "9568322525745", "9876543280"));
-        userList.add(new ContactModel(R.drawable.a5, "Kamran", "9568354125745", "9876548210"));
-   *//* }*/
-
-
-    /* *****************************************
-                set data to adapter
-     ***************************************** */
-   
-
-    /*private void initRecyclerView () {
-
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new ContactAdapter(userList);
-        recyclerView.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        adapter.notifyDataSetChanged();
-    }*/
 }

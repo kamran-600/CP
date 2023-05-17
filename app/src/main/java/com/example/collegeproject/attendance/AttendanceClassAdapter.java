@@ -54,7 +54,9 @@ public class AttendanceClassAdapter extends RecyclerView.Adapter<AttendanceClass
             @Override
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                activity.startActivity(new Intent(activity, AttendanceActivity.class));
+                Intent intent = new Intent(activity, AttendanceActivity.class);
+                intent.putExtra("year", ayear);
+                activity.startActivity(intent);
             }
         });
     }

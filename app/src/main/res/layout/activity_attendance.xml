@@ -21,8 +21,7 @@
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/top_menu"
-            app:title="Attendance Record"
-            app:titleMarginStart="50dp" />
+            app:title="Attendance Record" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -37,6 +36,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 

@@ -1,7 +1,8 @@
 package com.example.collegeproject.profile;
 
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityProfileBinding;
 import com.example.collegeproject.databinding.ProfileEditBinding;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,13 +23,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
     private ActivityProfileBinding binding;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    MaterialAlertDialogBuilder dailog;
+    MaterialAlertDialogBuilder dialog;
 
 
 
@@ -42,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
 
         // student
         db.collection("College_Project").document("student").collection("4th Year").get()
@@ -63,6 +64,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
+
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.userProfileImage.setImageBitmap(fullBitmap);
+                                    }
                                 }
                             }
                         }
@@ -88,7 +95,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
-                                }
+
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.userProfileImage.setImageBitmap(fullBitmap);
+                                    }                                }
                             }
                         }
                     }
@@ -114,7 +126,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
-                                }
+
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.userProfileImage.setImageBitmap(fullBitmap);
+                                    }                                }
                             }
                         }
                     }
@@ -140,6 +157,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
+
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.userProfileImage.setImageBitmap(fullBitmap);
+                                    }
                                 }
                             }
                         }
@@ -168,13 +191,16 @@ public class ProfileActivity extends AppCompatActivity {
                                     binding.hFeeText.setVisibility(View.GONE);
                                     binding.hFeeLayout.setVisibility(View.GONE);
 
-                                }
+
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.userProfileImage.setImageBitmap(fullBitmap);
+                                    }                                }
                             }
                         }
                     }
                 });
-
-        
         
         
         // Edit profile
@@ -184,11 +210,11 @@ public class ProfileActivity extends AppCompatActivity {
         
         binding.emailEdit.setOnClickListener(v -> {
 
-            dailog = new MaterialAlertDialogBuilder(this);
-            dailog.setTitle("Update Email Id");
+            dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Update Email Id");
             ProfileEditBinding profileEditBinding = ProfileEditBinding.inflate(LayoutInflater.from(this));
-            dailog.setView(profileEditBinding.getRoot());
-            dailog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            dialog.setView(profileEditBinding.getRoot());
+            dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -339,15 +365,15 @@ public class ProfileActivity extends AppCompatActivity {
             }).create();
             profileEditBinding.emailLayout.setVisibility(View.VISIBLE);
             profileEditBinding.email.setText(binding.email.getText().toString());
-            dailog.show();
+            dialog.show();
         });
         
         binding.phoneEdit.setOnClickListener(v -> {
-            dailog = new MaterialAlertDialogBuilder(this);
-            dailog.setTitle("Update Phone Number");
+            dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Update Phone Number");
             ProfileEditBinding profileEditBinding = ProfileEditBinding.inflate(LayoutInflater.from(this));
-            dailog.setView(profileEditBinding.getRoot());
-            dailog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            dialog.setView(profileEditBinding.getRoot());
+            dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -508,15 +534,15 @@ public class ProfileActivity extends AppCompatActivity {
             }).create();
             profileEditBinding.phoneLayout.setVisibility(View.VISIBLE);
             profileEditBinding.personalphone.setText(binding.pPhone.getText().toString());
-            dailog.show();
+            dialog.show();
         });
         
         binding.fatherPhoneEdit.setOnClickListener(v -> {
-            dailog = new MaterialAlertDialogBuilder(this);
-            dailog.setTitle("Update Father Phone");
+            dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Update Father Phone");
             ProfileEditBinding profileEditBinding = ProfileEditBinding.inflate(LayoutInflater.from(this));
-            dailog.setView(profileEditBinding.getRoot());
-            dailog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            dialog.setView(profileEditBinding.getRoot());
+            dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -641,15 +667,15 @@ public class ProfileActivity extends AppCompatActivity {
             }).create();
             profileEditBinding.fphoneLayout.setVisibility(View.VISIBLE);
             profileEditBinding.fatherphone.setText(binding.fPhone.getText().toString());
-            dailog.show();
+            dialog.show();
         });
         
         binding.academicFeeEdit.setOnClickListener(v -> {
-            dailog = new MaterialAlertDialogBuilder(this);
-            dailog.setTitle("Update Academic Fee");
+            dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Update Academic Fee");
             ProfileEditBinding profileEditBinding = ProfileEditBinding.inflate(LayoutInflater.from(this));
-            dailog.setView(profileEditBinding.getRoot());
-            dailog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            dialog.setView(profileEditBinding.getRoot());
+            dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -774,15 +800,15 @@ public class ProfileActivity extends AppCompatActivity {
             }).create();
             profileEditBinding.academicFeeLayout.setVisibility(View.VISIBLE);
             profileEditBinding.fee.setText(binding.aFee.getText().toString());
-            dailog.show();
+            dialog.show();
         });
         
         binding.hostelFeeEdit.setOnClickListener(v -> {
-            dailog = new MaterialAlertDialogBuilder(this);
-            dailog.setTitle("Update Hostel fee");
+            dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Update Hostel fee");
             ProfileEditBinding profileEditBinding = ProfileEditBinding.inflate(LayoutInflater.from(this));
-            dailog.setView(profileEditBinding.getRoot());
-            dailog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            dialog.setView(profileEditBinding.getRoot());
+            dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -907,11 +933,11 @@ public class ProfileActivity extends AppCompatActivity {
             }).create();
             profileEditBinding.hostelFeeLayout.setVisibility(View.VISIBLE);
             profileEditBinding.hostelFee.setText(binding.hFee.getText().toString());
-            dailog.show();
+            dialog.show();
         });
 
         binding.departmentEdit.setOnClickListener(v -> {
-            Toast.makeText(this, "Since currently we have one department we can't edit it.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Since currently we have only one department, so you can't edit it.", Toast.LENGTH_SHORT).show();
         });
 
 

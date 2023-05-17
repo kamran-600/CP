@@ -1,9 +1,10 @@
 package com.example.collegeproject.Assignment;
 
+import com.google.firebase.firestore.Blob;
+
 public class AssignmentSubmitModal {
 
-    int profileImage;
-    String studentName, submittedAssignmentUrl , date , time;
+    String studentName, submittedAssignmentUrl , date , time, roll_number;
 
     String checkedAssignmentUrl, checkedDate, checkedTime;
     /*// boolean expanded;
@@ -27,45 +28,12 @@ public class AssignmentSubmitModal {
    public AssignmentSubmitModal() {
    }
 
-    public AssignmentSubmitModal(int profileImage, String studentName, String submittedAssignmentUrl, String date, String time) {
-        this.profileImage = profileImage;
+    public AssignmentSubmitModal(String studentName, String submittedAssignmentUrl, String date, String time, String roll_number) {
         this.studentName = studentName;
         this.submittedAssignmentUrl = submittedAssignmentUrl;
         this.date = date;
         this.time = time;
-    }
-
-
-    public String getCheckedAssignmentUrl() {
-        return checkedAssignmentUrl;
-    }
-
-    public void setCheckedAssignmentUrl(String checkedAssignmentUrl) {
-        this.checkedAssignmentUrl = checkedAssignmentUrl;
-    }
-
-    public String getCheckedDate() {
-        return checkedDate;
-    }
-
-    public void setCheckedDate(String checkedDate) {
-        this.checkedDate = checkedDate;
-    }
-
-    public String getCheckedTime() {
-        return checkedTime;
-    }
-
-    public void setCheckedTime(String checkedTime) {
-        this.checkedTime = checkedTime;
-    }
-
-    public int getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(int profileImage) {
-        this.profileImage = profileImage;
+        this.roll_number = roll_number;
     }
 
     public String getStudentName() {
@@ -98,5 +66,37 @@ public class AssignmentSubmitModal {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getCheckedAssignmentUrl() {
+        return checkedAssignmentUrl;
+    }
+
+    public void setCheckedAssignmentUrl(String checkedAssignmentUrl) {
+        this.checkedAssignmentUrl = checkedAssignmentUrl;
+    }
+
+    public String getCheckedDate() {
+        return checkedDate;
+    }
+
+    public void setCheckedDate(String checkedDate) {
+        this.checkedDate = checkedDate;
+    }
+
+    public String getCheckedTime() {
+        return checkedTime;
+    }
+
+    public void setCheckedTime(String checkedTime) {
+        this.checkedTime = checkedTime;
+    }
+
+    public String getRoll_number() {
+        return roll_number;
+    }
+
+    public void setRoll_number(String roll_number) {
+        this.roll_number = roll_number;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.collegeproject.Assignment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,15 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
+import com.example.collegeproject.studentData.StudentData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubmitAdapter.Viewholder> {
@@ -40,17 +50,113 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        int resource = userList.get(position).getProfileImage();
+        String rollNo = userList.get(position).getRoll_number();
+
+        final Blob[] imageBlob = new Blob[1];
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // student
+        db.collection("College_Project").document("student").collection("4th Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if( data != null && data.getRoll_number().equals(rollNo)){
+                                    if(data.getProfileImageBlob() != null){
+                                        imageBlob[0] = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        holder.image.setImageBitmap(fullBitmap);
+                                    }
+                                    else holder.image.setImageResource(R.drawable.cartoon);
+                                }
+                            }
+                        }
+                    }
+                });
+
+        db.collection("College_Project").document("student").collection("3rd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if( data != null && data.getRoll_number().equals(rollNo)){
+                                    if(data.getProfileImageBlob() != null){
+                                        imageBlob[0] = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        holder.image.setImageBitmap(fullBitmap);
+
+                                    }
+                                    else holder.image.setImageResource(R.drawable.cartoon);
+
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+        db.collection("College_Project").document("student").collection("2nd Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if( data != null && data.getRoll_number().equals(rollNo)){
+                                    if(data.getProfileImageBlob() != null){
+                                        imageBlob[0] = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        holder.image.setImageBitmap(fullBitmap);
+                                    }
+                                    else holder.image.setImageResource(R.drawable.cartoon);
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+        db.collection("College_Project").document("student").collection("1st Year").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if( data != null && data.getRoll_number().equals(rollNo)){
+                                    if(data.getProfileImageBlob() != null){
+                                        imageBlob[0] = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        holder.image.setImageBitmap(fullBitmap);
+                                    }
+                                    else holder.image.setImageResource(R.drawable.cartoon);
+                                }
+                            }
+                        }
+                    }
+                });
+
         String stuName = userList.get(position).getStudentName();
         String submitDate = userList.get(position).getDate();
         String submitTime = userList.get(position).getTime();
-        holder.setData(resource, stuName, submitDate, submitTime);
+        holder.setData( stuName, submitDate, submitTime);
         setAnimation(holder.itemView, position);
 
         holder.itemView.setOnClickListener(v -> {
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
             Intent intent = new Intent(activity, AssignmentCheckActivity.class);
-            intent.putExtra("image", resource);
+            if(imageBlob[0] != null){
+                intent.putExtra("imageByte", imageBlob[0].toBytes());
+            }
+            else intent.putExtra("resource", R.drawable.a2);
             intent.putExtra("stuName", stuName);
             intent.putExtra("date", submitDate);
             intent.putExtra("time", submitTime);
@@ -111,8 +217,7 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
             submitTime = itemView.findViewById(R.id.submissionTime);
         }
 
-        public void setData(int resource, String stuName1, String submitDate1, String submitTime1) {
-            image.setImageResource(resource);
+        public void setData( String stuName1, String submitDate1, String submitTime1) {
             stuName.setText(stuName1);
             submitDate.setText(submitDate1);
             submitTime.setText(submitTime1);

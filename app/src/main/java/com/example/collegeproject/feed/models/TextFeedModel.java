@@ -1,36 +1,77 @@
 package com.example.collegeproject.feed.models;
 
+import com.google.firebase.firestore.Blob;
+
 public class TextFeedModel {
-    private String userName,userText;
-    private int profileImage;
+    private String senderName, feedMsg, date, time, role, roll_number, email;
 
-    public TextFeedModel(String userName, String userText, int profileImage) {
-        this.userName = userName;
-        this.userText = userText;
-        this.profileImage = profileImage;
+    public TextFeedModel() {
     }
 
-    public String getUserName() {
-        return userName;
+    public TextFeedModel(String senderName, String feedMsg, String date, String time, String role, String roll_number, String email) {
+        this.senderName = senderName;
+        this.feedMsg = feedMsg;
+        this.date = date;
+        this.time = time;
+        this.role = role;
+        this.roll_number = roll_number;
+        this.email = email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getSenderName() {
+        return senderName;
     }
 
-    public String getUserText() {
-        return userText;
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
-    public void setUserText(String userText) {
-        this.userText = userText;
+    public String getFeedMsg() {
+        return feedMsg;
     }
 
-    public int getProfileImage() {
-        return profileImage;
+    public void setFeedMsg(String feedMsg) {
+        this.feedMsg = feedMsg;
     }
 
-    public void setProfileImage(int profileImage) {
-        this.profileImage = profileImage;
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getRoll_number() {
+        return roll_number;
+    }
+
+    public void setRoll_number(String roll_number) {
+        this.roll_number = roll_number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
+

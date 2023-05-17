@@ -20,8 +20,7 @@
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/top_menu"
-            app:title="Fee Summary"
-            app:titleMarginStart="50dp" />
+            app:title="Fee Summary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

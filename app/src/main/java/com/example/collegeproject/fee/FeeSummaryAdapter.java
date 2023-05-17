@@ -1,5 +1,7 @@
 package com.example.collegeproject.fee;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
+import com.google.firebase.firestore.Blob;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.ViewHolde> {
@@ -33,12 +37,20 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull FeeSummaryAdapter.ViewHolde holder, int position) {
-        int resource = userList.get(position).getImage();
+        Blob resource = userList.get(position).getImageBlob();
+        if(resource != null){
+            Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
+            fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+            holder.image.setImageBitmap(fullBitmap);
+        }
+        else {
+            holder.image.setImageResource(R.drawable.cartoon);
+        }
         String name = userList.get(position).getName();
         String rno = userList.get(position).getRno();
         String total = userList.get(position).getTotal();
         String submit = userList.get(position).getSubmit();
-        holder.setData(resource, name, rno, total, submit);
+        holder.setData( name, rno, total, submit);
 
         setAnimation(holder.itemView, position);
     }
@@ -76,8 +88,8 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
             submit = itemView.findViewById(R.id.submitFee);
         }
 
-        public void setData( int uImage,String name, String rnum, String totalFee, String submit1) {
-            image.setImageResource(uImage);
+        public void setData(String name, String rnum, String totalFee, String submit1) {
+
             Name.setText(name);
             rno.setText(rnum);
             total.setText(totalFee);

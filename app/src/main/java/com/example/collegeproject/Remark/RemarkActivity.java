@@ -1,15 +1,21 @@
-package com.example.collegeproject.studentData.Remark;
+package com.example.collegeproject.Remark;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collegeproject.R;
+
 import com.example.collegeproject.attendance.AttendanceModel;
 import com.example.collegeproject.databinding.ActivityRemarkBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +26,7 @@ public class RemarkActivity extends AppCompatActivity {
     List<AttendanceModel> userList;
     RemarkAdapter adapter;
     private ActivityRemarkBinding binding;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,57 +34,49 @@ public class RemarkActivity extends AppCompatActivity {
         binding = ActivityRemarkBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initData();
-        initRecyclerView();
-    }
+        db = FirebaseFirestore.getInstance();
 
-    /* *****************************************
-        passing data to adapter using arraylist
-       ***************************************** */
-    private void initData() {
+        setSupportActionBar(binding.topAppBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         userList = new ArrayList<>();
 
-        userList.add(new AttendanceModel(R.drawable.cse, "Kamran", "31"));
-        userList.add(new AttendanceModel(R.drawable.c, "James Anderson", "32"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "David Warner", "33"));
-        userList.add(new AttendanceModel(R.drawable.cse, "Virat Kohli", "34"));
-        userList.add(new AttendanceModel(R.drawable.c, "Rohit", "35"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "Mohammad Shami", "36"));
-        userList.add(new AttendanceModel(R.drawable.cse, "Umran Malik", "43"));
-        userList.add(new AttendanceModel(R.drawable.c, "Mohammad Siraj", "66"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "Bumrah", "37"));
-        userList.add(new AttendanceModel(R.drawable.cse, "Kumar", "38"));
-        userList.add(new AttendanceModel(R.drawable.c, "Dhoni", "40"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "Sachin", "39"));
-        userList.add(new AttendanceModel(R.drawable.cse, "Kamran", "31"));
-        userList.add(new AttendanceModel(R.drawable.c, "James Anderson", "32"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "David Warner", "33"));
-        userList.add(new AttendanceModel(R.drawable.cse, "Virat Kohli", "34"));
-        userList.add(new AttendanceModel(R.drawable.c, "Rohit", "35"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "Mohammad Shami", "36"));
-        userList.add(new AttendanceModel(R.drawable.cse, "Umran Malik", "43"));
-        userList.add(new AttendanceModel(R.drawable.c, "Mohammad Siraj", "66"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "Bumrah", "37"));
-        userList.add(new AttendanceModel(R.drawable.cse, "Kumar", "38"));
-        userList.add(new AttendanceModel(R.drawable.c, "Dhoni", "40"));
-        userList.add(new AttendanceModel(R.drawable.cs2, "Sachin", "39"));
+
+        db.collection("College_Project").document("student").collection(getIntent().getStringExtra("year")).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                AttendanceModel data = stuRollNo.toObject(AttendanceModel.class);
+
+                                if(data != null){
+
+                                    userList.add(new AttendanceModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number()));
+                                    adapter = new RemarkAdapter(userList);
+                                    binding.recyclerview.setAdapter(adapter);
+                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(RemarkActivity.this, DividerItemDecoration.VERTICAL);
+                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                    adapter.notifyDataSetChanged();
+
+                                }
+
+
+                            }
+                            if(userList.size() == 0){
+                                Toast.makeText(RemarkActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
 
     }
 
-    /* *****************************************
-                 set data to adapter
-       ***************************************** */
-    private void initRecyclerView() {
-
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.recyclerview.setLayoutManager(layoutManager);
-        adapter = new RemarkAdapter(userList);
-        binding.recyclerview.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
-        binding.recyclerview.addItemDecoration(dividerItemDecoration);
-        adapter.notifyDataSetChanged();
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

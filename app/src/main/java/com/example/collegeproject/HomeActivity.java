@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -23,10 +24,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 
 import com.example.collegeproject.Assignment.AssignmentOpenActivity;
 import com.example.collegeproject.BottomFragments.AssignmentFragment;
@@ -35,27 +38,24 @@ import com.example.collegeproject.BottomFragments.ContactsFragment;
 import com.example.collegeproject.BottomFragments.HomeFragment;
 import com.example.collegeproject.Progress.ProgressFragment;
 
+import com.example.collegeproject.Remark.RemarkFragment;
 import com.example.collegeproject.attendance.ClassFragment;
 import com.example.collegeproject.databinding.ActivityHomeBinding;
 import com.example.collegeproject.databinding.DrawerHeaderBinding;
 import com.example.collegeproject.fee.FeeFragment;
 import com.example.collegeproject.profile.ProfileActivity;
-import com.example.collegeproject.studentData.Remark.RemarkFragment;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.Blob;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -69,7 +69,8 @@ public class HomeActivity extends AppCompatActivity {
     static final float END_SCALE = 0.7f;
     DrawerHeaderBinding headerBinding;
     StorageReference storageReference;
-    UploadTask uploadTask;
+    byte[] profileImageByte;
+    Blob profileImageBlob;
 
     ActivityResultLauncher<String> requestLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
@@ -182,24 +183,16 @@ public class HomeActivity extends AppCompatActivity {
                                             headerBinding.role.setText(data.getRole());
                                             menu.findItem(R.id.fee).setVisible(false);
 
-
-                                            if(data.getProfileImageUrl() != null){
-                                                storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                                storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                                    @Override
-                                                    public void onSuccess(byte[] bytes) {
-                                                        if(bytes != null){
-                                                            Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                            fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                            headerBinding.profileImage.setImageBitmap(fullBitmap);
-                                                            headerBinding.profileImage.setOnClickListener(v -> {
-                                                                Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
-                                                                intent.putExtra("byte", bytes);
-                                                                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
-                                                                startActivity(intent, optionsCompat.toBundle());
-                                                            });
-                                                        }
-                                                    }
+                                            if(data.getProfileImageBlob() != null){
+                                                profileImageBlob = data.getProfileImageBlob();
+                                                Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                headerBinding.profileImage.setImageBitmap(fullBitmap);
+                                                headerBinding.profileImage.setOnClickListener(v -> {
+                                                    Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
+                                                    startActivity(intent, optionsCompat.toBundle());
                                                 });
                                             }
                                         }
@@ -207,6 +200,7 @@ public class HomeActivity extends AppCompatActivity {
                                 }
                             }
                         });
+
 
         db.collection("College_Project").document("student").collection("3rd Year").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -220,23 +214,16 @@ public class HomeActivity extends AppCompatActivity {
                                     headerBinding.role.setText(data.getRole());
                                     menu.findItem(R.id.fee).setVisible(false);
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    headerBinding.profileImage.setImageBitmap(fullBitmap);
-                                                    headerBinding.profileImage.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
+                                    if(data.getProfileImageBlob() != null){
+                                        profileImageBlob = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        headerBinding.profileImage.setImageBitmap(fullBitmap);
+                                        headerBinding.profileImage.setOnClickListener(v -> {
+                                            Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
+                                            startActivity(intent, optionsCompat.toBundle());
                                         });
                                     }
                                 }
@@ -257,23 +244,16 @@ public class HomeActivity extends AppCompatActivity {
                                     headerBinding.role.setText(data.getRole());
                                     menu.findItem(R.id.fee).setVisible(false);
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    headerBinding.profileImage.setImageBitmap(fullBitmap);
-                                                    headerBinding.profileImage.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
+                                    if(data.getProfileImageBlob() != null){
+                                        profileImageBlob = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        headerBinding.profileImage.setImageBitmap(fullBitmap);
+                                        headerBinding.profileImage.setOnClickListener(v -> {
+                                            Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
+                                            startActivity(intent, optionsCompat.toBundle());
                                         });
                                     }
                                 }
@@ -294,23 +274,16 @@ public class HomeActivity extends AppCompatActivity {
                                     headerBinding.role.setText(data.getRole());
                                     menu.findItem(R.id.fee).setVisible(false);
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    headerBinding.profileImage.setImageBitmap(fullBitmap);
-                                                    headerBinding.profileImage.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
+                                    if(data.getProfileImageBlob() != null){
+                                        profileImageBlob = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        headerBinding.profileImage.setImageBitmap(fullBitmap);
+                                        headerBinding.profileImage.setOnClickListener(v -> {
+                                            Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
+                                            startActivity(intent, optionsCompat.toBundle());
                                         });
                                     }
                                 }
@@ -333,23 +306,16 @@ public class HomeActivity extends AppCompatActivity {
                                     headerBinding.name.setText(data.getFull_name());
                                     headerBinding.role.setText(data.getRole());
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    headerBinding.profileImage.setImageBitmap(fullBitmap);
-                                                    headerBinding.profileImage.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
+                                    if(data.getProfileImageBlob() != null){
+                                        profileImageBlob = data.getProfileImageBlob();
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        headerBinding.profileImage.setImageBitmap(fullBitmap);
+                                        headerBinding.profileImage.setOnClickListener(v -> {
+                                            Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
+                                            startActivity(intent, optionsCompat.toBundle());
                                         });
                                     }
                                 }
@@ -368,7 +334,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                intent.putExtra("name", headerBinding.name.getText().toString().trim());
                 startActivity(intent);
             }
         });
@@ -393,7 +358,6 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.contacts:
                     if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // ActivityCompat.requestPermissions(CreateAssignmentActivity.this, new String[]{Manifest.permission.CAMERA},1);  //line 136-151
                         requestLauncher.launch(Manifest.permission.CALL_PHONE);
                     } else {
                         getSupportFragmentManager().beginTransaction().replace(R.id.bReplace, new ContactsFragment()).commit();
@@ -426,196 +390,143 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(Uri result) {
             if(result != null){
-               // headerBinding.profileImage.setImageURI(result);
 
                 try {
                     Bitmap fullBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
-                    StorageReference galReference = storageReference.child("ProfileImage/"+"image.jpg");
-
-
                     if(baos.toByteArray().length/1024 < 400){
                         headerBinding.profileImage.setImageURI(result);
-                        uploadTask = galReference.putFile(result);
+                        profileImageByte = baos.toByteArray();
                     }else {
-                        byte[] downSizeBytes = compressImage(fullBitmap);
-                        uploadTask = galReference.putBytes(downSizeBytes);
-
+                        profileImageByte = compressImage(fullBitmap);
                     }
-                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(HomeActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
+
+                    headerBinding.profileImage.setOnClickListener(v -> {
+                        Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
+                        intent.putExtra("byte", profileImageByte);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
+                        startActivity(intent, optionsCompat.toBundle());
                     });
 
-                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                        @Override
-                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            if(!task.isSuccessful())
-                            {
-                                Toast.makeText(HomeActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                            return galReference.getDownloadUrl();
-                        }
-                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if(task.isSuccessful()){
-                                Uri downloadUrl = task.getResult();
-                                Toast.makeText(HomeActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
-                                headerBinding.profileImage.setOnClickListener(v -> {
-                                    storageReference = storage.getReferenceFromUrl(downloadUrl.toString());
-                                    storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                        @Override
-                                        public void onSuccess(byte[] bytes) {
-                                            if(bytes != null){
-                                                Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                headerBinding.profileImage.setImageBitmap(fullBitmap);
-                                                headerBinding.profileImage.setOnClickListener(v -> {
-                                                    Intent intent = new Intent(HomeActivity.this, AssignmentOpenActivity.class);
-                                                    intent.putExtra("byte", bytes);
-                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this, Pair.create(headerBinding.profileImage, "ImageTransition"));
-                                                    startActivity(intent, optionsCompat.toBundle());
-                                                });
+                    Map<String,Object> map = new HashMap<>();
+                    map.put("profileImageBlob", Blob.fromBytes(profileImageByte));
+
+                    // student
+
+                    db.collection("College_Project").document("student").collection("4th Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                            StudentData data = rollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("4th Year")
+                                                        .document(data.getRoll_number()).set(map, SetOptions.merge())
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(HomeActivity.this, "Profile Image Added", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
                                             }
                                         }
-                                    });
+                                    }
+                                }
+                            });
 
-                                });
-
-                                Map<String,Object> map = new HashMap<>();
-                                map.put("profileImageUrl", downloadUrl);
-
-                                // student
-
-                                db.collection("College_Project").document("student").collection("4th Year").get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
-                                                        StudentData data = rollNo.toObject(StudentData.class);
-                                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
-                                                            db.collection("College_Project").document("student").collection("4th Year")
-                                                                    .document(data.getRoll_number()).set(map, SetOptions.merge())
-                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Toast.makeText(HomeActivity.this, "Profile Image URL Added", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                        }
-                                                    }
-                                                }
+                    db.collection("College_Project").document("student").collection("3rd Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                            StudentData data = rollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                                db.collection("College_Project").document("student").collection("3rd Year")
+                                                        .document(data.getRoll_number()).set(map, SetOptions.merge())
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(HomeActivity.this, "Profile Image Added", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
                                             }
-                                        });
+                                        }
+                                    }
+                                }
+                            });
 
-                                db.collection("College_Project").document("student").collection("3rd Year").get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
-                                                        StudentData data = rollNo.toObject(StudentData.class);
-                                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
-                                                            db.collection("College_Project").document("student").collection("3rd Year")
-                                                                    .document(data.getRoll_number()).set(map, SetOptions.merge())
-                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Toast.makeText(HomeActivity.this, "Profile Image URL Added", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                        }
-                                                    }
-                                                }
+                    db.collection("College_Project").document("student").collection("2nd Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                            StudentData data = rollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("2nd Year")
+                                                        .document(data.getRoll_number()).set(map, SetOptions.merge())
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(HomeActivity.this, "Profile Image Added", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
                                             }
-                                        });
+                                        }
+                                    }
+                                }
+                            });
 
-                                db.collection("College_Project").document("student").collection("2nd Year").get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
-                                                        StudentData data = rollNo.toObject(StudentData.class);
-                                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
-                                                            db.collection("College_Project").document("student").collection("2nd Year")
-                                                                    .document(data.getRoll_number()).set(map, SetOptions.merge())
-                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Toast.makeText(HomeActivity.this, "Profile Image URL Added", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                        }
-                                                    }
-                                                }
+                    db.collection("College_Project").document("student").collection("1st Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("1st Year")
+                                                        .document(data.getRoll_number()).set(map, SetOptions.merge())
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(HomeActivity.this, "Profile Image Added", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
                                             }
-                                        });
+                                        }
+                                    }
+                                }
+                            });
 
-                                db.collection("College_Project").document("student").collection("1st Year").get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
-                                                        StudentData data = stuRollNo.toObject(StudentData.class);
-                                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
-                                                            db.collection("College_Project").document("student").collection("1st Year")
-                                                                    .document(data.getRoll_number()).set(map, SetOptions.merge())
-                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Toast.makeText(HomeActivity.this, "Profile Image URL Added", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                        }
-                                                    }
-                                                }
+
+                    // teacher
+
+                    db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                            TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("teacher").collection("teacher_details")
+                                                        .document(mAuth.getCurrentUser().getEmail()).set(map, SetOptions.merge())
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(HomeActivity.this, "Profile Image Added", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
                                             }
-                                        });
-
-
-                                // teacher
-
-                                db.collection("College_Project").document("teacher").collection("teacher_details").get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
-                                                        TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
-                                                            db.collection("College_Project").document("teacher").collection("teacher_details")
-                                                                    .document(mAuth.getCurrentUser().getEmail()).set(map, SetOptions.merge())
-                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Toast.makeText(HomeActivity.this, "Profile Image URl Added", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        });
-
-
-                            }
-                        }
-                    });
-
-
+                                        }
+                                    }
+                                }
+                            });
 
                 } catch (IOException e) {
                     Toast.makeText(HomeActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

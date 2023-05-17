@@ -1,6 +1,8 @@
 package com.example.collegeproject.Assignment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
+import com.example.collegeproject.teacherData.TeacherData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 
@@ -39,8 +48,35 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        int resource = userList.get(position).getImage();
-        String tName = userList.get(position).gettName();
+        String email = userList.get(position).getEmail();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //teacher
+
+        db.collection("College_Project").document("teacher").collection("teacher_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                if(data.getEmail().equals(email)){
+
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        holder.image.setImageBitmap(fullBitmap);
+                                    }
+                                    else {
+                                        holder.image.setImageResource(R.drawable.cartoon);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+        String tName = userList.get(position).getTeacherName();
         String className = userList.get(position).getClassName();
         String desc = userList.get(position).getDesc();
         String duedate = userList.get(position).getDueDate();
@@ -48,7 +84,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         String date = userList.get(position).getDate();
         String url = userList.get(position).getAssignmentUrl();
 
-        holder.setData(resource, tName, className, desc, duedate,date, time);
+        holder.setData(tName, className, desc, duedate,date, time);
         setAnimation(holder.itemView, position);
 
         // intent to Show Assignment
@@ -102,8 +138,8 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
         }
 
-        public void setData(int resource, String tName1, String className1, String desc1, String dueDate1, String date1, String time1) {
-            image.setImageResource(resource);
+        public void setData(String tName1, String className1, String desc1, String dueDate1, String date1, String time1) {
+
             tName.setText(tName1);
             className.setText(className1);
             desc.setText(desc1);

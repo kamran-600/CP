@@ -69,6 +69,8 @@ public class ChatsFragment extends Fragment {
         }
     }
 
+    HomeActivity homeActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,6 +80,12 @@ public class ChatsFragment extends Fragment {
 
         initData();
         initRecyclerView();
+
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.setSupportActionBar(v.findViewById(R.id.topAppBar));
+        homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+
 
          /* *****************************************
                           hide bottom bar

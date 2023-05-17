@@ -1,9 +1,11 @@
 package com.example.collegeproject.Contacts;
 
+import com.google.firebase.firestore.Blob;
+
 public class ContactModel {
 
 
-    private int image;
+    private Blob imageBlob;
     private String stuName;
     private String stuRNumber;
     private String stuCNumber;
@@ -16,15 +18,15 @@ public class ContactModel {
         this.stuRNumber = stuRNumber;
     }
 
-    public ContactModel(int image, String stuName, String stuRNumber, String stuCNumber) {
-        this.image = image;
+    public ContactModel(Blob imageBlob, String stuName, String stuRNumber, String stuCNumber) {
+        this.imageBlob = imageBlob;
         this.stuName = stuName;
         this.stuRNumber = stuRNumber;
         this.stuCNumber = stuCNumber;
     }
 
-    public ContactModel(int image, String stuName, String stuCNumber) {
-        this.image = image;
+    public ContactModel(Blob imageBlob, String stuName, String stuCNumber) {
+        this.imageBlob = imageBlob;
         this.stuName = stuName;
         this.stuCNumber = stuCNumber;
     }
@@ -40,12 +42,13 @@ public class ContactModel {
         this.stuCNumber = stuCNumber;
     }
 
-    public int getImage() {
-        return image;
+
+    public Blob getImageBlob() {
+        return imageBlob;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setImageBlob(Blob imageBlob) {
+        this.imageBlob = imageBlob;
     }
 
     public String getStuName() {

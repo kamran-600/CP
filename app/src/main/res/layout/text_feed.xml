@@ -20,34 +20,80 @@
                 android:id="@+id/profileImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/image_outline"
                 android:elevation="5dp"
-                android:src="@drawable/a3" />
+                android:src="@drawable/cartoon" />
 
             <TextView
                 android:id="@+id/userName"
-                android:layout_width="200dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/profileImage"
-                android:padding="5dp"
-                android:text="Ram"
+                android:text="Kamran Alam"
+                android:ellipsize="end"
+                android:lines="1"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/postedBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/userName"
+                android:text="Posted at:"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/profileImage"
+                android:layout_below="@id/userName"
+                android:text="Student"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/dateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/userName"
+                android:layout_below="@id/userName"
+                android:text="12:10 AM, 12/10/2001"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="normal"/>
 
             <TextView
                 android:id="@+id/userOnlyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profileImage"
-                android:padding="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="User text post"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
-
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

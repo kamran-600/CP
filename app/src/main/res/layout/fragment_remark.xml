@@ -19,8 +19,7 @@
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/top_menu"
-            app:title="Remark"
-            app:titleMarginStart="50dp" />
+            app:title="Remark" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

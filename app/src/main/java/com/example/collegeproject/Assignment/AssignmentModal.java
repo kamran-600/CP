@@ -3,21 +3,20 @@ package com.example.collegeproject.Assignment;
 
 public class AssignmentModal {
 
-    private int image;
-    private String tName, id;
+    private String teacherName, id;
     private String className;
     private String desc;
     private String dueDate;
     private String date;
     private String time;
-    private String assignmentUrl;
+    private String assignmentUrl, email;
 
     public AssignmentModal() {
     }
 
-    public AssignmentModal(int image, String tName, String id, String className, String desc, String dueDate, String date, String time, String assignmentUrl) {
-        this.image = image;
-        this.tName = tName;
+    public AssignmentModal(String teacherName, String id, String className, String desc, String dueDate, String date, String time, String assignmentUrl, String email) {
+
+        this.teacherName = teacherName;
         this.id = id;
         this.className = className;
         this.desc = desc;
@@ -25,22 +24,15 @@ public class AssignmentModal {
         this.date = date;
         this.time = time;
         this.assignmentUrl = assignmentUrl;
+        this.email = email;
     }
 
-    public int getImage() {
-        return image;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setImage(int image) {
-        this.image = image;
-    }
-
-    public String gettName() {
-        return tName;
-    }
-
-    public void settName(String tName) {
-        this.tName = tName;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getId() {
@@ -97,5 +89,13 @@ public class AssignmentModal {
 
     public void setAssignmentUrl(String assignmentUrl) {
         this.assignmentUrl = assignmentUrl;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

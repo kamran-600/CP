@@ -39,6 +39,10 @@ public class FeeSummaryActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        setSupportActionBar(binding.topAppBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         userList = new ArrayList<>();
 
 
@@ -52,7 +56,7 @@ public class FeeSummaryActivity extends AppCompatActivity {
 
                                 if(data != null){
 
-                                    userList.add(new FeeSummaryModel(R.drawable.cartoon, data.getFull_name(), data.getRoll_number(), data.getAcademic_fee(),"30000"));
+                                    userList.add(new FeeSummaryModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number(), data.getAcademic_fee(),"30000"));
                                     adapter = new FeeSummaryAdapter(userList);
                                     binding.recyclerview.setAdapter(adapter);
                                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(FeeSummaryActivity.this, DividerItemDecoration.VERTICAL);
@@ -64,7 +68,7 @@ public class FeeSummaryActivity extends AppCompatActivity {
 
                             }
                             if(userList.size() == 0){
-                                Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -73,44 +77,9 @@ public class FeeSummaryActivity extends AppCompatActivity {
 
     }
 
-
-
-
-   /* *//* *****************************************
-               set data to adapter
-     ***************************************** *//*
-    private void initRecyclerView() {
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.recyclerview.setLayoutManager(layoutManager);
-        adapter = new FeeSummaryAdapter(userList);
-        binding.recyclerview.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
-        binding.recyclerview.addItemDecoration(dividerItemDecoration);
-        adapter.notifyDataSetChanged();
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
-
-    *//* *****************************************
-           initialize the data for adapter
-     ***************************************** *//*
-    private void initData() {
-        userList = new ArrayList<>();
-
-        userList.add(new FeeSummaryModel(R.drawable.a0, "Ram", "1904310100075", "85000",
-                "50000"));
-        userList.add(new FeeSummaryModel(R.drawable.a1, "Sita", " 19043101000759", "90000",
-                "56000"));
-        userList.add(new FeeSummaryModel(R.drawable.a5, "Mohan", "1904310100065", "89000",
-                "50000"));
-        userList.add(new FeeSummaryModel(R.drawable.a1, "Kamran", " 19043101000706", "98000",
-                "55000"));
-        userList.add(new FeeSummaryModel(R.drawable.a4, "Tanveer", "1904310100075", "85000",
-                "50000"));
-        userList.add(new FeeSummaryModel(R.drawable.a1, "Mark", " 19043101000756", "90000",
-                "55000"));
-        userList.add(new FeeSummaryModel(R.drawable.a5, "Pinku", "1904310100075", "85000",
-                "50000"));
-        userList.add(new FeeSummaryModel(R.drawable.a2, "Tony", " 19043101000756", "90000",
-                "55000"));
-    }*/
 }

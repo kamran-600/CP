@@ -62,7 +62,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     UploadTask uploadTask;
-    String studentName;
+    String studentName, rollNo;
 
 
     @Override
@@ -90,10 +90,12 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
         binding.postBar.setSubtitle(getIntent().getStringExtra("postedDate"));
 
+        // Assignment url
         String url = getIntent().getStringExtra("url");
 
         storageReference = storage.getReferenceFromUrl(url);
 
+        // get info from firestore Storage url
         storageReference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
@@ -113,6 +115,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
             }
         });
 
+        // show the image or PDF file of assignment
         storageReference.getBytes(1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -141,6 +144,9 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
 
         // student
+
+        // check whether assignment is submitted, checked  or not if submitted, checked then show (student perspective)
+
         db.collection("College_Project").document("student").collection("4th Year").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -150,6 +156,8 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
+                                    rollNo = data.getRoll_number();
+
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
                                             .document(studentName).get()
@@ -237,6 +245,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
+                                    rollNo = data.getRoll_number();
 
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -325,6 +334,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
+                                    rollNo = data.getRoll_number();
 
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -412,6 +422,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
+                                    rollNo = data.getRoll_number();
 
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -497,6 +508,9 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
         // teacher
 
+
+        // show the list of the students who have submitted the assignment (teacher perspective)
+
         db.collection("College_Project").document("teacher").collection("teacher_details")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -518,7 +532,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                         for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                                                             AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
                                                             if (submittedData != null) {
-                                                                AssignmentSubmitModal modal = new AssignmentSubmitModal(R.drawable.cartoon, submittedData.getStudentName(), submittedData.getSubmittedAssignmentUrl(), submittedData.getDate(), submittedData.getTime());
+                                                                AssignmentSubmitModal modal = new AssignmentSubmitModal(submittedData.getStudentName(), submittedData.getSubmittedAssignmentUrl(), submittedData.getDate(), submittedData.getTime(), submittedData.getRoll_number());
                                                                 userList.add(modal);
                                                                 adapter = new AssignmentSubmitAdapter(userList, getIntent().getStringExtra("id"));
                                                                 binding.recyclerview.setAdapter(adapter);
@@ -526,6 +540,9 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                 adapter.notifyDataSetChanged();
 
                                                             }
+                                                        }
+                                                        if(userList.size() ==0){
+                                                            Toast.makeText(AssignmentShowActivity.this, "No Student have submitted the assignment yet", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 }
@@ -541,6 +558,8 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
 
     }
+
+    // submit the assignment ans copy (student perspective)
 
     ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
         @Override
@@ -601,6 +620,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 Map<String,Object> map = new HashMap<>();
                                 map.put("submittedAssignmentUrl", downloadUrl);
                                 map.put("studentName", studentName);
+                                map.put("roll_number", rollNo);
                                 map.put("date", date);
                                 map.put("time", currentTime);
 

@@ -19,8 +19,7 @@
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/top_menu"
-            app:title="Attendance"
-            app:titleMarginStart="50dp" />
+            app:title="Attendance" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

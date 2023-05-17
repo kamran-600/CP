@@ -15,7 +15,7 @@
         android:elevation="1dp"
         android:padding="5dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/a2" />
+        android:src="@drawable/cartoon" />
 
     <TextView
         android:id="@+id/stuName"

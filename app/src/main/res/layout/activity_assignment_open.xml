@@ -13,8 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/black"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Open">
+            app:layout_scrollFlags="scroll|enterAlways">
 
         </com.google.android.material.appbar.MaterialToolbar>
 

@@ -1,8 +1,12 @@
 package com.example.collegeproject.studentData;
 
+import com.google.firebase.firestore.Blob;
+
 public class StudentData {
 
-    String full_name, father_name, personal_phone, gender, dob, father_phone, email,role, profileImageUrl;
+    String full_name, father_name, personal_phone, gender, dob, father_phone, email,role;
+
+    Blob profileImageBlob;
     String roll_number, academic_fee, department, batch, hostel_fee, academic_year, password;
 
 
@@ -27,12 +31,27 @@ public class StudentData {
         this.password = password;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public StudentData(String full_name, String father_name, String personal_phone, String gender, String dob, String father_phone, String email, String role, Blob profileImageBlob, String roll_number, String academic_fee, String department, String batch, String hostel_fee, String academic_year, String password) {
+        this.full_name = full_name;
+        this.father_name = father_name;
+        this.personal_phone = personal_phone;
+        this.gender = gender;
+        this.dob = dob;
+        this.father_phone = father_phone;
+        this.email = email;
+        this.role = role;
+        this.profileImageBlob = profileImageBlob;
+        this.roll_number = roll_number;
+        this.academic_fee = academic_fee;
+        this.department = department;
+        this.batch = batch;
+        this.hostel_fee = hostel_fee;
+        this.academic_year = academic_year;
+        this.password = password;
     }
 
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public StudentData(Blob profileImageBlob) {
+        this.profileImageBlob = profileImageBlob;
     }
 
     public String getFull_name() {
@@ -97,6 +116,14 @@ public class StudentData {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Blob getProfileImageBlob() {
+        return profileImageBlob;
+    }
+
+    public void setProfileImageBlob(Blob profileImageBlob) {
+        this.profileImageBlob = profileImageBlob;
     }
 
     public String getRoll_number() {

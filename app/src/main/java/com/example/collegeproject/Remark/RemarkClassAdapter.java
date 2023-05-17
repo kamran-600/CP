@@ -1,4 +1,4 @@
-package com.example.collegeproject.studentData.Remark;
+package com.example.collegeproject.Remark;
 
 
 import android.content.Intent;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
+import com.example.collegeproject.Remark.RemarkActivity;
+import com.example.collegeproject.attendance.AttendanceActivity;
 import com.example.collegeproject.attendance.AttendanceModelClass;
 
 import java.util.List;
@@ -51,7 +53,9 @@ public class RemarkClassAdapter extends RecyclerView.Adapter<RemarkClassAdapter.
             @Override
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                activity.startActivity(new Intent(activity, RemarkActivity.class));
+                Intent intent = new Intent(activity, RemarkActivity.class);
+                intent.putExtra("year", ayear);
+                activity.startActivity(intent);
             }
         });
     }

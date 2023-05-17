@@ -1,9 +1,12 @@
 package com.example.collegeproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,12 +24,12 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final Pattern PASSWORD_PATTERN =
+    /*private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[!@#$%^&+=])" +      // at least 1 special character
                     "(?=\\S+$)" +            // no white spaces
                     ".{6,}" +              // at least 6 characters
-                    "$");
+                    "$");*/
     private ActivityLoginBinding binding;
     private FirebaseAuth mAuth;
 
@@ -40,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,17 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+        binding.ll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if(getCurrentFocus() !=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
 
         binding.registerBtn.setOnClickListener(new View.OnClickListener() {

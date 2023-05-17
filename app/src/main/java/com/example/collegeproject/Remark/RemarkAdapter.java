@@ -1,5 +1,7 @@
-package com.example.collegeproject.studentData.Remark;
+package com.example.collegeproject.Remark;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
 import com.example.collegeproject.attendance.AttendanceModel;
+import com.google.firebase.firestore.Blob;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder> {
@@ -36,11 +40,18 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RemarkAdapter.ViewHolder holder, int position) {
-        int resource = userList.get(position).getImage();
-        String stuName = userList.get(position).getStuName();
-        String roll = userList.get(position).getRoll();
-
-        holder.setData(resource, stuName, roll);
+        Blob resource = userList.get(position).getProfileImageBlob();
+        if(resource != null){
+            Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
+            fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+            holder.image.setImageBitmap(fullBitmap);
+        }
+        else{
+            holder.image.setImageResource(R.drawable.cartoon);
+        }
+        String stuName = userList.get(position).getFull_name();
+        String roll = userList.get(position).getRoll_number();
+        holder.setData(stuName, roll);
         setAnimation(holder.itemView, position);
 
         /* *****************************************
@@ -90,8 +101,7 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
 
         }
 
-        public void setData(int resource, String stuName1, String roll1) {
-            image.setImageResource(resource);
+        public void setData(String stuName1, String roll1) {
             stuName.setText(stuName1);
             roll.setText(roll1);
 

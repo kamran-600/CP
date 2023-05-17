@@ -21,8 +21,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Contacts"
-            app:titleMarginStart="50dp" />
+            app:title="Contacts" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

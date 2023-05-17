@@ -1,7 +1,11 @@
 package com.example.collegeproject.teacherData;
 
+import com.google.firebase.firestore.Blob;
+
 public class TeacherData {
-    String department,email,full_name,gender,password,phone_no,role, profileImageUrl;
+    String department,email,full_name,gender,password,phone_no,role;
+
+    Blob profileImageBlob;
 
     public TeacherData() {
     }
@@ -16,12 +20,23 @@ public class TeacherData {
         this.role = role;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public TeacherData(String department, String email, String full_name, String gender, String password, String phone_no, String role, Blob profileImageBlob) {
+        this.department = department;
+        this.email = email;
+        this.full_name = full_name;
+        this.gender = gender;
+        this.password = password;
+        this.phone_no = phone_no;
+        this.role = role;
+        this.profileImageBlob = profileImageBlob;
     }
 
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public Blob getProfileImageBlob() {
+        return profileImageBlob;
+    }
+
+    public void setProfileImageBlob(Blob profileImageBlob) {
+        this.profileImageBlob = profileImageBlob;
     }
 
     public String getDepartment() {

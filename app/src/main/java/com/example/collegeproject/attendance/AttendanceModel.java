@@ -1,38 +1,48 @@
 package com.example.collegeproject.attendance;
 
+import com.google.firebase.firestore.Blob;
+
 public class AttendanceModel {
 
-    private int image;
-    private String stuName;
-    private String roll;
+    private Blob profileImageBlob;
+    private String full_name;
+    private String roll_number;
 
-    public AttendanceModel(int image, String stuName, String roll) {
-        this.image = image;
-        this.stuName = stuName;
-        this.roll = roll;
+    public AttendanceModel() {
     }
 
-    public int getImage() {
-        return image;
+    public AttendanceModel(String full_name, String roll_number) {
+        this.full_name = full_name;
+        this.roll_number = roll_number;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public AttendanceModel(Blob profileImageBlob, String full_name, String roll_number) {
+        this.profileImageBlob = profileImageBlob;
+        this.full_name = full_name;
+        this.roll_number = roll_number;
     }
 
-    public String getStuName() {
-        return stuName;
+    public Blob getProfileImageBlob() {
+        return profileImageBlob;
     }
 
-    public void setStuName(String stuName) {
-        this.stuName = stuName;
+    public void setProfileImageBlob(Blob profileImageBlob) {
+        this.profileImageBlob = profileImageBlob;
     }
 
-    public String getRoll() {
-        return roll;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public void setRoll(String roll) {
-        this.roll = roll;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
+
+    public String getRoll_number() {
+        return roll_number;
+    }
+
+    public void setRoll_number(String roll_number) {
+        this.roll_number = roll_number;
     }
 }

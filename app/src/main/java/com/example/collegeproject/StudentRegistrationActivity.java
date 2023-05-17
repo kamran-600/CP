@@ -1,9 +1,12 @@
 package com.example.collegeproject;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
     private ActivityStudentRegistrationBinding binding;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,19 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         /* *****************************************
                      For Showing Calender
            ***************************************** */
+
+        // for hide keyboard
+        binding.getRoot().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if(getCurrentFocus() !=null){
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);

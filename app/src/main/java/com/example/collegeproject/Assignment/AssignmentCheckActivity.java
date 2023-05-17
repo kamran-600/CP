@@ -2,6 +2,8 @@ package com.example.collegeproject.Assignment;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +35,7 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -47,7 +50,7 @@ public class AssignmentCheckActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     UploadTask uploadTask;
-    String teacherName;
+
 
 
     @Override
@@ -63,16 +66,6 @@ public class AssignmentCheckActivity extends AppCompatActivity {
         setSupportActionBar(binding.topAppBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db.collection("College_Project").document("teacher").collection("teacher_details")
-                        .document(mAuth.getCurrentUser().getEmail()).get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()){
-                                    teacherName = (String) task.getResult().get("full_name");
-                                }
-                            }
-                        });
 
         binding.clear.setOnClickListener(v -> {
             binding.expendableLayout2.setVisibility(View.GONE);
@@ -81,9 +74,21 @@ public class AssignmentCheckActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         binding.stuName.setText(intent.getStringExtra("stuName"));
-        binding.image.setImageResource(intent.getIntExtra("image", 0));
+
+        if(getIntent().getByteArrayExtra("imageByte") != null){
+            Bitmap fullBitmap = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("imageByte"), 0, getIntent().getByteArrayExtra("imageByte").length);
+            //  fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+            binding.image.setImageBitmap(fullBitmap);
+        }
+        else if(getIntent().getIntExtra("resource",R.drawable.cartoon) != 0){
+            binding.image.setImageResource(getIntent().getIntExtra("resource", R.drawable.cartoon));
+        }
+
+
         binding.submissionDate.setText(intent.getStringExtra("date"));
         binding.submissionTime.setText(intent.getStringExtra("time"));
+
+        // submitted assignment url
 
         String url = getIntent().getStringExtra("url");
 
@@ -105,6 +110,9 @@ public class AssignmentCheckActivity extends AppCompatActivity {
 
 
         binding.submitCheckedCopy.setOnClickListener(v -> docLauncher.launch("application/pdf"));
+
+
+        // check whether assignment is checked or not if checked then show
 
         db.collection("College_Project").document("teacher").collection("assignments")
                 .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -145,6 +153,8 @@ public class AssignmentCheckActivity extends AppCompatActivity {
 
 
     }
+
+    // submit check assignment by teacher
 
     ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
         @Override

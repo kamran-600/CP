@@ -1,8 +1,10 @@
 package com.example.collegeproject.fee;
 
+import com.google.firebase.firestore.Blob;
+
 public class FeeSummaryModel {
 
-    private final int image;
+    private final Blob imageBlob;
     private final String name;
     private final String rno;
     private final String total;
@@ -10,16 +12,16 @@ public class FeeSummaryModel {
 
 
 
-    public FeeSummaryModel(int image, String name, String rno, String total, String submit) {
-        this.image = image;
+    public FeeSummaryModel(Blob imageBlob, String name, String rno, String total, String submit) {
+        this.imageBlob = imageBlob;
         this.name = name;
         this.rno = rno;
         this.total = total;
         this.submit = submit;
     }
 
-    public int getImage() {
-        return image;
+    public Blob getImageBlob() {
+        return imageBlob;
     }
 
     public String getName() {

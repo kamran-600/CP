@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -45,6 +46,8 @@ import com.google.firebase.storage.StorageReference;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,7 +98,7 @@ public class HomeFragment extends Fragment {
     }
 
     HomeActivity homeActivity;
-    List<Item> items;
+    List<Item> userList;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     FeedAdapter feedAdapter;
@@ -112,6 +115,9 @@ public class HomeFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+        userList = new ArrayList<>();
+
+        // show the profile image
 
         db.collection("College_Project").document("student").collection("4th Year").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -122,24 +128,11 @@ public class HomeFragment extends Fragment {
                                 StudentData data = rollNo.toObject(StudentData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    binding.profilePic.setImageBitmap(fullBitmap);
-                                                    binding.profilePic.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
-                                        });
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.profilePic.setImageBitmap(fullBitmap);
+
                                     }
                                 }
                             }
@@ -156,24 +149,11 @@ public class HomeFragment extends Fragment {
                                 StudentData data = rollNo.toObject(StudentData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    binding.profilePic.setImageBitmap(fullBitmap);
-                                                    binding.profilePic.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
-                                        });
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.profilePic.setImageBitmap(fullBitmap);
+
                                     }
                                 }
                             }
@@ -190,26 +170,12 @@ public class HomeFragment extends Fragment {
                                 StudentData data = rollNo.toObject(StudentData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    binding.profilePic.setImageBitmap(fullBitmap);
-                                                    binding.profilePic.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.profilePic.setImageBitmap(fullBitmap);
+
+                                    }                                }
                             }
                         }
                     }
@@ -224,26 +190,11 @@ public class HomeFragment extends Fragment {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    binding.profilePic.setImageBitmap(fullBitmap);
-                                                    binding.profilePic.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.profilePic.setImageBitmap(fullBitmap);
+                                    }                                }
                             }
                         }
                     }
@@ -261,26 +212,11 @@ public class HomeFragment extends Fragment {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
                                 if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
 
-                                    if(data.getProfileImageUrl() != null){
-                                        storageReference = storage.getReferenceFromUrl(data.getProfileImageUrl());
-                                        storageReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                            @Override
-                                            public void onSuccess(byte[] bytes) {
-                                                if(bytes != null){
-                                                    Bitmap fullBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                                    binding.profilePic.setImageBitmap(fullBitmap);
-                                                    binding.profilePic.setOnClickListener(v -> {
-                                                        Intent intent = new Intent(getContext(), AssignmentOpenActivity.class);
-                                                        intent.putExtra("byte", bytes);
-                                                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
-                                                        startActivity(intent, optionsCompat.toBundle());
-                                                    });
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.profilePic.setImageBitmap(fullBitmap);
+                                    }                                }
                             }
                         }
                     }
@@ -294,25 +230,42 @@ public class HomeFragment extends Fragment {
         homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
 
         binding.feedPost.setOnClickListener(v -> {
-            intentActivityResultLauncher.launch(new Intent(getContext(), FeedPostActivity.class) );
-           // startActivity(new Intent(getContext(), FeedPostActivity.class));
+            startActivity(new Intent(getContext(), FeedPostActivity.class));
         });
 
-        items = new ArrayList<>();
+        // get data from db to show the feed
 
-        TextFeedModel textFeedModel = new TextFeedModel("Ram Singh","hii everyone...",R.drawable.a2);
-        items.add(new Item(0,textFeedModel));
+        db.collection("College_Project").document("feed").collection("feed_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                    TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
+                                    if(data!= null){
+                                        if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
+                                            TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
+                                            userList.add(new Item(0, textFeedModel));
+                                        } else if (data.getFeedMsg() == null && data.getFeedImageByteBlob() !=null) {
+                                            ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
+                                            userList.add(new Item(1,imageFeedModel));
+                                        }
+                                        else{
+                                            userList.add(new Item(2, data));
+                                        }
+                                        feedAdapter = new FeedAdapter(userList);
+                                        binding.feedRecyclerview.setAdapter(feedAdapter);
+                                        feedAdapter.notifyDataSetChanged();
+                                    }
+                            }
+                            if(userList.size() == 0){
+                                Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
 
-        ImageFeedModel imageFeedModel = new ImageFeedModel("Kamran Alam",R.drawable.a0,R.drawable.a2);
-        items.add(new Item(1,imageFeedModel));
 
-        TextImageFeedModel textImageFeedModel = new TextImageFeedModel("Kamran Alam","Good Morning",R.drawable.a4,R.drawable.a5);
-        items.add(new Item(2,textImageFeedModel));
-
-
-        feedAdapter = new FeedAdapter(items);
-
-        binding.feedRecyclerview.setAdapter(feedAdapter);
 
            /* *****************************************
                           hide bottom bar
@@ -351,15 +304,72 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == Activity.RESULT_OK){
-                items.add(new Item(0,new TextFeedModel(mAuth.getCurrentUser().getEmail(), result.getData().getStringExtra("feedText"), R.drawable.a0)));
-              //  items.add(new Item(2,new TextImageFeedModel(mAuth.getCurrentUser().getEmail(), result.getData().getStringExtra("feedText"), result.getData().getParcelableExtra("feedImage") , result.getData().getParcelableExtra("feedImage"))));
-                feedAdapter.notifyDataSetChanged();
-            }
-        }
-    });
+    @Override
+    public void onResume() {
+
+        // teacher
+
+        db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                    if(data.getProfileImageBlob() != null){
+                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                        binding.profilePic.setImageBitmap(fullBitmap);
+                                    }                                }
+                            }
+                        }
+                    }
+                });
+
+
+
+        // get data from db to show the feed
+
+        db.collection("College_Project").document("feed").collection("feed_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            int size = userList.size();
+                            userList.clear();
+                            if(size !=0){
+                                feedAdapter.notifyItemRangeRemoved(0, size);
+                            }
+                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
+                                if(data!= null){
+                                    if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
+                                        TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
+                                        userList.add(new Item(0, textFeedModel));
+                                    } else if (data.getFeedMsg() == null && data.getFeedImageByteBlob() !=null) {
+                                        ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
+                                        userList.add(new Item(1,imageFeedModel));
+                                    }
+                                    else{
+                                        userList.add(new Item(2, data));
+                                    }
+                                    feedAdapter = new FeedAdapter(userList);
+                                    binding.feedRecyclerview.setAdapter(feedAdapter);
+                                    feedAdapter.notifyDataSetChanged();
+                                }
+                            }
+                            if(userList.size() == 0){
+                                Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+
+
+        super.onResume();
+    }
 
 }

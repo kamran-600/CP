@@ -6,6 +6,9 @@ public class AttendanceModelClass {
     private String dName;
     private String aYear;
 
+    public AttendanceModelClass() {
+    }
+
     public AttendanceModelClass(int image, String dName, String aYear) {
         this.image = image;
         this.dName = dName;

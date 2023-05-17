@@ -2,6 +2,8 @@ package com.example.collegeproject.Contacts;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
+import com.google.firebase.firestore.Blob;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolde> {
@@ -40,12 +44,20 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolde holder, int position) {
-        int resource = userList.get(position).getImage();
+        Blob resource = userList.get(position).getImageBlob();
+        if(resource != null){
+            Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
+            fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+            holder.image.setImageBitmap(fullBitmap);
+        }
+        else{
+            holder.image.setImageResource(R.drawable.cartoon);
+        }
         String stuName = userList.get(position).getStuName();
         String stuRNumber = userList.get(position).getStuRNumber();
         String stuCNumber = userList.get(position).getStuCNumber();
 
-        holder.setData(resource, stuName, stuRNumber, stuCNumber);
+        holder.setData( stuName, stuRNumber, stuCNumber);
         setAnimation(holder.itemView, position);
 
 
@@ -94,8 +106,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
 
 
-        public void setData(int resource, String stuName, String stuRNumber, String stuCNumber) {
-            image.setImageResource(resource);
+        public void setData(String stuName, String stuRNumber, String stuCNumber) {
+
             name.setText(stuName);
             rNumber.setText(stuRNumber);
             cNumber.setText(stuCNumber);

@@ -18,6 +18,7 @@ import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentClassBinding;
 import com.example.collegeproject.fee.FeeAdapter;
+import com.example.collegeproject.fee.FeeModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ClassFragment extends Fragment {
     List<AttendanceModelClass> userList;
     AttendanceClassAdapter adapter;
 
+    HomeActivity homeActivity;
     public ClassFragment() {
         // Required empty public constructor
     }
@@ -81,6 +83,12 @@ public class ClassFragment extends Fragment {
 
         initData();
         initRecyclerView();
+
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.setSupportActionBar(binding.topAppBar);
+        homeActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+
 
 
         /* *****************************************
@@ -137,10 +145,9 @@ public class ClassFragment extends Fragment {
 
         userList = new ArrayList<>();
 
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "First Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Second Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Third Year"));
-        userList.add(new AttendanceModelClass(R.drawable.cse, "CS/IT Department", "Fourth Year"));
-
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "1st Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "2nd Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "3rd Year"));
+        userList.add(new AttendanceModelClass(R.drawable.cse, "C.S.E Department", "4th Year"));
     }
 }
