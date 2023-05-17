@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityAssignmentShowBinding;
@@ -533,7 +534,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                             AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
                                                             if (submittedData != null) {
                                                                 AssignmentSubmitModal modal = new AssignmentSubmitModal(submittedData.getStudentName(), submittedData.getSubmittedAssignmentUrl(), submittedData.getDate(), submittedData.getTime(), submittedData.getRoll_number());
-                                                                userList.add(modal);
+                                                                userList.add(0,modal);
                                                                 adapter = new AssignmentSubmitAdapter(userList, getIntent().getStringExtra("id"));
                                                                 binding.recyclerview.setAdapter(adapter);
                                                                 binding.recyclerview.addItemDecoration(new MaterialDividerItemDecoration(AssignmentShowActivity.this, MaterialDividerItemDecoration.VERTICAL));
@@ -556,8 +557,68 @@ public class AssignmentShowActivity extends AppCompatActivity {
                     }
                 });
 
+        binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+    @Override
+    public void onRefresh() {
+        // show the list of the students who have submitted the assignment (teacher perspective)
+
+        db.collection("College_Project").document("teacher").collection("teacher_details")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
+                                TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                    binding.listOfStudentText.setVisibility(View.VISIBLE);
+                                    binding.recyclerview.setVisibility(View.VISIBLE);
+
+                                    db.collection("College_Project").document("teacher").collection("assignments")
+                                            .document(getIntent().getStringExtra("id")).collection("submittedAssignments").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        userList = new ArrayList<>();
+                                                        int size = userList.size();
+                                                        userList.clear();
+                                                        if(size !=0){
+                                                            adapter.notifyItemRangeRemoved(0, size);
+                                                        }
+
+                                                        for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                                                            AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
+                                                            if (submittedData != null) {
+                                                                AssignmentSubmitModal modal = new AssignmentSubmitModal(submittedData.getStudentName(), submittedData.getSubmittedAssignmentUrl(), submittedData.getDate(), submittedData.getTime(), submittedData.getRoll_number());
+                                                                userList.add(0,modal);
+                                                                adapter = new AssignmentSubmitAdapter(userList, getIntent().getStringExtra("id"));
+                                                                binding.recyclerview.setAdapter(adapter);
+                                                                binding.recyclerview.addItemDecoration(new MaterialDividerItemDecoration(AssignmentShowActivity.this, MaterialDividerItemDecoration.VERTICAL));
+                                                                adapter.notifyDataSetChanged();
+
+                                                            }
+                                                        }
+                                                        if(userList.size() ==0){
+                                                            Toast.makeText(AssignmentShowActivity.this, "No Student have submitted the assignment yet", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                }
+                                            });
+
+
+                                }
+                            }
+
+                        }
+                    }
+                });
+        binding.swipeRefresh.setRefreshing(false);
 
     }
+});
+    }
+
 
     // submit the assignment ans copy (student perspective)
 

@@ -437,7 +437,6 @@ public class FeedPostActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(Boolean result) {
             if(result){
-                binding.feedPost.setText("WAIT");
                 binding.imageCardImage.setImageURI(captureImageUri);
                 binding.imageCard.setVisibility(View.VISIBLE);
                 binding.imageCard.setOnClickListener(v -> {

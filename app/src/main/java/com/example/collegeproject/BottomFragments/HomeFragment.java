@@ -20,6 +20,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.collegeproject.Assignment.AssignmentOpenActivity;
 import com.example.collegeproject.HomeActivity;
@@ -245,13 +246,13 @@ public class HomeFragment extends Fragment {
                                     if(data!= null){
                                         if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
                                             TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
-                                            userList.add(new Item(0, textFeedModel));
+                                            userList.add(0,new Item(0, textFeedModel));
                                         } else if (data.getFeedMsg() == null && data.getFeedImageByteBlob() !=null) {
                                             ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
-                                            userList.add(new Item(1,imageFeedModel));
+                                            userList.add(0,new Item(1,imageFeedModel));
                                         }
                                         else{
-                                            userList.add(new Item(2, data));
+                                            userList.add(0,new Item(2, data));
                                         }
                                         feedAdapter = new FeedAdapter(userList);
                                         binding.feedRecyclerview.setAdapter(feedAdapter);
@@ -265,7 +266,54 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
+                // get data from db to show the feed
+
+                db.collection("College_Project").document("feed").collection("feed_details")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    int size = userList.size();
+                                    userList.clear();
+                                    if(size !=0){
+                                        feedAdapter.notifyItemRangeRemoved(0, size);
+                                    }
+                                    for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                        TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
+                                        if(data!= null){
+                                            if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
+                                                TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
+                                                userList.add(0,new Item(0, textFeedModel));
+                                            } else if (data.getFeedMsg() == null && data.getFeedImageByteBlob() !=null) {
+                                                ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
+                                                userList.add(0,new Item(1,imageFeedModel));
+                                            }
+                                            else{
+                                                userList.add(0,new Item(2, data));
+                                            }
+                                            feedAdapter = new FeedAdapter(userList);
+                                            binding.feedRecyclerview.setAdapter(feedAdapter);
+                                            feedAdapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                    if(userList.size() == 0){
+                                        Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+
+                binding.swipeRefresh.setRefreshing(false);
+
+
+            }
+
+
+        });
 
            /* *****************************************
                           hide bottom bar
@@ -302,74 +350,6 @@ public class HomeFragment extends Fragment {
         });
 
         return binding.getRoot();
-    }
-
-    @Override
-    public void onResume() {
-
-        // teacher
-
-        db.collection("College_Project").document("teacher").collection("teacher_details").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
-                                TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
-
-                                    if(data.getProfileImageBlob() != null){
-                                        Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
-                                        fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-                                        binding.profilePic.setImageBitmap(fullBitmap);
-                                    }                                }
-                            }
-                        }
-                    }
-                });
-
-
-
-        // get data from db to show the feed
-
-        db.collection("College_Project").document("feed").collection("feed_details")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            int size = userList.size();
-                            userList.clear();
-                            if(size !=0){
-                                feedAdapter.notifyItemRangeRemoved(0, size);
-                            }
-                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
-                                TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
-                                if(data!= null){
-                                    if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
-                                        TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
-                                        userList.add(new Item(0, textFeedModel));
-                                    } else if (data.getFeedMsg() == null && data.getFeedImageByteBlob() !=null) {
-                                        ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
-                                        userList.add(new Item(1,imageFeedModel));
-                                    }
-                                    else{
-                                        userList.add(new Item(2, data));
-                                    }
-                                    feedAdapter = new FeedAdapter(userList);
-                                    binding.feedRecyclerview.setAdapter(feedAdapter);
-                                    feedAdapter.notifyDataSetChanged();
-                                }
-                            }
-                            if(userList.size() == 0){
-                                Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-
-
-
-        super.onResume();
     }
 
 }

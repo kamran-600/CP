@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.collegeproject.Assignment.AssignmentAdapter;
 import com.example.collegeproject.Assignment.AssignmentModal;
@@ -134,7 +135,7 @@ public class AssignmentFragment extends Fragment {
                                 if(documentSnapshot!=null){
                                     AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
                                     if(data !=null){
-                                        userList.add(new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
+                                        userList.add(0,new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
                                     }
                                 }
                             }
@@ -149,7 +150,44 @@ public class AssignmentFragment extends Fragment {
                         }
                     }
                 });
+        binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //  show the assignment in recyclerview (Teacher perspective)
 
+                db.collection("College_Project").document("teacher").collection("assignments")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    int size = userList.size();
+                                    userList.clear();
+                                    if(size !=0){
+                                        adapter.notifyItemRangeRemoved(0, size);
+                                    }
+                                    for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                        if(documentSnapshot!=null){
+                                            AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
+                                            if(data !=null){
+                                                userList.add(0,new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
+                                            }
+                                        }
+                                    }
+                                    if(userList.size() ==0){
+                                        Toast.makeText(getContext(), "No assignment is available", Toast.LENGTH_SHORT).show();
+                                    }
+                                    adapter = new AssignmentAdapter(userList);
+                                    binding.recyclerview.setAdapter(adapter);
+                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+                binding.swipeRefresh.setRefreshing(false);
+
+            }
+        });
         binding.extendedFab.setOnClickListener(view -> {
             startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
         });
@@ -208,7 +246,7 @@ public class AssignmentFragment extends Fragment {
                                 if(documentSnapshot!=null){
                                     AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
                                     if(data !=null){
-                                        userList.add(new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
+                                        userList.add(0,new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
                                     }
                                 }
                             }
