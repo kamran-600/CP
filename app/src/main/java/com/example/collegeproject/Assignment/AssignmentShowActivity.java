@@ -25,6 +25,8 @@ import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityAssignmentShowBinding;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
+import com.faltenreich.skeletonlayout.Skeleton;
+import com.faltenreich.skeletonlayout.SkeletonLayoutUtils;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -508,6 +510,11 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
 
         // teacher
+        userList = new ArrayList<>();
+
+        // show shimmer
+        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.single_row_assignment_submit, 10);
+        skeleton.showSkeleton();
 
 
         // show the list of the students who have submitted the assignment (teacher perspective)
@@ -517,6 +524,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+
                             for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
@@ -529,7 +537,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
-                                                        userList = new ArrayList<>();
+                                                        skeleton.showOriginal();
                                                         for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                                                             AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
                                                             if (submittedData != null) {
@@ -557,14 +565,21 @@ public class AssignmentShowActivity extends AppCompatActivity {
                     }
                 });
 
+
+        // pull to refresh
+
         binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
-    @Override
-    public void onRefresh() {
-        // show the list of the students who have submitted the assignment (teacher perspective)
+        @Override
+        public void onRefresh() {
 
-        db.collection("College_Project").document("teacher").collection("teacher_details")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            // show shimmer
+            skeleton.showSkeleton();
+
+            // show the list of the students who have submitted the assignment (teacher perspective)
+
+            db.collection("College_Project").document("teacher").collection("teacher_details")
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
@@ -580,13 +595,12 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
-                                                        userList = new ArrayList<>();
                                                         int size = userList.size();
                                                         userList.clear();
                                                         if(size !=0){
                                                             adapter.notifyItemRangeRemoved(0, size);
                                                         }
-
+                                                        skeleton.showOriginal();
                                                         for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                                                             AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
                                                             if (submittedData != null) {
@@ -613,10 +627,10 @@ public class AssignmentShowActivity extends AppCompatActivity {
                         }
                     }
                 });
-        binding.swipeRefresh.setRefreshing(false);
+                binding.swipeRefresh.setRefreshing(false);
 
-    }
-});
+            }
+        });
     }
 
 

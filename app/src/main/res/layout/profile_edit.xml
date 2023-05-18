@@ -82,6 +82,32 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/submittedAcademicFeeLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/upperBlue"
+        app:hintTextColor="@color/upperBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/submittedFee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Submitted Academic Fee"
+            android:inputType="number"
+            android:textColor="@color/midBlue"
+            android:textCursorDrawable="@drawable/form_cursor"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/hostelFeeLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
@@ -105,6 +131,32 @@
             android:textCursorDrawable="@drawable/form_cursor"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/submittedHostelFeeLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:endIconMode="clear_text"
+        android:layout_centerHorizontal="true"
+        app:boxStrokeColor="@color/upperBlue"
+        app:hintTextColor="@color/upperBlue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/submittedHostelFee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:hint="Submitted Hostel Fee"
+            android:inputType="number"
+            android:textColor="@color/midBlue"
+            android:textCursorDrawable="@drawable/form_cursor"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"

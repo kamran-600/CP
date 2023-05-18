@@ -34,6 +34,9 @@ import com.example.collegeproject.feed.models.TextFeedModel;
 import com.example.collegeproject.feed.models.TextImageFeedModel;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
+import com.faltenreich.skeletonlayout.Skeleton;
+import com.faltenreich.skeletonlayout.SkeletonLayout;
+import com.faltenreich.skeletonlayout.SkeletonLayoutUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -234,6 +237,10 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(getContext(), FeedPostActivity.class));
         });
 
+
+        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.feedRecyclerview, R.layout.text_image_feed);
+        skeleton.showSkeleton();
+
         // get data from db to show the feed
 
         db.collection("College_Project").document("feed").collection("feed_details")
@@ -241,6 +248,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
+                            skeleton.showOriginal();
                             for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
                                     TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
                                     if(data!= null){
@@ -259,6 +267,7 @@ public class HomeFragment extends Fragment {
                                         feedAdapter.notifyDataSetChanged();
                                     }
                             }
+
                             if(userList.size() == 0){
                                 Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
                             }
@@ -266,9 +275,120 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        // pull to refresh
+
         binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
+                // show the profile image
+
+                db.collection("College_Project").document("student").collection("4th Year").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                        StudentData data = rollNo.toObject(StudentData.class);
+                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                            if(data.getProfileImageBlob() != null){
+                                                Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                binding.profilePic.setImageBitmap(fullBitmap);
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                db.collection("College_Project").document("student").collection("3rd Year").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                        StudentData data = rollNo.toObject(StudentData.class);
+                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+
+                                            if(data.getProfileImageBlob() != null){
+                                                Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                binding.profilePic.setImageBitmap(fullBitmap);
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                db.collection("College_Project").document("student").collection("2nd Year").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                        StudentData data = rollNo.toObject(StudentData.class);
+                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                            if(data.getProfileImageBlob() != null){
+                                                Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                binding.profilePic.setImageBitmap(fullBitmap);
+
+                                            }                                }
+                                    }
+                                }
+                            }
+                        });
+
+                db.collection("College_Project").document("student").collection("1st Year").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                        StudentData data = stuRollNo.toObject(StudentData.class);
+                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                            if(data.getProfileImageBlob() != null){
+                                                Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                binding.profilePic.setImageBitmap(fullBitmap);
+                                            }                                }
+                                    }
+                                }
+                            }
+                        });
+
+
+                // teacher
+
+                db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                        TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+
+                                            if(data.getProfileImageBlob() != null){
+                                                Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
+                                                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+                                                binding.profilePic.setImageBitmap(fullBitmap);
+                                            }                                }
+                                    }
+                                }
+                            }
+                        });
+
+
+                // show shimmar
+                skeleton.showSkeleton();
 
                 // get data from db to show the feed
 
@@ -282,6 +402,7 @@ public class HomeFragment extends Fragment {
                                     if(size !=0){
                                         feedAdapter.notifyItemRangeRemoved(0, size);
                                     }
+                                    skeleton.showOriginal();
                                     for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
                                         TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
                                         if(data!= null){
@@ -303,6 +424,7 @@ public class HomeFragment extends Fragment {
                                     if(userList.size() == 0){
                                         Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
                                     }
+
                                 }
                             }
                         });

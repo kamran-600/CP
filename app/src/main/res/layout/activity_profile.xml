@@ -216,7 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="@string/academicFee"
+                    android:text="Total Academic Fee"
                     android:textSize="20sp"
                     android:textStyle="italic" />
 
@@ -238,6 +238,41 @@
 
                     <ImageButton
                         android:id="@+id/academicFeeEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="35dp"
+                        android:backgroundTint="@color/bg"
+                        android:src="@drawable/edit" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/aFeeSubmittedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Submitted Academic Fee"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <LinearLayout
+                    android:id="@+id/aFeeSubmittedLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/aFeeSubmitted"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="35000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageButton
+                        android:id="@+id/SubmittedAcademicFeeEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="35dp"
@@ -273,6 +308,41 @@
 
                     <ImageButton
                         android:id="@+id/hostelFeeEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="35dp"
+                        android:backgroundTint="@color/bg"
+                        android:src="@drawable/edit" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/hFeeSubmittedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Submitted Hostel Fee"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <LinearLayout
+                    android:id="@+id/hFeeSubmittedLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/hFeeSubmitted"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="10000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageButton
+                        android:id="@+id/SubmittedHostelFeeEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="35dp"

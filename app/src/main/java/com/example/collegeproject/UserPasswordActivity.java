@@ -3,6 +3,7 @@ package com.example.collegeproject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.collegeproject.databinding.ActivityUserPasswordBinding;
 import com.example.collegeproject.profile.ProfileActivity;
+import com.google.android.gms.common.util.DataUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,6 +64,16 @@ public class UserPasswordActivity extends AppCompatActivity {
         binding.continueBtnPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (binding.enterPassword.getText().toString().trim().equals("") ||
+                    binding.confirmPassword.getText().toString().trim().equals("")){
+                    Toast.makeText(UserPasswordActivity.this, "Please fill * fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!binding.enterPassword.getText().toString().trim().equals(binding.confirmPassword.getText().toString().trim()))  {
+                    Toast.makeText(UserPasswordActivity.this, "Both passwords are not same", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 signUp(intent.getStringExtra("email"), binding.confirmPassword.getText().toString().trim());
 

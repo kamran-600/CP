@@ -3,6 +3,7 @@ package com.example.collegeproject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -73,16 +74,32 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
         binding.continueBtnTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TeacherRegistrationActivity.this, UserPasswordActivity.class);
-                intent.putExtra("id", 1);
-               // intent.putExtra("name", binding.Tname.getText().toString().trim().split(" ")[0]);
-                intent.putExtra("full_name", binding.Tname.getText().toString().trim());
-                intent.putExtra("gender", binding.gender.getText().toString().trim());
-                intent.putExtra("email", binding.email.getText().toString().trim());
-                intent.putExtra("phone_no", binding.phoneNo.getText().toString().trim());
-                intent.putExtra("department", binding.department.getText().toString().trim());
-                intent.putExtra("role", binding.role.getText().toString().trim());
-                startActivity(intent);
+
+                if(!binding.Tname.getText().toString().trim().equals("") &&
+                        !binding.gender.getText().toString().trim().equals("") &&
+                        !binding.email.getText().toString().trim().equals("") &&
+                        !binding.phoneNo.getText().toString().trim().equals("") &&
+                        !binding.department.getText().toString().trim().equals("") &&
+                        !binding.role.getText().toString().trim().equals("") ) {
+
+                    if (!Patterns.EMAIL_ADDRESS.matcher(binding.email.getText().toString().trim()).matches()) {
+                        Toast.makeText(TeacherRegistrationActivity.this, "Please fill email in correct pattern", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent(TeacherRegistrationActivity.this, UserPasswordActivity.class);
+                    intent.putExtra("id", 1);
+                    intent.putExtra("full_name", binding.Tname.getText().toString().trim());
+                    intent.putExtra("gender", binding.gender.getText().toString().trim());
+                    intent.putExtra("email", binding.email.getText().toString().trim());
+                    intent.putExtra("phone_no", binding.phoneNo.getText().toString().trim());
+                    intent.putExtra("department", binding.department.getText().toString().trim());
+                    intent.putExtra("role", binding.role.getText().toString().trim());
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(TeacherRegistrationActivity.this, "Please fill * fields", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

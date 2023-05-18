@@ -23,6 +23,8 @@ import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentAssignmentBinding;
 import com.example.collegeproject.teacherData.TeacherData;
+import com.faltenreich.skeletonlayout.Skeleton;
+import com.faltenreich.skeletonlayout.SkeletonLayoutUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,6 +126,10 @@ public class AssignmentFragment extends Fragment {
                 });
 
 
+        // show shimmer
+        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.assignment_single_row, 10);
+        skeleton.showSkeleton();
+
         //  show the assignment in recyclerview (Teacher perspective)
 
         db.collection("College_Project").document("teacher").collection("assignments")
@@ -131,6 +137,7 @@ public class AssignmentFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
+                            skeleton.showOriginal();
                             for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
                                 if(documentSnapshot!=null){
                                     AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
@@ -150,9 +157,15 @@ public class AssignmentFragment extends Fragment {
                         }
                     }
                 });
+
+        // pull to refresh
         binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
+                // show shimmer
+                skeleton.showSkeleton();
+
                 //  show the assignment in recyclerview (Teacher perspective)
 
                 db.collection("College_Project").document("teacher").collection("assignments")
@@ -165,6 +178,7 @@ public class AssignmentFragment extends Fragment {
                                     if(size !=0){
                                         adapter.notifyItemRangeRemoved(0, size);
                                     }
+                                    skeleton.showOriginal();
                                     for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
                                         if(documentSnapshot!=null){
                                             AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
@@ -188,6 +202,9 @@ public class AssignmentFragment extends Fragment {
 
             }
         });
+
+
+
         binding.extendedFab.setOnClickListener(view -> {
             startActivity(new Intent(getContext(), CreateAssignmentActivity.class));
         });
@@ -229,41 +246,6 @@ public class AssignmentFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        db.collection("College_Project").document("teacher").collection("assignments")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            int size = userList.size();
-                            userList.clear();
-                            if(size !=0){
-                                adapter.notifyItemRangeRemoved(0, size);
-                            }
-                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
-                                if(documentSnapshot!=null){
-                                    AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
-                                    if(data !=null){
-                                        userList.add(0,new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
-                                    }
-                                }
-                            }
-                            if(userList.size() ==0){
-                                Toast.makeText(getContext(), "No assignment is available", Toast.LENGTH_SHORT).show();
-                            }
-                            adapter = new AssignmentAdapter(userList);
-                            binding.recyclerview.setAdapter(adapter);
-                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                            binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                            adapter.notifyDataSetChanged();
 
-                            //binding.recyclerview.smoothScrollToPosition(userList.size());
-                            // binding.newAdded.setVisibility(View.VISIBLE);
 
-                        }
-                    }
-                });
-    }
 }

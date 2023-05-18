@@ -50,7 +50,7 @@
                         android:layout_width="96dp"
                         android:layout_height="117dp"
                         android:layout_marginStart="130dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="20dp"
                         app:srcCompat="@drawable/logo" />
 
                     <TextView
@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="149dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/loginHead"
                         android:textColor="#C9373C"
@@ -70,7 +70,7 @@
                         android:layout_width="270dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="45dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="15dp"
                         android:backgroundTint="@color/midBlue"
                         android:ems="10"
                         android:fontFamily="sans-serif-medium"
@@ -84,7 +84,7 @@
                         android:layout_width="270dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="45dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="15dp"
                         android:backgroundTint="@color/midBlue"
                         android:ems="10"
                         android:fontFamily="sans-serif-medium"
@@ -93,21 +93,42 @@
                         android:textColor="@color/black"
                         android:textCursorDrawable="@drawable/cursor" />
 
-                    <TextView
-                        android:id="@+id/textView3"
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="200dp"
-                        android:layout_marginTop="15dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="@string/forPassword"
-                        android:textColor="@color/link" />
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/showPassword"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/tertiary_text_dark"
+                            android:fontFamily="sans-serif-medium"
+                            android:layout_marginTop="1dp"
+                            android:text="Show Password"
+                            android:buttonTint="@android:color/tertiary_text_light"
+                            android:layout_marginStart="42dp"/>
+
+
+                        <TextView
+                            android:id="@+id/forgetPassword"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:layout_marginStart="50dp"
+                            android:text="@string/forPassword"
+                            android:textColor="@color/link" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                     <ImageView
                         android:id="@+id/loginBtn"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginStart="290dp"
+                        android:layout_marginStart="286dp"
                         android:layout_marginTop="20dp"
                         android:background="?selectableItemBackground"
                         app:srcCompat="@drawable/ic_reg" />

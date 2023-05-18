@@ -18,6 +18,7 @@ import com.google.firebase.firestore.Blob;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Objects;
 
 public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.ViewHolde> {
 
@@ -49,8 +50,10 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
         String name = userList.get(position).getName();
         String rno = userList.get(position).getRno();
         String total = userList.get(position).getTotal();
-        String submit = userList.get(position).getSubmit();
-        holder.setData( name, rno, total, submit);
+        if(Objects.equals(userList.get(position).getSubmit(), "")|| userList.get(position).getSubmit() == null)
+            holder.submit.setText("N/A");
+        else holder.submit.setText(userList.get(position).getSubmit());
+        holder.setData( name, rno, total);
 
         setAnimation(holder.itemView, position);
     }
@@ -88,12 +91,11 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
             submit = itemView.findViewById(R.id.submitFee);
         }
 
-        public void setData(String name, String rnum, String totalFee, String submit1) {
+        public void setData(String name, String rnum, String totalFee) {
 
             Name.setText(name);
             rno.setText(rnum);
             total.setText(totalFee);
-            submit.setText(submit1);
         }
     }
 }

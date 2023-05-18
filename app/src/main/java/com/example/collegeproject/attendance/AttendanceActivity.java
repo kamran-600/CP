@@ -15,6 +15,8 @@ import com.example.collegeproject.fee.FeeSummaryActivity;
 import com.example.collegeproject.fee.FeeSummaryAdapter;
 import com.example.collegeproject.fee.FeeSummaryModel;
 import com.example.collegeproject.studentData.StudentData;
+import com.faltenreich.skeletonlayout.Skeleton;
+import com.faltenreich.skeletonlayout.SkeletonLayoutUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,12 +51,15 @@ public class AttendanceActivity extends AppCompatActivity {
 
         userList = new ArrayList<>();
 
+        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.single_row_take_attendance,10);
+        skeleton.showSkeleton();
 
         db.collection("College_Project").document("student").collection(getIntent().getStringExtra("year")).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
+                            skeleton.showOriginal();
                             for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
                                 AttendanceModel data = stuRollNo.toObject(AttendanceModel.class);
 

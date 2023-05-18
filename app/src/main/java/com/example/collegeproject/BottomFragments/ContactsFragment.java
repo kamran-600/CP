@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -13,14 +14,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.collegeproject.Contacts.ContactAdapter;
 import com.example.collegeproject.Contacts.ContactModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentContactsBinding;
+import com.example.collegeproject.fee.FeeSummaryActivity;
+import com.example.collegeproject.fee.FeeSummaryAdapter;
+import com.example.collegeproject.fee.FeeSummaryModel;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
+import com.faltenreich.skeletonlayout.Skeleton;
+import com.faltenreich.skeletonlayout.SkeletonLayoutUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -103,6 +110,8 @@ public class ContactsFragment extends Fragment {
         homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
 
 
+        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.contacts_single_row, 10);
+        skeleton.showSkeleton();
 
         // teacher
 
@@ -122,6 +131,7 @@ public class ContactsFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if(task.isSuccessful()){
+                                                        skeleton.showOriginal();
                                                         binding.topAppBar.setTitle("Contacts of 4th Year");
                                                         userList.clear();
                                                         for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
@@ -132,15 +142,15 @@ public class ContactsFragment extends Fragment {
                                                                 roll = data.getRoll_number();
                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                 adapter = new ContactAdapter(userList);
-                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                 adapter.notifyDataSetChanged();
                                                             }
 
+                                                        }
+                                                        if(userList.size()==0){
+                                                            Toast.makeText(getContext(), "No Student enrolled in 4th Year", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 }
@@ -149,6 +159,7 @@ public class ContactsFragment extends Fragment {
                                     binding.topAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                                         @Override
                                         public boolean onMenuItemClick(MenuItem item) {
+                                            skeleton.showSkeleton();
                                             switch (item.getItemId()){
                                                 case R.id.first:
                                                     db.collection("College_Project").document("student").collection("1st Year").get()
@@ -162,6 +173,7 @@ public class ContactsFragment extends Fragment {
                                                                         if(size !=0){
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
+                                                                        skeleton.showOriginal();
                                                                         for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
                                                                             if(data !=null){
@@ -170,16 +182,17 @@ public class ContactsFragment extends Fragment {
                                                                                 roll = data.getRoll_number();
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
-                                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                                 adapter.notifyDataSetChanged();
                                                                             }
 
                                                                         }
+                                                                        if(userList.size()==0){
+                                                                            Toast.makeText(getContext(), "No Student enrolled in 1st Year", Toast.LENGTH_SHORT).show();
+                                                                        }
+
                                                                     }
                                                                 }
                                                             });
@@ -197,6 +210,7 @@ public class ContactsFragment extends Fragment {
                                                                         if(size !=0){
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
+                                                                        skeleton.showOriginal();
                                                                         for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
                                                                             if(data !=null){
@@ -205,16 +219,17 @@ public class ContactsFragment extends Fragment {
                                                                                 roll = data.getRoll_number();
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
-                                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                                 adapter.notifyDataSetChanged();
                                                                             }
 
                                                                         }
+                                                                        if(userList.size()==0){
+                                                                            Toast.makeText(getContext(), "No Student enrolled in 2nd Year", Toast.LENGTH_SHORT).show();
+                                                                        }
+
                                                                     }
                                                                 }
                                                             });
@@ -232,6 +247,7 @@ public class ContactsFragment extends Fragment {
                                                                         if(size !=0){
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
+                                                                        skeleton.showOriginal();
                                                                         for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
                                                                             if(data !=null){
@@ -240,15 +256,15 @@ public class ContactsFragment extends Fragment {
                                                                                 roll = data.getRoll_number();
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
-                                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                                 adapter.notifyDataSetChanged();
                                                                             }
 
+                                                                        }
+                                                                        if(userList.size()==0){
+                                                                            Toast.makeText(getContext(), "No Student enrolled in 3rd Year", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
                                                                 }
@@ -267,6 +283,7 @@ public class ContactsFragment extends Fragment {
                                                                         if(size !=0){
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
+                                                                        skeleton.showOriginal();
                                                                         for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
                                                                             if(data !=null){
@@ -275,15 +292,15 @@ public class ContactsFragment extends Fragment {
                                                                                 roll = data.getRoll_number();
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
-                                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                                 adapter.notifyDataSetChanged();
                                                                             }
 
+                                                                        }
+                                                                        if(userList.size()==0){
+                                                                            Toast.makeText(getContext(), "No Student enrolled in 4th Year", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
                                                                 }
@@ -319,6 +336,7 @@ public class ContactsFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if(task.isSuccessful()){
+                                                        skeleton.showOriginal();
                                                         for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
                                                             TeacherData data1 = teacherEmail.toObject(TeacherData.class);
                                                             if(data1!=null){
@@ -327,14 +345,15 @@ public class ContactsFragment extends Fragment {
 
                                                                 userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
-                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                 adapter.notifyDataSetChanged();
                                                             }
+
+                                                        }
+                                                        if(userList.size()==0){
+                                                            Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 }
@@ -358,6 +377,7 @@ public class ContactsFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if(task.isSuccessful()){
+                                                        skeleton.showOriginal();
                                                         for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
                                                             TeacherData data1 = teacherEmail.toObject(TeacherData.class);
                                                             if(data1!=null){
@@ -366,14 +386,15 @@ public class ContactsFragment extends Fragment {
 
                                                                 userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
-                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                 adapter.notifyDataSetChanged();
                                                             }
+
+                                                        }
+                                                        if(userList.size()==0){
+                                                            Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 }
@@ -397,6 +418,7 @@ public class ContactsFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if(task.isSuccessful()){
+                                                        skeleton.showOriginal();
                                                         for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
                                                             TeacherData data1 = teacherEmail.toObject(TeacherData.class);
                                                             if(data1!=null){
@@ -405,14 +427,15 @@ public class ContactsFragment extends Fragment {
 
                                                                 userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
-                                                                layoutManager = new LinearLayoutManager(getContext());
-                                                                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                binding.recyclerview.setLayoutManager(layoutManager);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                 binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                 adapter.notifyDataSetChanged();
                                                             }
+
+                                                        }
+                                                        if(userList.size()==0){
+                                                            Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 }
@@ -436,6 +459,7 @@ public class ContactsFragment extends Fragment {
                                                         @Override
                                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                             if(task.isSuccessful()){
+                                                                skeleton.showOriginal();
                                                                 for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
                                                                     TeacherData data1 = teacherEmail.toObject(TeacherData.class);
                                                                     if(data1!=null){
@@ -444,14 +468,15 @@ public class ContactsFragment extends Fragment {
 
                                                                         userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                         adapter = new ContactAdapter(userList);
-                                                                        layoutManager = new LinearLayoutManager(getContext());
-                                                                        layoutManager.setOrientation(RecyclerView.VERTICAL);
-                                                                        binding.recyclerview.setLayoutManager(layoutManager);
                                                                         binding.recyclerview.setAdapter(adapter);
-                                                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+                                                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
                                                                         binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                                                         adapter.notifyDataSetChanged();
                                                                     }
+
+                                                                }
+                                                                if(userList.size()==0){
+                                                                    Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }
                                                         }
@@ -494,6 +519,7 @@ public class ContactsFragment extends Fragment {
                 }
             }
         });
+
 
         return binding.getRoot();
     }

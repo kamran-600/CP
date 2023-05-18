@@ -7,7 +7,7 @@ public class StudentData {
     String full_name, father_name, personal_phone, gender, dob, father_phone, email,role;
 
     Blob profileImageBlob;
-    String roll_number, academic_fee, department, batch, hostel_fee, academic_year, password;
+    String roll_number, academic_fee, department, batch, hostel_fee, academic_year, password, submittedAcademicFee,  submittedHostelFee;
 
 
     public StudentData() {
@@ -180,5 +180,21 @@ public class StudentData {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSubmittedAcademicFee() {
+        return submittedAcademicFee;
+    }
+
+    public void setSubmittedAcademicFee(String submittedAcademicFee) {
+        this.submittedAcademicFee = submittedAcademicFee;
+    }
+
+    public String getSubmittedHostelFee() {
+        return submittedHostelFee;
+    }
+
+    public void setSubmittedHostelFee(String submittedHostelFee) {
+        this.submittedHostelFee = submittedHostelFee;
     }
 }

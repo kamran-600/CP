@@ -130,12 +130,9 @@ public class ClassFragment extends Fragment {
     }
     private void initRecyclerView() {
 
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.recyclerview1.setLayoutManager(layoutManager);
         adapter = new AttendanceClassAdapter(userList);
         binding.recyclerview1.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         binding.recyclerview1.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 

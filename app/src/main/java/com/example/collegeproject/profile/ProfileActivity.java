@@ -25,6 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
     private ActivityProfileBinding binding;
@@ -64,6 +65,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
+                                    if(Objects.equals(data.getSubmittedAcademicFee(), "")|| data.getSubmittedAcademicFee() == null)
+                                        binding.aFeeSubmitted.setText("N/A");
+                                    else binding.aFeeSubmitted.setText(data.getSubmittedAcademicFee());
+                                    if(Objects.equals(data.getSubmittedHostelFee(), "") || data.getSubmittedHostelFee() == null)
+                                        binding.hFeeSubmitted.setText("N/A");
+                                    else binding.hFeeSubmitted.setText(data.getSubmittedHostelFee());
 
                                     if(data.getProfileImageBlob() != null){
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
@@ -95,6 +102,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
+                                    if(Objects.equals(data.getSubmittedAcademicFee(), "")|| data.getSubmittedAcademicFee() == null)
+                                        binding.aFeeSubmitted.setText("N/A");
+                                    else binding.aFeeSubmitted.setText(data.getSubmittedAcademicFee());
+                                    if(Objects.equals(data.getSubmittedHostelFee(), "") || data.getSubmittedHostelFee() == null)
+                                        binding.hFeeSubmitted.setText("N/A");
+                                    else binding.hFeeSubmitted.setText(data.getSubmittedHostelFee());
 
                                     if(data.getProfileImageBlob() != null){
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
@@ -126,6 +139,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
+                                    if(Objects.equals(data.getSubmittedAcademicFee(), "")|| data.getSubmittedAcademicFee() == null)
+                                        binding.aFeeSubmitted.setText("N/A");
+                                    else binding.aFeeSubmitted.setText(data.getSubmittedAcademicFee());
+                                    if(Objects.equals(data.getSubmittedHostelFee(), "") || data.getSubmittedHostelFee() == null)
+                                        binding.hFeeSubmitted.setText("N/A");
+                                    else binding.hFeeSubmitted.setText(data.getSubmittedHostelFee());
 
                                     if(data.getProfileImageBlob() != null){
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
@@ -157,6 +176,12 @@ public class ProfileActivity extends AppCompatActivity {
                                         binding.hFee.setText("N/A");
                                     else
                                         binding.hFee.setText(data.getHostel_fee());
+                                    if(Objects.equals(data.getSubmittedAcademicFee(), "")|| data.getSubmittedAcademicFee() == null)
+                                        binding.aFeeSubmitted.setText("N/A");
+                                    else binding.aFeeSubmitted.setText(data.getSubmittedAcademicFee());
+                                    if(Objects.equals(data.getSubmittedHostelFee(), "") || data.getSubmittedHostelFee() == null)
+                                        binding.hFeeSubmitted.setText("N/A");
+                                    else binding.hFeeSubmitted.setText(data.getSubmittedHostelFee());
 
                                     if(data.getProfileImageBlob() != null){
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
@@ -188,8 +213,12 @@ public class ProfileActivity extends AppCompatActivity {
                                     binding.fnoLayout.setVisibility(View.GONE);
                                     binding.aFeeText.setVisibility(View.GONE);
                                     binding.aFeeLayout.setVisibility(View.GONE);
+                                    binding.aFeeSubmittedText.setVisibility(View.GONE);
+                                    binding.aFeeSubmittedLayout.setVisibility(View.GONE);
                                     binding.hFeeText.setVisibility(View.GONE);
                                     binding.hFeeLayout.setVisibility(View.GONE);
+                                    binding.hFeeSubmittedText.setVisibility(View.GONE);
+                                    binding.hFeeSubmittedLayout.setVisibility(View.GONE);
 
 
                                     if(data.getProfileImageBlob() != null){
@@ -802,6 +831,139 @@ public class ProfileActivity extends AppCompatActivity {
             profileEditBinding.fee.setText(binding.aFee.getText().toString());
             dialog.show();
         });
+
+        binding.SubmittedAcademicFeeEdit.setOnClickListener(v -> {
+            dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Update Submitted Academic Fee");
+            ProfileEditBinding profileEditBinding = ProfileEditBinding.inflate(LayoutInflater.from(this));
+            dialog.setView(profileEditBinding.getRoot());
+            dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    if(binding.aFeeSubmitted.getText().toString().equals(profileEditBinding.submittedFee.getText().toString().trim()))
+                        return;
+
+                    HashMap<String,Object> hashMap = new HashMap<>();
+                    hashMap.put("submittedAcademicFee", profileEditBinding.submittedFee.getText().toString().trim());
+
+                    // student
+
+                    db.collection("College_Project").document("student").collection("4th Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("4th Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.aFeeSubmitted.setText(profileEditBinding.submittedFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                    db.collection("College_Project").document("student").collection("3rd Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("3rd Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.aFeeSubmitted.setText(profileEditBinding.submittedFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+
+                    db.collection("College_Project").document("student").collection("2nd Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("2nd Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.aFeeSubmitted.setText(profileEditBinding.submittedFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+
+                    db.collection("College_Project").document("student").collection("1st Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("1st Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.aFeeSubmitted.setText(profileEditBinding.submittedFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                    dialog.dismiss();
+                }
+            }).setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(ProfileActivity.this, "discarded", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            }).create();
+            profileEditBinding.submittedAcademicFeeLayout.setVisibility(View.VISIBLE);
+            profileEditBinding.submittedFee.setText(binding.aFeeSubmitted.getText().toString());
+            dialog.show();
+        });
         
         binding.hostelFeeEdit.setOnClickListener(v -> {
             dialog = new MaterialAlertDialogBuilder(this);
@@ -935,6 +1097,140 @@ public class ProfileActivity extends AppCompatActivity {
             profileEditBinding.hostelFee.setText(binding.hFee.getText().toString());
             dialog.show();
         });
+
+        binding.SubmittedHostelFeeEdit.setOnClickListener(v -> {
+            dialog = new MaterialAlertDialogBuilder(this);
+            dialog.setTitle("Update Submitted Hostel Fee");
+            ProfileEditBinding profileEditBinding = ProfileEditBinding.inflate(LayoutInflater.from(this));
+            dialog.setView(profileEditBinding.getRoot());
+            dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    if(binding.hFeeSubmitted.getText().toString().equals(profileEditBinding.submittedHostelFee.getText().toString().trim()))
+                        return;
+
+                    HashMap<String,Object> hashMap = new HashMap<>();
+                    hashMap.put("submittedHostelFee", profileEditBinding.submittedHostelFee.getText().toString().trim());
+
+                    // student
+
+                    db.collection("College_Project").document("student").collection("4th Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("4th Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.hFeeSubmitted.setText(profileEditBinding.submittedHostelFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                    db.collection("College_Project").document("student").collection("3rd Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("3rd Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.hFeeSubmitted.setText(profileEditBinding.submittedHostelFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+
+                    db.collection("College_Project").document("student").collection("2nd Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("2nd Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.hFeeSubmitted.setText(profileEditBinding.submittedHostelFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+
+                    db.collection("College_Project").document("student").collection("1st Year").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                            StudentData data = stuRollNo.toObject(StudentData.class);
+                                            if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                                db.collection("College_Project").document("student").collection("1st Year")
+                                                        .document(data.getRoll_number()).update(hashMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    binding.hFeeSubmitted.setText(profileEditBinding.submittedHostelFee.getText().toString().trim());
+                                                                    Toast.makeText(ProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                    dialog.dismiss();
+                }
+            }).setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(ProfileActivity.this, "discarded", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            }).create();
+            profileEditBinding.submittedHostelFeeLayout.setVisibility(View.VISIBLE);
+            profileEditBinding.submittedHostelFee.setText(binding.hFeeSubmitted.getText().toString());
+            dialog.show();
+        });
+
 
         binding.departmentEdit.setOnClickListener(v -> {
             Toast.makeText(this, "Since currently we have only one department, so you can't edit it.", Toast.LENGTH_SHORT).show();

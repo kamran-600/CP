@@ -4,17 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.collegeproject.databinding.ActivityStudentRegistrationBinding;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class StudentRegistrationActivity extends AppCompatActivity {
 
@@ -63,7 +67,8 @@ public class StudentRegistrationActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month + 1;
-                String date = day + "/" + month + "/" + year;
+                final String date = String.format(Locale.ENGLISH,"%02d/"+"%02d/",day,month)+year;
+                
                 binding.dob.setText(date);
             }
         };
@@ -97,57 +102,48 @@ public class StudentRegistrationActivity extends AppCompatActivity {
         binding.continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StudentRegistrationActivity.this, UserPasswordActivity.class);
-                intent.putExtra("id", 0);
-                intent.putExtra("roll_number", binding.rollnumber.getText().toString().trim());
-                intent.putExtra("email", binding.email.getText().toString().trim());
-                intent.putExtra("department", binding.department.getText().toString().trim());
-                intent.putExtra("academic_year", binding.academicyear.getText().toString().trim());
-                intent.putExtra("batch", binding.batch.getText().toString().trim());
-                intent.putExtra("academic_fee", binding.fee.getText().toString().trim());
-                intent.putExtra("hostel_fee", binding.hostelFee.getText().toString().trim());
-                intent.putExtra("full_name", binding.fullName.getText().toString().trim());
-                intent.putExtra("gender", binding.gender.getText().toString().trim());
-                intent.putExtra("dob", binding.dob.getText().toString().trim());
-                intent.putExtra("personal_phone", binding.personalphone.getText().toString().trim());
-                intent.putExtra("father_name", binding.fathername.getText().toString().trim());
-                intent.putExtra("father_phone", binding.fatherphone.getText().toString().trim());
 
-                startActivity(intent);
+                if(!binding.rollnumber.getText().toString().trim().equals("") &&
+                        !binding.email.getText().toString().trim().equals("") &&
+                        !binding.department.getText().toString().trim().equals("") &&
+                        !binding.academicyear.getText().toString().trim().equals("") &&
+                        !binding.batch.getText().toString().trim().equals("") &&
+                        !binding.fee.getText().toString().trim().equals("") &&
+                        !binding.fullName.getText().toString().trim().equals("") &&
+                        !binding.gender.getText().toString().trim().equals("") &&
+                        !binding.dob.getText().toString().trim().equals("") &&
+                        !binding.personalphone.getText().toString().trim().equals("") &&
+                        !binding.fathername.getText().toString().trim().equals("") &&
+                        !binding.fatherphone.getText().toString().trim().equals("") ) {
+
+                    if(!Patterns.EMAIL_ADDRESS.matcher(binding.email.getText().toString().trim()).matches()){
+                        Toast.makeText(StudentRegistrationActivity.this, "Please fill email in correct Pattern", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent(StudentRegistrationActivity.this, UserPasswordActivity.class);
+                    intent.putExtra("id", 0);
+                    intent.putExtra("roll_number", binding.rollnumber.getText().toString().trim());
+                    intent.putExtra("email", binding.email.getText().toString().trim());
+                    intent.putExtra("department", binding.department.getText().toString().trim());
+                    intent.putExtra("academic_year", binding.academicyear.getText().toString().trim());
+                    intent.putExtra("batch", binding.batch.getText().toString().trim());
+                    intent.putExtra("academic_fee", binding.fee.getText().toString().trim());
+                    intent.putExtra("hostel_fee", binding.hostelFee.getText().toString().trim());
+                    intent.putExtra("full_name", binding.fullName.getText().toString().trim());
+                    intent.putExtra("gender", binding.gender.getText().toString().trim());
+                    intent.putExtra("dob", binding.dob.getText().toString().trim());
+                    intent.putExtra("personal_phone", binding.personalphone.getText().toString().trim());
+                    intent.putExtra("father_name", binding.fathername.getText().toString().trim());
+                    intent.putExtra("father_phone", binding.fatherphone.getText().toString().trim());
+
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(StudentRegistrationActivity.this, "Please fill * fields", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    /*private void studentData() {
-        Map<String, Object> sAD = new HashMap<>();
-        sAD.put("roll_number", binding.rollnumber.getText().toString().trim());
-        sAD.put("department", binding.department.getText().toString().trim());
-        sAD.put("academic_year", binding.academicyear.getText().toString().trim());
-        sAD.put("batch", binding.batch.getText().toString().trim());
-        sAD.put("academic_fee", binding.fee.getText().toString().trim());
-        sAD.put("hostel_fee", binding.hostelFee.getText().toString().trim());
-        sAD.put("full_name", binding.fullName.getText().toString().trim());
-        sAD.put("gender", binding.gender.getText().toString().trim());
-        sAD.put("dob", binding.dob.getText().toString().trim());
-        sAD.put("e_mail", binding.email.getText().toString().trim());
-        sAD.put("personal_phone", binding.personalphone.getText().toString().trim());
-        sAD.put("father_name", binding.fathername.getText().toString().trim());
-        sAD.put("father_phone", binding.fatherphone.getText().toString().trim());
-
-        db.collection("College_Project").document("student")
-                .collection("student_details").document(binding.rollnumber.getText().toString().trim()).set(sAD)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(StudentRegistrationActivity.this, "success", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(StudentRegistrationActivity.this, "fail", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-*/
 }

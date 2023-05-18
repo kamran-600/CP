@@ -2,11 +2,18 @@ package com.example.collegeproject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.collegeproject.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,6 +71,32 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // show the password
+        binding.showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    // to show the password
+                    binding.showPassword.setText("Hide Password  ");
+                    binding.showPassword.setTextColor(getResources().getColor(R.color.link));
+                    binding.showPassword.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
+                    binding.editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else{
+                    // to hide the password
+                    binding.showPassword.setText("Show Password");
+                    binding.showPassword.setTextColor(getResources().getColor(android.R.color.tertiary_text_dark));
+                    binding.showPassword.setButtonTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.tertiary_text_light)));
+
+                    binding.editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
+
+
+        binding.forgetPassword.setOnClickListener(v -> {
+            Toast.makeText(this, "We'll add this feature soon", Toast.LENGTH_SHORT).show();
+        });
 
         binding.registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +118,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateEnrollForm(String email, String password) {
-        if (email.equalsIgnoreCase("") || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.equals("") || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.editTextEmailAddress.setError("enter the valid email id!");
             binding.editTextEmailAddress.requestFocus();
-
+            if(password.equals("")){
+                binding.editTextPassword.setError("can not be empty");
+            }
+            return false;
         }
-        if (password.equalsIgnoreCase("")) {
+        if (password.equals("")) {
             binding.editTextPassword.setError("can not be empty");
             binding.editTextPassword.requestFocus();
             return false;
@@ -103,9 +140,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     finishAffinity();
                 } else {
-                    Toast.makeText(LoginActivity.this, "You have entered wrong Email / Password. OR \nYou are a new user, you will have to register first.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "You have entered wrong Email / Password. OR \n If you are a new user, you will have to register first.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

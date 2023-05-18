@@ -33,13 +33,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
 
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityCreateAssignmentBinding;
 import com.example.collegeproject.databinding.ClassBottomDialogBinding;
-import com.example.collegeproject.feed.FeedPostActivity;
 import com.example.collegeproject.teacherData.TeacherData;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -192,9 +189,9 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month + 1;
-                final String currentDate = String.format(Locale.ENGLISH,"%02d/"+"%02d/",day,month)+year;
+                final String Date = String.format(Locale.ENGLISH,"%02d/"+"%02d/",day,month)+year;
 
-                binding.dueDate.setText(currentDate);
+                binding.dueDate.setText(Date);
             }
         };
 

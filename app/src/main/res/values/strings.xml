@@ -111,8 +111,8 @@
 
     <!-- Create Password -->
     <string name="crtPass">Create Password</string>
-    <string name="pass">Enter Password </string>
-    <string name="repass">Confirm</string>
+    <string name="pass">Enter Password* </string>
+    <string name="repass">Confirm Password*</string>
 
     <!--Department-->
     <string name="cse">CSE/IT Department</string>

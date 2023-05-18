@@ -152,7 +152,6 @@
                         android:fontFamily="sans-serif-medium"
                         android:hint="@string/phone"
                         android:inputType="phone"
-                        android:maxEms="10"
                         android:maxLength="10"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
