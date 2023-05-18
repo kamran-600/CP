@@ -15,8 +15,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.collegeproject.Assignment.AssignmentOpenActivity;
 import com.example.collegeproject.R;
 import com.google.firebase.firestore.Blob;
 
@@ -49,6 +52,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
             fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
             holder.image.setImageBitmap(fullBitmap);
+            holder.image.setOnClickListener(v -> {
+                AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                intent.putExtra("byte", resource.toBytes());
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
+                activity.startActivity(intent, optionsCompat.toBundle());
+            });
         }
         else{
             holder.image.setImageResource(R.drawable.cartoon);

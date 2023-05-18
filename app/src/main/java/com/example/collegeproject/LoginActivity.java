@@ -3,15 +3,12 @@ package com.example.collegeproject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -20,14 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.collegeproject.databinding.ActivityLoginBinding;
+import com.example.collegeproject.forgetPass.ForgetPasswordActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.regex.Pattern;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -94,8 +89,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+
         binding.forgetPassword.setOnClickListener(v -> {
-            Toast.makeText(this, "We'll add this feature soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ForgetPasswordActivity.class);
+            intent.putExtra("email",binding.editTextEmailAddress.getText().toString().trim());
+            startActivity(intent);
         });
 
         binding.registerBtn.setOnClickListener(new View.OnClickListener() {

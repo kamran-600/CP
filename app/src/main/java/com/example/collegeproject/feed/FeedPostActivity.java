@@ -228,9 +228,11 @@ public class FeedPostActivity extends AppCompatActivity {
                     }
                 });
 
+
+        // post the feed
         binding.feedPost.setOnClickListener(v -> {
 
-            if(binding.feedMsg.getText().toString().isEmpty())
+            if(binding.feedMsg.getText().toString().isEmpty() && feedImageBytes == null)
                  return;
 
             binding.feedMsg.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
@@ -292,6 +294,7 @@ public class FeedPostActivity extends AppCompatActivity {
 
 
         binding.camera.setOnClickListener(view -> {
+
             binding.feedMsg.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
 
             String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(new Date());
@@ -331,11 +334,6 @@ public class FeedPostActivity extends AppCompatActivity {
                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                        startActivity(intent);
                    });
-                   binding.clear.setOnClickListener(v -> {
-                       binding.imageCard.setVisibility(View.GONE);
-                       binding.imageCardImage.setImageURI(null);
-                       feedImageByteBlob = null;
-                   });
 
                    try {
 
@@ -349,63 +347,11 @@ public class FeedPostActivity extends AppCompatActivity {
                        }else {
                            feedImageBytes = compressImage(fullBitmap);
                        }
-
-                       binding.feedPost.setOnClickListener(v -> {
-
-                           binding.feedMsg.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
-
-
-                           binding.feedPost.setEnabled(false);
-
-                           Snackbar.make(v, "Feed Sending", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-
-                           String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
-                           String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
-                           Calendar calendar = Calendar.getInstance();
-                           int hour = calendar.get(Calendar.HOUR);
-                           if(hour == 0)
-                               hour = 12;
-                           final int minutes = calendar.get(Calendar.MINUTE);
-                           final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
-                           final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
-
-
-                           feedImageByteBlob = Blob.fromBytes(feedImageBytes);
-
-                           Map<String,Object> map = new HashMap<>();
-                           if(email !=null){
-                               map.put("email", email);
-                           }
-                           if(roll_number != null){
-                               map.put("roll_number", roll_number);
-                           }
-                           map.put("feedImageByteBlob", feedImageByteBlob);
-                           map.put("senderName", binding.userName.getText().toString());
-                           map.put("role", role);
-                           map.put("feedMsg", binding.feedMsg.getText().toString());
-                           map.put("date", date);
-                           map.put("time", currentTime);
-
-                           db.collection("College_Project").document("feed").collection("feed_details").document("feed_"+dateFormat)
-                                   .set(map)
-                                   .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                       @Override
-                                       public void onComplete(@NonNull Task<Void> task) {
-                                           if(task.isSuccessful()){
-                                               Snackbar.make(v, "Feed sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-                                               new Handler().postDelayed(new Runnable() {
-                                                   @Override
-                                                   public void run() {
-                                                       onBackPressed();
-                                                   }
-                                               }, 2000);
-                                           }
-                                           else
-                                               Toast.makeText(FeedPostActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                       }
-                                   });
-
+                       binding.clear.setOnClickListener(v -> {
+                           binding.imageCard.setVisibility(View.GONE);
+                           binding.imageCardImage.setImageURI(null);
+                           feedImageByteBlob = null;
+                           feedImageBytes = null;
                        });
 
                                }
@@ -448,6 +394,7 @@ public class FeedPostActivity extends AppCompatActivity {
                     binding.imageCard.setVisibility(View.GONE);
                     binding.imageCardImage.setImageURI(null);
                     feedImageByteBlob = null;
+                    feedImageBytes = null;
                 });
 
 
@@ -465,64 +412,12 @@ public class FeedPostActivity extends AppCompatActivity {
                         feedImageBytes = compressImage(fullBitmap);
                     }
 
-                    binding.feedPost.setOnClickListener(v -> {
-
-                                binding.feedMsg.clearFocus();
-                                binding.feedMsg.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
-
-                                binding.feedPost.setEnabled(false);
-
-                                Snackbar.make(v, "Feed Sending", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-
-                                String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
-                                String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
-                                Calendar calendar = Calendar.getInstance();
-                                int hour = calendar.get(Calendar.HOUR);
-                                if(hour == 0)
-                                    hour = 12;
-                                final int minutes = calendar.get(Calendar.MINUTE);
-                                final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
-                                final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
-
-
-                                feedImageByteBlob = Blob.fromBytes(feedImageBytes);
-
-                                Map<String,Object> map = new HashMap<>();
-                                if(email != null){
-                                    map.put("email", email);
-                                }
-                                if(roll_number != null){
-                                    map.put("roll_number", roll_number);
-                                }
-                                map.put("feedImageByteBlob", feedImageByteBlob);
-                                map.put("senderName", binding.userName.getText().toString());
-                                map.put("role", role);
-                                map.put("feedMsg", binding.feedMsg.getText().toString());
-                                map.put("date", date);
-                                map.put("time", currentTime);
-
-                                db.collection("College_Project").document("feed").collection("feed_details").document("feed_"+dateFormat)
-                                        .set(map)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Snackbar.make(v, "Feed sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-                                                    new Handler().postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            onBackPressed();
-                                                        }
-                                                    }, 2000);
-                                                }
-                                                else
-                                                    Toast.makeText(FeedPostActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-
-                        });
+                    binding.clear.setOnClickListener(v -> {
+                        binding.imageCard.setVisibility(View.GONE);
+                        binding.imageCardImage.setImageURI(null);
+                        feedImageByteBlob = null;
+                        feedImageBytes = null;
+                    });
 
                 } catch (IOException e) {
                     Toast.makeText(FeedPostActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

@@ -8,11 +8,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/bg"
         android:elevation="5dp"
         app:cardCornerRadius="5dp">
@@ -31,6 +30,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/image_outline"
                 android:elevation="5dp"
+                android:transitionName="ImageTransition"
                 android:src="@drawable/cartoon" />
 
             <TextView
@@ -93,6 +93,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profileImage"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="User text post"
                 android:textColor="@color/black"
                 android:textSize="12sp" />

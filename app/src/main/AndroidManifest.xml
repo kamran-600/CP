@@ -25,6 +25,9 @@
         android:theme="@style/Theme.CollegeProject"
         tools:targetApi="31">
         <activity
+            android:name=".forgetPass.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".Assignment.AssignmentOpenActivity"
             android:exported="false" />
         <activity

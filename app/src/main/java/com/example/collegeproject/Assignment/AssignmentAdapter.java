@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
@@ -66,6 +68,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
+                                        holder.image.setOnClickListener(v -> {
+                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
+                                            activity.startActivity(intent, optionsCompat.toBundle());
+                                        });
                                     }
                                     else {
                                         holder.image.setImageResource(R.drawable.cartoon);

@@ -109,7 +109,7 @@
                             android:layout_marginTop="1dp"
                             android:text="Show Password"
                             android:buttonTint="@android:color/tertiary_text_light"
-                            android:layout_marginStart="42dp"/>
+                            android:layout_marginStart="50dp"/>
 
 
                         <TextView
@@ -117,7 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:layout_marginStart="50dp"
+                            android:layout_marginStart="20dp"
                             android:text="@string/forPassword"
                             android:textColor="@color/link" />
 

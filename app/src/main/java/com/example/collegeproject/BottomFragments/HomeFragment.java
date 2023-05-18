@@ -50,6 +50,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -255,7 +256,7 @@ public class HomeFragment extends Fragment {
                                         if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
                                             TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
                                             userList.add(0,new Item(0, textFeedModel));
-                                        } else if (data.getFeedMsg() == null && data.getFeedImageByteBlob() !=null) {
+                                        } else if (Objects.equals(data.getFeedMsg(), "") && data.getFeedImageByteBlob() !=null) {
                                             ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
                                             userList.add(0,new Item(1,imageFeedModel));
                                         }
@@ -409,7 +410,7 @@ public class HomeFragment extends Fragment {
                                             if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
                                                 TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
                                                 userList.add(0,new Item(0, textFeedModel));
-                                            } else if (data.getFeedMsg() == null && data.getFeedImageByteBlob() !=null) {
+                                            } else if (Objects.equals(data.getFeedMsg(), "") && data.getFeedImageByteBlob() !=null) {
                                                 ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
                                                 userList.add(0,new Item(1,imageFeedModel));
                                             }

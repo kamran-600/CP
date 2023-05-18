@@ -69,6 +69,13 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
+                                        holder.image.setOnClickListener(v -> {
+                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
+                                            activity.startActivity(intent, optionsCompat.toBundle());
+                                        });
                                     }
                                     else holder.image.setImageResource(R.drawable.cartoon);
                                 }
@@ -90,6 +97,13 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
+                                        holder.image.setOnClickListener(v -> {
+                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
+                                            activity.startActivity(intent, optionsCompat.toBundle());
+                                        });
 
                                     }
                                     else holder.image.setImageResource(R.drawable.cartoon);
@@ -114,6 +128,13 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
+                                        holder.image.setOnClickListener(v -> {
+                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
+                                            activity.startActivity(intent, optionsCompat.toBundle());
+                                        });
                                     }
                                     else holder.image.setImageResource(R.drawable.cartoon);
                                 }
@@ -136,6 +157,13 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
+                                        holder.image.setOnClickListener(v -> {
+                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                            intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
+                                            activity.startActivity(intent, optionsCompat.toBundle());
+                                        });
                                     }
                                     else holder.image.setImageResource(R.drawable.cartoon);
                                 }

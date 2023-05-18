@@ -14,6 +14,7 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.Assignment.AssignmentOpenActivity;
+import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ImageFeedBinding;
 import com.example.collegeproject.databinding.TextFeedBinding;
@@ -119,6 +120,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }
@@ -139,6 +147,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -159,6 +174,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -179,6 +201,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -206,6 +235,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }
@@ -215,6 +251,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                         });
 
             }
+
 
             binding.userName.setText(data1.getSenderName());
             binding.userOnlyText.setText(data1.getFeedMsg());
@@ -249,6 +286,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }
@@ -269,6 +313,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -289,6 +340,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -309,6 +367,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -336,6 +401,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }
@@ -390,6 +462,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }
@@ -410,6 +489,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -430,6 +516,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -450,6 +543,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }                                    }
@@ -477,6 +577,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profileImage.setImageBitmap(fullBitmap);
+                                                binding.profileImage.setOnClickListener(v -> {
+                                                    AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                                    Intent intent = new Intent(activity, AssignmentOpenActivity.class);
+                                                    intent.putExtra("byte", data.getProfileImageBlob().toBytes());
+                                                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(binding.profileImage, "ImageTransition"));
+                                                    activity.startActivity(intent, optionsCompat.toBundle());
+                                                });
                                             }
                                             else binding.profileImage.setImageResource(R.drawable.cartoon);
                                         }
