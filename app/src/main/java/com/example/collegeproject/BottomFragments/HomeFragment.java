@@ -235,7 +235,9 @@ public class HomeFragment extends Fragment {
         homeActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
 
         binding.feedPost.setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), FeedPostActivity.class));
+            Intent intent = new Intent(getContext(), FeedPostActivity.class);
+            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(binding.profilePic, "ImageTransition"));
+            startActivity(intent, optionsCompat.toBundle());
         });
 
 
@@ -263,14 +265,16 @@ public class HomeFragment extends Fragment {
                                         else{
                                             userList.add(0,new Item(2, data));
                                         }
-                                        feedAdapter = new FeedAdapter(userList);
-                                        binding.feedRecyclerview.setAdapter(feedAdapter);
-                                        feedAdapter.notifyDataSetChanged();
                                     }
                             }
 
                             if(userList.size() == 0){
                                 Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                feedAdapter = new FeedAdapter(userList);
+                                binding.feedRecyclerview.setAdapter(feedAdapter);
+                                feedAdapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -388,7 +392,7 @@ public class HomeFragment extends Fragment {
                         });
 
 
-                // show shimmar
+                // show shimmer
                 skeleton.showSkeleton();
 
                 // get data from db to show the feed
@@ -417,13 +421,15 @@ public class HomeFragment extends Fragment {
                                             else{
                                                 userList.add(0,new Item(2, data));
                                             }
-                                            feedAdapter = new FeedAdapter(userList);
-                                            binding.feedRecyclerview.setAdapter(feedAdapter);
-                                            feedAdapter.notifyDataSetChanged();
                                         }
                                     }
                                     if(userList.size() == 0){
                                         Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        feedAdapter = new FeedAdapter(userList);
+                                        binding.feedRecyclerview.setAdapter(feedAdapter);
+                                        feedAdapter.notifyDataSetChanged();
                                     }
 
                                 }

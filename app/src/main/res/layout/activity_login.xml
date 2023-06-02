@@ -51,6 +51,7 @@
                         android:layout_height="117dp"
                         android:layout_marginStart="130dp"
                         android:layout_marginTop="20dp"
+                        android:transitionName="ImageTransition"
                         app:srcCompat="@drawable/logo" />
 
                     <TextView

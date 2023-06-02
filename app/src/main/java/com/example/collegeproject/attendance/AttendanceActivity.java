@@ -25,16 +25,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class AttendanceActivity extends AppCompatActivity {
 
     ActivityAttendanceBinding binding;
-    LinearLayoutManager layoutManager;
     List<AttendanceModel> userList;
     AttendanceAdapter adapter;
     FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,7 @@ public class AttendanceActivity extends AppCompatActivity {
                                 if(data != null){
 
                                     userList.add(new AttendanceModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number()));
-                                    adapter = new AttendanceAdapter(userList);
+                                    adapter = new AttendanceAdapter(userList,getIntent().getStringExtra("year"));
                                     binding.recyclerview.setAdapter(adapter);
                                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(AttendanceActivity.this, DividerItemDecoration.VERTICAL);
                                     binding.recyclerview.addItemDecoration(dividerItemDecoration);
@@ -84,6 +88,11 @@ public class AttendanceActivity extends AppCompatActivity {
                 });
 
 
+
+
+        binding.saveAttendance.setOnClickListener(v -> {
+            Toast.makeText(this, "We will be saving attendance soon", Toast.LENGTH_SHORT).show();
+        });
 
     }
 

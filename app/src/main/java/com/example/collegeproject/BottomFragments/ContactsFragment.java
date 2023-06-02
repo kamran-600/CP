@@ -143,9 +143,11 @@ public class ContactsFragment extends Fragment {
                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                adapter.notifyDataSetChanged();
+                                                                if(getContext() != null){
+                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                    adapter.notifyDataSetChanged();
+                                                                }
                                                             }
 
                                                         }
@@ -183,9 +185,11 @@ public class ContactsFragment extends Fragment {
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                adapter.notifyDataSetChanged();
+                                                                                if(getContext() != null){
+                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                    adapter.notifyDataSetChanged();
+                                                                                }
                                                                             }
 
                                                                         }
@@ -220,9 +224,11 @@ public class ContactsFragment extends Fragment {
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                adapter.notifyDataSetChanged();
+                                                                                if(getContext() != null){
+                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                    adapter.notifyDataSetChanged();
+                                                                                }
                                                                             }
 
                                                                         }
@@ -257,9 +263,11 @@ public class ContactsFragment extends Fragment {
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                adapter.notifyDataSetChanged();
+                                                                                if(getContext() != null){
+                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                    adapter.notifyDataSetChanged();
+                                                                                }
                                                                             }
 
                                                                         }
@@ -293,9 +301,11 @@ public class ContactsFragment extends Fragment {
                                                                                 userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                adapter.notifyDataSetChanged();
+                                                                                if(getContext() != null){
+                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                                    adapter.notifyDataSetChanged();
+                                                                                }
                                                                             }
 
                                                                         }
@@ -346,9 +356,11 @@ public class ContactsFragment extends Fragment {
                                                                 userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                adapter.notifyDataSetChanged();
+                                                                if(getContext() != null){
+                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                    adapter.notifyDataSetChanged();
+                                                                }
                                                             }
 
                                                         }
@@ -387,9 +399,11 @@ public class ContactsFragment extends Fragment {
                                                                 userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                adapter.notifyDataSetChanged();
+                                                                if(getContext() != null){
+                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                    adapter.notifyDataSetChanged();
+                                                                }
                                                             }
 
                                                         }
@@ -428,9 +442,11 @@ public class ContactsFragment extends Fragment {
                                                                 userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                adapter.notifyDataSetChanged();
+                                                                if(getContext() != null){
+                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                    adapter.notifyDataSetChanged();
+                                                                }
                                                             }
 
                                                         }
@@ -469,9 +485,11 @@ public class ContactsFragment extends Fragment {
                                                                         userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
                                                                         adapter = new ContactAdapter(userList);
                                                                         binding.recyclerview.setAdapter(adapter);
-                                                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                        binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                        adapter.notifyDataSetChanged();
+                                                                        if(getContext() != null){
+                                                                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                                                            binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                                                            adapter.notifyDataSetChanged();
+                                                                        }
                                                                     }
 
                                                                 }

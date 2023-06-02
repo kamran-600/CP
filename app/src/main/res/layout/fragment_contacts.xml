@@ -25,16 +25,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="50dp"
-        android:alpha="0.2"
-        app:srcCompat="@drawable/logo" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"

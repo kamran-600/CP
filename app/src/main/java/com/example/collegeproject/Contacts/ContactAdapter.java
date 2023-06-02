@@ -2,6 +2,7 @@ package com.example.collegeproject.Contacts;
 
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +79,20 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             intent.setData(Uri.parse("tel:" + stuCNumber));
             activity.startActivity(intent);
 
+        });
+
+        holder.msg.setOnClickListener(v -> {
+            AppCompatActivity activity = (AppCompatActivity) v.getContext();
+            String uri = "https://api.whatsapp.com/send?phone=" + "+91"+stuCNumber;
+            try {
+                PackageManager pm = activity.getPackageManager();
+                pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(uri));
+                activity.startActivity(i);
+            } catch (PackageManager.NameNotFoundException e) {
+                Toast.makeText(activity, "Whatsapp app not installed in your phone",Toast.LENGTH_LONG).show();
+            }
         });
 
 

@@ -34,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -151,9 +152,14 @@ public class AssignmentFragment extends Fragment {
                             }
                             adapter = new AssignmentAdapter(userList);
                             binding.recyclerview.setAdapter(adapter);
-                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                            binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                            adapter.notifyDataSetChanged();
+                            if(getContext() != null){
+                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+
                         }
                     }
                 });
@@ -190,11 +196,15 @@ public class AssignmentFragment extends Fragment {
                                     if(userList.size() ==0){
                                         Toast.makeText(getContext(), "No assignment is available", Toast.LENGTH_SHORT).show();
                                     }
+
                                     adapter = new AssignmentAdapter(userList);
                                     binding.recyclerview.setAdapter(adapter);
-                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                    adapter.notifyDataSetChanged();
+                                    if(getContext() != null){
+                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                                        binding.recyclerview.addItemDecoration(dividerItemDecoration);
+                                        adapter.notifyDataSetChanged();
+                                    }
+
                                 }
                             }
                         });

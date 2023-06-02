@@ -108,7 +108,6 @@ public class HomeActivity extends AppCompatActivity {
 
         Menu menu = binding.navigationView.getMenu(); //taking reference of logout menu option
         MenuItem menuItem = menu.findItem(R.id.logout);
-        menu.findItem(R.id.progress).setVisible(false);
 
         /* *****************************************
                  for Coloring the logout option

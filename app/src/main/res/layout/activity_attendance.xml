@@ -20,17 +20,27 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/top_menu"
-            app:title="Attendance Record" />
+            app:title="Attendance Record" >
+
+            <Button
+                android:id="@+id/saveAttendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="Save" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center"
         android:alpha="0.1"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

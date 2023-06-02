@@ -37,7 +37,6 @@ public class RemarkFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private FragmentRemarkBinding binding;
-    LinearLayoutManager layoutManager;
     List<AttendanceModelClass> userList;
     RemarkClassAdapter adapter;
     HomeActivity homeActivity;
@@ -128,12 +127,9 @@ public class RemarkFragment extends Fragment {
 
     private void initRecyclerView() {
 
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.recyclerview1.setLayoutManager(layoutManager);
         adapter = new RemarkClassAdapter(userList);
         binding.recyclerview1.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         binding.recyclerview1.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 

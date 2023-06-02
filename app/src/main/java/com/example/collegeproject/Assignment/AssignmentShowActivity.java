@@ -58,7 +58,6 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
     ActivityAssignmentShowBinding binding;
     List<AssignmentSubmitModal> userList;
-    LinearLayoutManager layoutManager;
     AssignmentSubmitAdapter adapter;
     FirebaseFirestore db;
     FirebaseAuth mAuth;

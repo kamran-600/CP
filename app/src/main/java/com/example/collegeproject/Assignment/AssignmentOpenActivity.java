@@ -2,7 +2,9 @@ package com.example.collegeproject.Assignment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
 
 import com.example.collegeproject.databinding.ActivityAssignmentOpenBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,6 +27,7 @@ public class AssignmentOpenActivity extends AppCompatActivity {
 
     ActivityAssignmentOpenBinding binding;
     ScaleGestureDetector scaleGestureDetector;
+    GestureDetector gestureDetector;
     private float FACTOR = 1.0f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,18 +77,26 @@ public class AssignmentOpenActivity extends AppCompatActivity {
                 binding.image.setScaleY(FACTOR);
                 return true;
             }
+
         });
 
-
-
-
-
+        gestureDetector = new GestureDetector(this, new Gesturedetector());
 
     }
+
+    public class Gesturedetector extends GestureDetector.SimpleOnGestureListener{
+        @Override
+        public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
+            onBackPressed();
+            return true;
+        }
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
+        gestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
 

@@ -7,9 +7,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:elevation="25dp"
-        app:cardBackgroundColor="@color/chatRow"
-        app:cardElevation="15dp">
+        app:cardBackgroundColor="@color/chatRow">
 
         <RelativeLayout
             android:layout_width="match_parent"

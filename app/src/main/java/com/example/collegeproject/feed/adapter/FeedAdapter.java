@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +40,7 @@ import java.util.List;
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final List<Item> userList;
+    //private int lastPosition = -1;
 
     public FeedAdapter(List<Item> items) {
         this.userList = items;
@@ -70,14 +74,17 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         {
             TextFeedModel textFeedModel = (TextFeedModel) userList.get(position).getObject();
             ((TextFeedViewHolder) holder).setTextFeed(textFeedModel);
+          //  setAnimation(holder.itemView, position);
         }
         else if(getItemViewType(position) == 1){
             ImageFeedModel imageFeedModel = (ImageFeedModel) userList.get(position).getObject();
             ((ImageFeedViewHolder) holder).setImageFeed(imageFeedModel);
+           // setAnimation(holder.itemView, position);
         }
         else {
             TextImageFeedModel textImageFeedModel = (TextImageFeedModel) userList.get(position).getObject();
             ((TextFeedImageViewHolder) holder).setTextImage(textImageFeedModel);
+           // setAnimation(holder.itemView, position);
         }
 
     }
@@ -92,6 +99,17 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public int getItemViewType(int position) {
         return userList.get(position).getType();
     }
+
+
+   /* private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation slideIn = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.setAnimation(slideIn);
+            lastPosition = position;
+        }
+
+    }*/
+
 
     static class TextFeedViewHolder extends RecyclerView.ViewHolder{
         TextFeedBinding binding;
