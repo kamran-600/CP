@@ -1,9 +1,9 @@
 package com.example.collegeproject.Progress;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.collegeproject.databinding.ActivityProgressBinding;
 import com.github.mikephil.charting.data.BarData;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class ProgressActivity extends AppCompatActivity {
 
     ActivityProgressBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,15 +24,16 @@ public class ProgressActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(2010,100));
-        entries.add(new BarEntry(2012,200));
-        entries.add(new BarEntry(2014,140));
-        entries.add(new BarEntry(2015,130));
-        entries.add(new BarEntry(2017,170));
-        entries.add(new BarEntry(2020,120));
-        entries.add(new BarEntry(2013,180)); entries.add(new BarEntry(2022,300));
-        entries.add(new BarEntry(2025,200));
-        entries.add(new BarEntry(2011,100));
+        entries.add(new BarEntry(2010, 100));
+        entries.add(new BarEntry(2012, 200));
+        entries.add(new BarEntry(2014, 140));
+        entries.add(new BarEntry(2015, 130));
+        entries.add(new BarEntry(2017, 170));
+        entries.add(new BarEntry(2020, 120));
+        entries.add(new BarEntry(2013, 180));
+        entries.add(new BarEntry(2022, 300));
+        entries.add(new BarEntry(2025, 200));
+        entries.add(new BarEntry(2011, 100));
 
 
         BarDataSet dataSet = new BarDataSet(entries, "Attendance");

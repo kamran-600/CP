@@ -10,14 +10,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.collegeproject.Assignment.AssignmentAdapter;
 import com.example.collegeproject.Assignment.AssignmentModal;
-import com.example.collegeproject.Assignment.AssignmentShowActivity;
 import com.example.collegeproject.Assignment.CreateAssignmentActivity;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
@@ -34,7 +32,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,9 +47,13 @@ public class AssignmentFragment extends Fragment {
     LinearLayoutManager layoutManager;
     List<AssignmentModal> userList;
     AssignmentAdapter adapter;
+    HomeActivity homeActivity;
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FragmentAssignmentBinding binding;
 
     public AssignmentFragment() {
         // Required empty public constructor
@@ -85,10 +86,6 @@ public class AssignmentFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    HomeActivity homeActivity;
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
-    private FragmentAssignmentBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,10 +111,10 @@ public class AssignmentFragment extends Fragment {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     binding.extendedFab.setVisibility(View.VISIBLE);
 
                                 }
@@ -137,27 +134,22 @@ public class AssignmentFragment extends Fragment {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             skeleton.showOriginal();
-                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
-                                if(documentSnapshot!=null){
+                            for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                                if (documentSnapshot != null) {
                                     AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
-                                    if(data !=null){
-                                        userList.add(0,new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
+                                    if (data != null) {
+                                        userList.add(0, new AssignmentModal(data.getTeacherName(), documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(), data.getAssignmentUrl(), data.getEmail()));
                                     }
                                 }
                             }
-                            if(userList.size() ==0){
+                            if (userList.size() == 0) {
                                 Toast.makeText(getContext(), "No assignment is available", Toast.LENGTH_SHORT).show();
                             }
                             adapter = new AssignmentAdapter(userList);
                             binding.recyclerview.setAdapter(adapter);
-                            if(getContext() != null){
-                                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                adapter.notifyDataSetChanged();
-                            }
-
+                            adapter.notifyDataSetChanged();
 
 
                         }
@@ -178,32 +170,28 @@ public class AssignmentFragment extends Fragment {
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     int size = userList.size();
                                     userList.clear();
-                                    if(size !=0){
+                                    if (size != 0) {
                                         adapter.notifyItemRangeRemoved(0, size);
                                     }
                                     skeleton.showOriginal();
-                                    for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
-                                        if(documentSnapshot!=null){
+                                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                                        if (documentSnapshot != null) {
                                             AssignmentModal data = documentSnapshot.toObject(AssignmentModal.class);
-                                            if(data !=null){
-                                                userList.add(0,new AssignmentModal(data.getTeacherName(),documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(),data.getAssignmentUrl(), data.getEmail()));
+                                            if (data != null) {
+                                                userList.add(0, new AssignmentModal(data.getTeacherName(), documentSnapshot.getId(), data.getClassName(), data.getDesc(), data.getDueDate(), data.getDate(), data.getTime(), data.getAssignmentUrl(), data.getEmail()));
                                             }
                                         }
                                     }
-                                    if(userList.size() ==0){
+                                    if (userList.size() == 0) {
                                         Toast.makeText(getContext(), "No assignment is available", Toast.LENGTH_SHORT).show();
                                     }
 
                                     adapter = new AssignmentAdapter(userList);
                                     binding.recyclerview.setAdapter(adapter);
-                                    if(getContext() != null){
-                                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                        binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                        adapter.notifyDataSetChanged();
-                                    }
+                                    adapter.notifyDataSetChanged();
 
                                 }
                             }
@@ -212,7 +200,6 @@ public class AssignmentFragment extends Fragment {
 
             }
         });
-
 
 
         binding.extendedFab.setOnClickListener(view -> {
@@ -255,7 +242,6 @@ public class AssignmentFragment extends Fragment {
 
         return binding.getRoot();
     }
-
 
 
 }

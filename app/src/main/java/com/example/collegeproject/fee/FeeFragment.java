@@ -8,23 +8,14 @@ import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collegeproject.Contacts.ContactAdapter;
-import com.example.collegeproject.Contacts.ContactModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
-import com.example.collegeproject.attendance.AttendanceModelClass;
 import com.example.collegeproject.databinding.FragmentFeeBinding;
-import com.example.collegeproject.studentData.StudentData;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +31,18 @@ public class FeeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-
+    FragmentFeeBinding binding;
+    String department, year;
+    LinearLayoutManager layoutManager;
+    List<FeeModel> userList;
+    FeeAdapter adapter;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    HomeActivity homeActivity;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     public FeeFragment() {
         // Required empty public constructor
     }
@@ -75,19 +73,12 @@ public class FeeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    FragmentFeeBinding binding;
-    String department, year;
-    LinearLayoutManager layoutManager;
-    List<FeeModel> userList;
-    FeeAdapter adapter;
-    FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    HomeActivity homeActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentFeeBinding.inflate(inflater,container,false);
+        binding = FragmentFeeBinding.inflate(inflater, container, false);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -143,8 +134,6 @@ public class FeeFragment extends Fragment {
         binding.recyclerview1.setLayoutManager(layoutManager);
         adapter = new FeeAdapter(userList);
         binding.recyclerview1.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
-        binding.recyclerview1.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 
     }

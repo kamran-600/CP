@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/upperBlue"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="Attendance Record" >
+            app:title="Attendance Record">
 
             <Button
                 android:id="@+id/saveAttendance"

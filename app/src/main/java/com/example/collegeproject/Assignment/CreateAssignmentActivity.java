@@ -32,6 +32,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 
 import com.example.collegeproject.R;
@@ -64,6 +65,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class CreateAssignmentActivity extends AppCompatActivity {
 
@@ -76,7 +78,486 @@ public class CreateAssignmentActivity extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     Uri captureImageUri;
+    ActivityResultLauncher<Uri> cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+            // Toast.makeText(CreateAssignmentActivity.this, "return\n"+ result+ captureImageUri , Toast.LENGTH_SHORT).show();
+            if (result) {
+                //  binding.docImage.setImageURI(captureImageUri);
+                binding.docType.setText("JPEG");
+                getTitleAndSize(captureImageUri);
+                binding.assignmentCard.setOnClickListener(v -> {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, captureImageUri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                });
 
+
+                try {
+
+                    Bitmap fullBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), captureImageUri);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                    StorageReference galReference = storageReference.child("images/" + binding.docTitle.getText().toString());
+
+                    if (baos.toByteArray().length / 1024 < 400) {
+                        binding.docImage.setImageURI(captureImageUri);
+                        uploadTask = galReference.putFile(captureImageUri);
+                    } else {
+                        byte[] downSizeBytes = compressImage(fullBitmap);
+                        double i = Double.parseDouble(String.valueOf(downSizeBytes.length));
+                        if (i < 900000) {
+                            i /= Math.pow(10, 3);
+                            binding.docSize.setText("Size : " + String.format("%.2f", i) + " KB");
+                        } else {
+                            i /= Math.pow(10, 6);
+                            binding.docSize.setText("Size : " + String.format("%.2f", i) + " MB");
+
+                        }
+                        uploadTask = galReference.putBytes(downSizeBytes);
+
+                    }
+
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            return galReference.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                Uri downloadUrl = task.getResult();
+                                Toast.makeText(CreateAssignmentActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+                                binding.post.setText("POST");
+                                binding.post.setEnabled(true);
+                                binding.docTitle.setOnClickListener(view -> {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
+                                    startActivity(intent);
+                                });
+
+                                db.collection("College_Project").document("teacher").collection("teacher_details")
+                                        .document(mAuth.getCurrentUser().getEmail()).get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    String teacherName = task.getResult().get("full_name").toString();
+
+                                                    binding.post.setOnClickListener(v -> {
+
+                                                        binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
+                                                        binding.dueDate.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
+                                                        if (binding.desc.getText().toString().trim().isEmpty() || binding.dueDate.getText().toString().trim().isEmpty()) {
+                                                            if (binding.desc.getText().toString().trim().isEmpty()) {
+                                                                binding.descLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                                                                binding.descLayout.setHint("Can not be empty");
+
+                                                            }
+                                                            if (binding.dueDate.getText().toString().trim().isEmpty()) {
+                                                                binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                                                                binding.dueDateLayout.setHint("Can not be empty");
+                                                            }
+                                                            return;
+                                                        }
+                                                        binding.descLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
+                                                        binding.descLayout.setHint("Description");
+
+                                                        binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
+                                                        binding.dueDateLayout.setHint("Due Date");
+
+                                                        binding.post.setEnabled(false);
+
+                                                        Snackbar.make(v, "Assignment Sending", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+
+                                                        String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
+                                                        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
+                                                        Calendar calendar = Calendar.getInstance();
+                                                        int hour = calendar.get(Calendar.HOUR);
+                                                        if (hour == 0)
+                                                            hour = 12;
+                                                        final int minutes = calendar.get(Calendar.MINUTE);
+                                                        final String am_pm = calendar.get(Calendar.AM_PM) == Calendar.AM ? " AM" : " PM";
+                                                        final String currentTime = String.format(Locale.ENGLISH, "%02d:" + "%02d", hour, minutes) + am_pm;
+
+                                                        Map<String, Object> map = new HashMap<>();
+                                                        map.put("assignmentUrl", downloadUrl);
+                                                        map.put("teacherName", teacherName);
+                                                        map.put("email", mAuth.getCurrentUser().getEmail());
+                                                        map.put("className", binding.chooseClass.getText().toString());
+                                                        map.put("desc", binding.desc.getText().toString());
+                                                        map.put("dueDate", binding.dueDate.getText().toString());
+                                                        map.put("date", date);
+                                                        map.put("time", currentTime);
+
+                                                        db.collection("College_Project").document("teacher").collection("assignments")
+                                                                .document("ASGNT_" + dateFormat).set(map)
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            Snackbar.make(v, "Assignment sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+                                                                            new Handler().postDelayed(new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+                                                                                    CreateAssignmentActivity.super.onBackPressed();
+                                                                                }
+                                                                            }, 2000);
+
+                                                                        } else
+                                                                            Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
+
+                                                    });
+
+                                                }
+                                            }
+                                        });
+                            }
+                        }
+                    });
+
+
+                } catch (IOException e) {
+                    Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        }
+    });
+    // Request Camera Permissions
+    ActivityResultLauncher<String> requestLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+            if (result) {
+                cameraLauncher.launch(captureImageUri);
+            } else
+                Toast.makeText(CreateAssignmentActivity.this, "Camera Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
+        }
+    });
+    // Launch Gallery
+    ActivityResultLauncher<String> galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
+
+        if (result != null) {
+            //binding.docImage.setImageURI(result);
+            getTitleAndSize(result);
+            binding.assignmentCard.setOnClickListener(v -> {
+                String[] help = result.toString().split("media");
+                Uri uri = Uri.parse(help[0] + "media/external/images/media" + help[help.length - 1]);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            });
+            binding.docType.setText("JPEG");
+
+            try {
+                Bitmap fullBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                StorageReference galReference = storageReference.child("Assignment/images/" + binding.docTitle.getText().toString());
+
+
+                if (baos.toByteArray().length / 1024 < 400) {
+                    binding.docImage.setImageURI(result);
+                    uploadTask = galReference.putFile(result);
+                } else {
+                    byte[] downSizeBytes = compressImage(fullBitmap);
+                    double i = Double.parseDouble(String.valueOf(downSizeBytes.length));
+                    if (i < 900000) {
+                        i /= Math.pow(10, 3);
+                        binding.docSize.setText("Size : " + String.format("%.2f", i) + " KB");
+                    } else {
+                        i /= Math.pow(10, 6);
+                        binding.docSize.setText("Size : " + String.format("%.2f", i) + " MB");
+
+                    }
+                    uploadTask = galReference.putBytes(downSizeBytes);
+
+                }
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        return galReference.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUrl = task.getResult();
+                            Toast.makeText(CreateAssignmentActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+                            binding.post.setText("POST");
+                            binding.post.setEnabled(true);
+                            binding.docTitle.setOnClickListener(view -> {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
+                                startActivity(intent);
+                            });
+
+                            db.collection("College_Project").document("teacher").collection("teacher_details")
+                                    .document(mAuth.getCurrentUser().getEmail()).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                String teacherName = task.getResult().get("full_name").toString();
+
+                                                binding.post.setOnClickListener(v -> {
+
+                                                    binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
+                                                    binding.dueDate.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
+                                                    if (binding.desc.getText().toString().trim().isEmpty() || binding.dueDate.getText().toString().trim().isEmpty()) {
+                                                        if (binding.desc.getText().toString().trim().isEmpty()) {
+                                                            binding.descLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                                                            binding.descLayout.setHint("Can not be empty");
+
+                                                        }
+                                                        if (binding.dueDate.getText().toString().trim().isEmpty()) {
+                                                            binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                                                            binding.dueDateLayout.setHint("Can not be empty");
+                                                        }
+                                                        return;
+                                                    }
+                                                    binding.descLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
+                                                    binding.descLayout.setHint("Description");
+
+                                                    binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
+                                                    binding.dueDateLayout.setHint("Due Date");
+
+                                                    binding.post.setEnabled(false);
+
+                                                    Snackbar.make(v, "Assignment Sending", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+
+                                                    String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
+                                                    String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
+                                                    Calendar calendar = Calendar.getInstance();
+                                                    int hour = calendar.get(Calendar.HOUR);
+                                                    if (hour == 0)
+                                                        hour = 12;
+                                                    final int minutes = calendar.get(Calendar.MINUTE);
+                                                    final String am_pm = calendar.get(Calendar.AM_PM) == Calendar.AM ? " AM" : " PM";
+                                                    final String currentTime = String.format(Locale.ENGLISH, "%02d:" + "%02d", hour, minutes) + am_pm;
+
+                                                    Map<String, Object> map = new HashMap<>();
+                                                    map.put("assignmentUrl", downloadUrl);
+                                                    map.put("teacherName", teacherName);
+                                                    map.put("email", mAuth.getCurrentUser().getEmail());
+                                                    map.put("className", binding.chooseClass.getText().toString());
+                                                    map.put("desc", binding.desc.getText().toString());
+                                                    map.put("dueDate", binding.dueDate.getText().toString());
+                                                    map.put("date", date);
+                                                    map.put("time", currentTime);
+
+                                                    db.collection("College_Project").document("teacher").collection("assignments")
+                                                            .document("ASGNT_" + dateFormat).set(map)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Snackbar.make(v, "Assignment sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+                                                                        new Handler().postDelayed(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                CreateAssignmentActivity.super.onBackPressed();
+                                                                            }
+                                                                        }, 2000);
+
+                                                                    } else
+                                                                        Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+
+                                                });
+
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+
+            } catch (IOException e) {
+                Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+
+    });
+    // Open document Intent
+    ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri result) {
+            if (result != null) {
+
+                getTitleAndSize(result);
+                binding.docImage.setImageDrawable(AppCompatResources.getDrawable(CreateAssignmentActivity.this, R.drawable.pdf));
+                binding.docType.setText("PDF");
+
+                StorageReference docReference = storageReference.child("Assignment/docs/" + binding.docTitle.getText().toString());
+                uploadTask = docReference.putFile(result);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        return docReference.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUrl = task.getResult();
+                            Toast.makeText(CreateAssignmentActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+                            binding.post.setText("POST");
+                            binding.post.setEnabled(true);
+                            binding.docTitle.setOnClickListener(view -> {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
+                                startActivity(intent);
+                            });
+
+                            db.collection("College_Project").document("teacher").collection("teacher_details")
+                                    .document(mAuth.getCurrentUser().getEmail()).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                String teacherName = task.getResult().get("full_name").toString();
+
+                                                binding.post.setOnClickListener(v -> {
+
+                                                    binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
+                                                    binding.dueDate.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
+                                                    if (binding.desc.getText().toString().trim().isEmpty() || binding.dueDate.getText().toString().trim().isEmpty()) {
+                                                        if (binding.desc.getText().toString().trim().isEmpty()) {
+                                                            binding.descLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                                                            binding.descLayout.setHint("Can not be empty");
+
+                                                        }
+                                                        if (binding.dueDate.getText().toString().trim().isEmpty()) {
+                                                            binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
+                                                            binding.dueDateLayout.setHint("Can not be empty");
+                                                        }
+                                                        return;
+                                                    }
+                                                    binding.descLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
+                                                    binding.descLayout.setHint("Description");
+
+                                                    binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
+                                                    binding.dueDateLayout.setHint("Due Date");
+
+                                                    binding.post.setEnabled(false);
+
+                                                    Snackbar.make(v, "Sending Assignment...", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+
+                                                    String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
+                                                    String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
+                                                    Calendar calendar = Calendar.getInstance();
+                                                    int hour = calendar.get(Calendar.HOUR);
+                                                    if (hour == 0)
+                                                        hour = 12;
+                                                    final int minutes = calendar.get(Calendar.MINUTE);
+                                                    final String am_pm = calendar.get(Calendar.AM_PM) == Calendar.AM ? " AM" : " PM";
+                                                    final String currentTime = String.format(Locale.ENGLISH, "%02d:" + "%02d", hour, minutes) + am_pm;
+
+                                                    Map<String, Object> map = new HashMap<>();
+                                                    map.put("assignmentUrl", downloadUrl);
+                                                    map.put("teacherName", teacherName);
+                                                    map.put("email", mAuth.getCurrentUser().getEmail());
+                                                    map.put("className", binding.chooseClass.getText().toString());
+                                                    map.put("desc", binding.desc.getText().toString());
+                                                    map.put("dueDate", binding.dueDate.getText().toString());
+                                                    map.put("date", date);
+                                                    map.put("time", currentTime);
+
+                                                    db.collection("College_Project").document("teacher").collection("assignments")
+                                                            .document("ASGNT_" + dateFormat).set(map)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Snackbar.make(v, "Assignment sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+                                                                        new Handler().postDelayed(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                CreateAssignmentActivity.super.onBackPressed();
+                                                                            }
+                                                                        }, 2000);
+
+                                                                    } else
+                                                                        Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+
+                                                });
+
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+
+            }
+
+        }
+    });
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -92,23 +573,23 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
 
         // for hide keyboard
-            binding.getRoot().setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    if(getCurrentFocus() !=null){
-                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                        return true;
-                    }
-                    return false;
+        binding.getRoot().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (getCurrentFocus() != null) {
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    return true;
                 }
-            });
-
-
+                return false;
+            }
+        });
 
 
         binding.clear.setOnClickListener(view -> {
             binding.assignmentCard.setVisibility(View.GONE);
+            binding.docImage.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.pdf));
+            binding.docType.setText("PDF");
             binding.post.setEnabled(false);
         });
 
@@ -123,10 +604,10 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     binding.UserName.setText(data.getFull_name());
 
                                     if (data.getProfileImageBlob() != null) {
@@ -189,7 +670,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month + 1;
-                final String Date = String.format(Locale.ENGLISH,"%02d/"+"%02d/",day,month)+year;
+                final String Date = String.format(Locale.ENGLISH, "%02d/" + "%02d/", day, month) + year;
 
                 binding.dueDate.setText(Date);
             }
@@ -199,16 +680,16 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
             binding.dueDate.onEditorAction(EditorInfo.IME_ACTION_DONE);
 
-            String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss",Locale.ENGLISH).format(new Date());
+            String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(new Date());
 
             ContentValues value = new ContentValues();
-            value.put(MediaStore.Images.Media.DISPLAY_NAME,timeStamp);
+            value.put(MediaStore.Images.Media.DISPLAY_NAME, timeStamp);
             value.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
             captureImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
            /* image = new File(getApplicationContext().getCacheDir(), timeStamp+".jpg");
            // image = File.createTempFile(time)
             captureImageUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.collegeproject.fileprovider", image);*/
-            Toast.makeText(this, captureImageUri.toString(), Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, captureImageUri.toString(), Toast.LENGTH_SHORT).show();
 
 //            cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
@@ -221,19 +702,19 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             }
            captureImageUri = FileProvider.getUriForFile(this, "com.example.collegeproject.fileprovider", image);
 */
-           // if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                if (ActivityCompat.checkSelfPermission(CreateAssignmentActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    // ActivityCompat.requestPermissions(CreateAssignmentActivity.this, new String[]{Manifest.permission.CAMERA},1);
-                    requestLauncher.launch(Manifest.permission.CAMERA);
-                } else {
+            // if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            if (ActivityCompat.checkSelfPermission(CreateAssignmentActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                // ActivityCompat.requestPermissions(CreateAssignmentActivity.this, new String[]{Manifest.permission.CAMERA},1);
+                requestLauncher.launch(Manifest.permission.CAMERA);
+            } else {
 
-                    cameraLauncher.launch(captureImageUri);
-                }
+                cameraLauncher.launch(captureImageUri);
+            }
            /* } else {
                 Toast.makeText(CreateAssignmentActivity.this, "There is no app that support this action", Toast.LENGTH_SHORT).show();
             }
 */
-         });
+        });
 
 
         binding.galleryImg.setOnClickListener(view -> {
@@ -250,189 +731,6 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
     }
 
-    ActivityResultLauncher<Uri> cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
-        @Override
-        public void onActivityResult(Boolean result) {
-            Toast.makeText(CreateAssignmentActivity.this, "return\n"+ result+ captureImageUri , Toast.LENGTH_SHORT).show();
-            if(result){
-              //  binding.docImage.setImageURI(captureImageUri);
-                getTitleAndSize(captureImageUri);
-                binding.docImage.setOnClickListener(v -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, captureImageUri);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                });
-
-
-
-                try {
-
-                    Bitmap fullBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), captureImageUri);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-
-                    StorageReference galReference = storageReference.child("images/"+binding.docTitle.getText().toString());
-
-                    if(baos.toByteArray().length/1024 < 400){
-                        binding.docImage.setImageURI(captureImageUri);
-                        uploadTask = galReference.putFile(captureImageUri);
-                    }else {
-                        byte[] downSizeBytes = compressImage(fullBitmap);
-                        double i = Double.parseDouble(String.valueOf(downSizeBytes.length));
-                        if (i < 900000) {
-                            i /= Math.pow(10, 3);
-                            binding.docSize.setText("Size : " + String.format("%.2f", i) + " KB");
-                        } else {
-                            i /= Math.pow(10, 6);
-                            binding.docSize.setText("Size : " + String.format("%.2f", i) + " MB");
-
-                        }
-                        uploadTask = galReference.putBytes(downSizeBytes);
-
-                    }
-
-                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                        @Override
-                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            if(!task.isSuccessful())
-                            {
-                                Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                            return galReference.getDownloadUrl();
-                        }
-                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if(task.isSuccessful()){
-                                Uri downloadUrl = task.getResult();
-                                Toast.makeText(CreateAssignmentActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
-                                binding.post.setText("POST");
-                                binding.post.setEnabled(true);
-                                binding.docTitle.setOnClickListener(view -> {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
-                                    startActivity(intent);
-                                });
-
-                                db.collection("College_Project").document("teacher").collection("teacher_details")
-                                        .document(mAuth.getCurrentUser().getEmail()).get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    String teacherName = task.getResult().get("full_name").toString();
-
-                                                    binding.post.setOnClickListener(v -> {
-
-                                                        binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
-                                                        binding.dueDate.onEditorAction(EditorInfo.IME_ACTION_DONE);
-
-                                                        if(binding.desc.getText().toString().trim().isEmpty() || binding.dueDate.getText().toString().trim().isEmpty()){
-                                                            if(binding.desc.getText().toString().trim().isEmpty()){
-                                                                binding.descLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
-                                                                binding.descLayout.setHint("Can not be empty");
-
-                                                            }
-                                                            if(binding.dueDate.getText().toString().trim().isEmpty()){
-                                                                binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
-                                                                binding.dueDateLayout.setHint("Can not be empty");
-                                                            }
-                                                            return;
-                                                        }
-                                                        binding.descLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
-                                                        binding.descLayout.setHint("Description");
-
-                                                        binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
-                                                        binding.dueDateLayout.setHint("Due Date");
-
-                                                        binding.post.setEnabled(false);
-
-                                                        Snackbar.make(v, "Assignment Sending", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-
-                                                        String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
-                                                        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
-                                                        Calendar calendar = Calendar.getInstance();
-                                                        int hour = calendar.get(Calendar.HOUR);
-                                                        if(hour == 0)
-                                                            hour = 12;
-                                                        final int minutes = calendar.get(Calendar.MINUTE);
-                                                        final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
-                                                        final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
-
-                                                        Map<String,Object> map = new HashMap<>();
-                                                        map.put("assignmentUrl", downloadUrl);
-                                                        map.put("teacherName", teacherName);
-                                                        map.put("email", mAuth.getCurrentUser().getEmail());
-                                                        map.put("className", binding.chooseClass.getText().toString());
-                                                        map.put("desc", binding.desc.getText().toString());
-                                                        map.put("dueDate", binding.dueDate.getText().toString());
-                                                        map.put("date", date);
-                                                        map.put("time", currentTime);
-
-                                                        db.collection("College_Project").document("teacher").collection("assignments")
-                                                                .document("ASGNT_"+dateFormat).set(map)
-                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                        if(task.isSuccessful()){
-                                                                            Snackbar.make(v, "Assignment sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-                                                                            new Handler().postDelayed(new Runnable() {
-                                                                                @Override
-                                                                                public void run() {
-                                                                                    CreateAssignmentActivity.super.onBackPressed();
-                                                                                }
-                                                                            }, 2000);
-
-                                                                        }
-                                                                        else
-                                                                            Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                });
-
-                                                    });
-
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-                    });
-
-
-
-                } catch (IOException e) {
-                    Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-
-
-            }
-        }
-    });
-    // Request Camera Permissions
-    ActivityResultLauncher<String> requestLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
-        @Override
-        public void onActivityResult(Boolean result) {
-            if (result) {
-               cameraLauncher.launch(captureImageUri);
-            } else
-                Toast.makeText(CreateAssignmentActivity.this, "Camera Permission Denied\nTo Allow Permission go to\n Setting < App Manager / App Permission", Toast.LENGTH_SHORT).show();
-        }
-    });
-
     private byte[] compressImage(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -448,309 +746,6 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         binding.docImage.setImageBitmap(bitmap);
         return baos.toByteArray();
     }
-
-    // Launch Gallery
-    ActivityResultLauncher<String> galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
-
-        if (result != null) {
-            //binding.docImage.setImageURI(result);
-            getTitleAndSize(result);
-            binding.docType.setText("JPEG");
-
-            try {
-                Bitmap fullBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-
-                StorageReference galReference = storageReference.child("Assignment/images/"+binding.docTitle.getText().toString());
-
-
-                if(baos.toByteArray().length/1024 < 400){
-                    binding.docImage.setImageURI(result);
-                    uploadTask = galReference.putFile(result);
-                }else {
-                    byte[] downSizeBytes = compressImage(fullBitmap);
-                    double i = Double.parseDouble(String.valueOf(downSizeBytes.length));
-                    if (i < 900000) {
-                        i /= Math.pow(10, 3);
-                        binding.docSize.setText("Size : " + String.format("%.2f", i) + " KB");
-                    } else {
-                        i /= Math.pow(10, 6);
-                        binding.docSize.setText("Size : " + String.format("%.2f", i) + " MB");
-
-                    }
-                    uploadTask = galReference.putBytes(downSizeBytes);
-
-                }
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(!task.isSuccessful())
-                        {
-                            Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        return galReference.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if(task.isSuccessful()){
-                            Uri downloadUrl = task.getResult();
-                            Toast.makeText(CreateAssignmentActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
-                            binding.post.setText("POST");
-                            binding.post.setEnabled(true);
-                            binding.docTitle.setOnClickListener(view -> {
-                                Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
-                                startActivity(intent);
-                            });
-
-                            db.collection("College_Project").document("teacher").collection("teacher_details")
-                                    .document(mAuth.getCurrentUser().getEmail()).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if(task.isSuccessful()){
-                                                String teacherName = task.getResult().get("full_name").toString();
-
-                                                binding.post.setOnClickListener(v -> {
-
-                                                    binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
-                                                    binding.dueDate.onEditorAction(EditorInfo.IME_ACTION_DONE);
-
-                                                    if(binding.desc.getText().toString().trim().isEmpty() || binding.dueDate.getText().toString().trim().isEmpty()){
-                                                        if(binding.desc.getText().toString().trim().isEmpty()){
-                                                            binding.descLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
-                                                            binding.descLayout.setHint("Can not be empty");
-
-                                                        }
-                                                        if(binding.dueDate.getText().toString().trim().isEmpty()){
-                                                            binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
-                                                            binding.dueDateLayout.setHint("Can not be empty");
-                                                        }
-                                                        return;
-                                                    }
-                                                    binding.descLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
-                                                    binding.descLayout.setHint("Description");
-
-                                                    binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
-                                                    binding.dueDateLayout.setHint("Due Date");
-
-                                                    binding.post.setEnabled(false);
-
-                                                    Snackbar.make(v, "Assignment Sending", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-
-                                                    String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
-                                                    String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
-                                                    Calendar calendar = Calendar.getInstance();
-                                                    int hour = calendar.get(Calendar.HOUR);
-                                                    if(hour == 0)
-                                                        hour = 12;
-                                                    final int minutes = calendar.get(Calendar.MINUTE);
-                                                    final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
-                                                    final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
-
-                                                    Map<String,Object> map = new HashMap<>();
-                                                    map.put("assignmentUrl", downloadUrl);
-                                                    map.put("teacherName", teacherName);
-                                                    map.put("email", mAuth.getCurrentUser().getEmail());
-                                                    map.put("className", binding.chooseClass.getText().toString());
-                                                    map.put("desc", binding.desc.getText().toString());
-                                                    map.put("dueDate", binding.dueDate.getText().toString());
-                                                    map.put("date", date);
-                                                    map.put("time", currentTime);
-
-                                                    db.collection("College_Project").document("teacher").collection("assignments")
-                                                            .document("ASGNT_"+dateFormat).set(map)
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if(task.isSuccessful()){
-                                                                        Snackbar.make(v, "Assignment sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-                                                                        new Handler().postDelayed(new Runnable() {
-                                                                            @Override
-                                                                            public void run() {
-                                                                                CreateAssignmentActivity.super.onBackPressed();
-                                                                            }
-                                                                        }, 2000);
-
-                                                                    }
-                                                                    else
-                                                                        Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-
-                                                });
-
-                                            }
-                                        }
-                                    });
-                        }
-                    }
-                });
-
-
-
-            } catch (IOException e) {
-                Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-
-
-
-
-
-        }
-
-    });
-    // Open document Intent
-    ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-        @Override
-        public void onActivityResult(Uri result) {
-            if (result != null) {
-               
-                getTitleAndSize(result);
-
-                StorageReference docReference = storageReference.child("Assignment/docs/"+binding.docTitle.getText().toString());
-                uploadTask = docReference.putFile(result);
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreateAssignmentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(!task.isSuccessful())
-                        {
-                            Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        return docReference.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if(task.isSuccessful()){
-                            Uri downloadUrl = task.getResult();
-                            Toast.makeText(CreateAssignmentActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
-                            binding.post.setText("POST");
-                            binding.post.setEnabled(true);
-                            binding.docTitle.setOnClickListener(view -> {
-                                Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
-                                startActivity(intent);
-                            });
-
-                            db.collection("College_Project").document("teacher").collection("teacher_details")
-                                    .document(mAuth.getCurrentUser().getEmail()).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if(task.isSuccessful()){
-                                                String teacherName = task.getResult().get("full_name").toString();
-
-                                                binding.post.setOnClickListener(v -> {
-
-                                                    binding.desc.onEditorAction(EditorInfo.IME_ACTION_DONE);   //for hide keyboard
-                                                    binding.dueDate.onEditorAction(EditorInfo.IME_ACTION_DONE);
-
-                                                    if(binding.desc.getText().toString().trim().isEmpty() || binding.dueDate.getText().toString().trim().isEmpty()){
-                                                        if(binding.desc.getText().toString().trim().isEmpty()){
-                                                            binding.descLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
-                                                            binding.descLayout.setHint("Can not be empty");
-
-                                                        }
-                                                        if(binding.dueDate.getText().toString().trim().isEmpty()){
-                                                            binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(Color.RED));
-                                                            binding.dueDateLayout.setHint("Can not be empty");
-                                                        }
-                                                        return;
-                                                    }
-                                                    binding.descLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
-                                                    binding.descLayout.setHint("Description");
-
-                                                    binding.dueDateLayout.setHintTextColor(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
-                                                    binding.dueDateLayout.setHint("Due Date");
-
-                                                    binding.post.setEnabled(false);
-
-                                                    Snackbar.make(v, "Sending Assignment...", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-
-                                                    String dateFormat = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.ENGLISH).format(System.currentTimeMillis());
-                                                    String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
-                                                    Calendar calendar = Calendar.getInstance();
-                                                    int hour = calendar.get(Calendar.HOUR);
-                                                    if(hour == 0)
-                                                        hour = 12;
-                                                    final int minutes = calendar.get(Calendar.MINUTE);
-                                                    final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
-                                                    final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
-
-                                                    Map<String,Object> map = new HashMap<>();
-                                                    map.put("assignmentUrl", downloadUrl);
-                                                    map.put("teacherName", teacherName);
-                                                    map.put("email", mAuth.getCurrentUser().getEmail());
-                                                    map.put("className", binding.chooseClass.getText().toString());
-                                                    map.put("desc", binding.desc.getText().toString());
-                                                    map.put("dueDate", binding.dueDate.getText().toString());
-                                                    map.put("date", date);
-                                                    map.put("time", currentTime);
-
-                                                    db.collection("College_Project").document("teacher").collection("assignments")
-                                                            .document("ASGNT_"+dateFormat).set(map)
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if(task.isSuccessful()){
-                                                                        Snackbar.make(v, "Assignment sent Successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-                                                                        new Handler().postDelayed(new Runnable() {
-                                                                            @Override
-                                                                            public void run() {
-                                                                                CreateAssignmentActivity.super.onBackPressed();
-                                                                            }
-                                                                        }, 2000);
-
-                                                                    }
-                                                                    else
-                                                                        Toast.makeText(CreateAssignmentActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-
-                                                });
-
-                                            }
-                                        }
-                                    });
-                        }
-                    }
-                });
-
-
-            }
-
-        }
-    });
 
     private void getTitleAndSize(Uri result) {
 
@@ -782,24 +777,28 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        if (!Objects.requireNonNull(binding.desc.getText()).toString().equals("") || !Objects.requireNonNull(binding.dueDate.getText()).toString().equals("") || binding.assignmentCard.getVisibility() == View.VISIBLE) {
 
-        builder.setTitle("Are You Sure ?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                CreateAssignmentActivity.super.onBackPressed();
-                dialogInterface.dismiss();
-            }
-        });
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
 
+            builder.setTitle("Are You Sure ?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    CreateAssignmentActivity.super.onBackPressed();
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.create().show();
+        } else {
+            CreateAssignmentActivity.super.onBackPressed();
+        }
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.create().show();
     }
 }

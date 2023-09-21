@@ -14,14 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
-import com.example.collegeproject.Remark.RemarkActivity;
 import com.example.collegeproject.attendance.AttendanceModelClass;
 
 import java.util.List;
 
 public class ProgressClassAdapter extends RecyclerView.Adapter<ProgressClassAdapter.ViewHolde> {
 
-    private List<AttendanceModelClass> userList;
+    private final List<AttendanceModelClass> userList;
     private int lastPosition = -1;
 
     public ProgressClassAdapter(List<AttendanceModelClass> userList) {
@@ -58,6 +57,7 @@ public class ProgressClassAdapter extends RecyclerView.Adapter<ProgressClassAdap
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return userList.size();
@@ -76,9 +76,9 @@ public class ProgressClassAdapter extends RecyclerView.Adapter<ProgressClassAdap
     }
 
     public class ViewHolde extends RecyclerView.ViewHolder {
-        private ImageView image;
-        private TextView dName;
-        private TextView aYear;
+        private final ImageView image;
+        private final TextView dName;
+        private final TextView aYear;
 
 
         public ViewHolde(@NonNull View itemView) {

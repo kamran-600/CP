@@ -10,16 +10,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.collegeproject.databinding.ActivityTeacherRegistrationBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TeacherRegistrationActivity extends AppCompatActivity {
 
@@ -37,7 +30,7 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if(getCurrentFocus() !=null){
+                if (getCurrentFocus() != null) {
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     return true;
                 }
@@ -75,12 +68,12 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(!binding.Tname.getText().toString().trim().equals("") &&
+                if (!binding.Tname.getText().toString().trim().equals("") &&
                         !binding.gender.getText().toString().trim().equals("") &&
                         !binding.email.getText().toString().trim().equals("") &&
                         !binding.phoneNo.getText().toString().trim().equals("") &&
                         !binding.department.getText().toString().trim().equals("") &&
-                        !binding.role.getText().toString().trim().equals("") ) {
+                        !binding.role.getText().toString().trim().equals("")) {
 
                     if (!Patterns.EMAIL_ADDRESS.matcher(binding.email.getText().toString().trim()).matches()) {
                         Toast.makeText(TeacherRegistrationActivity.this, "Please fill email in correct pattern", Toast.LENGTH_SHORT).show();
@@ -96,8 +89,7 @@ public class TeacherRegistrationActivity extends AppCompatActivity {
                     intent.putExtra("department", binding.department.getText().toString().trim());
                     intent.putExtra("role", binding.role.getText().toString().trim());
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Toast.makeText(TeacherRegistrationActivity.this, "Please fill * fields", Toast.LENGTH_SHORT).show();
                 }
             }

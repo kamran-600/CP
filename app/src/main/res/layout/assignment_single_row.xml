@@ -1,128 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/bg">
+    android:layout_height="80dp"
+    android:background="@color/bg"
+    android:foreground="?selectableItemBackground">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:elevation="1dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cartoon" />
 
 
-    <com.google.android.material.card.MaterialCardView
+    <TextView
+        android:id="@+id/tName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/image"
+        android:fontFamily="sans-serif-medium"
+        android:text="Kamran Alam"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/className"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tName"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/image"
+        android:fontFamily="sans-serif-medium"
+        android:text="Branch &amp; Year"
+        android:textColor="@color/black"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/className"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@id/image"
+        android:ellipsize="marquee"
+        android:fontFamily="sans-serif-light"
+        android:singleLine="true"
+        android:text="description"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/dueDateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_toStartOf="@id/dueDate"
+        android:fontFamily="sans-serif-medium"
+        android:text="Due Date :"
+        android:textColor="@color/black"
+        android:textSize="11sp"
+
+        />
+
+    <TextView
+        android:id="@+id/dueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="12/01/2022"
+        android:textColor="@color/black"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="12/10/2001"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:layout_toStartOf="@id/date"
+        android:fontFamily="sans-serif-light"
+        android:text="12:00 AM"
+        android:textSize="11sp" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:elevation="25dp"
-        app:cardBackgroundColor="@color/chatRow"
-        app:cardElevation="15dp">
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#DFCACA" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/bg">
-
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:elevation="1dp"
-                android:scaleType="centerCrop"
-                android:transitionName="ImageTransition"
-                android:src="@drawable/cartoon" />
-
-
-            <TextView
-                android:id="@+id/tName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/image"
-                android:fontFamily="sans-serif-medium"
-                android:text="Kamran Alam"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/className"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tName"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/image"
-                android:fontFamily="sans-serif-medium"
-                android:text="Branch &amp; Year"
-                android:textColor="@color/black"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/className"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/image"
-                android:ellipsize="marquee"
-                android:fontFamily="sans-serif-light"
-                android:singleLine="true"
-                android:text="description"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/dueDateTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="185dp"
-                android:layout_marginTop="16dp"
-                android:layout_toRightOf="@id/image"
-                android:fontFamily="sans-serif-medium"
-                android:text="Due Date :"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-
-                />
-
-            <TextView
-                android:id="@+id/dueDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="16dp"
-                android:layout_toRightOf="@id/dueDateTitle"
-                android:fontFamily="sans-serif-medium"
-                android:text="12/01/2022"
-                android:textColor="@color/black"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="55dp"
-                android:layout_toRightOf="@id/time"
-                android:fontFamily="sans-serif-light"
-                android:text="12/10/2001"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="185dp"
-                android:layout_marginTop="55dp"
-                android:layout_toRightOf="@id/image"
-                android:fontFamily="sans-serif-light"
-                android:text="7:00 AM"
-                android:textSize="11sp" />
-
-
-        </RelativeLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

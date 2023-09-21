@@ -31,8 +31,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:enabled="false"
                     android:background="@android:color/transparent"
+                    android:enabled="false"
                     android:text="Post" />
 
             </com.google.android.material.appbar.MaterialToolbar>
@@ -51,7 +51,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
                 android:elevation="1dp"
-                android:src="@drawable/a0" />
+                android:src="@drawable/cartoon" />
 
             <TextView
                 android:id="@+id/User_name"
@@ -135,8 +135,8 @@
                 android:id="@+id/dueDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="10"
                 android:inputType="date"
+                android:maxLength="10"
                 android:textColor="@color/midBlue"
                 android:textCursorDrawable="@drawable/form_cursor" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -211,7 +211,7 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -258,7 +258,7 @@
                     app:tint="@color/white" />
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
     </LinearLayout>

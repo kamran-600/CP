@@ -1,29 +1,24 @@
 package com.example.collegeproject.attendance;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
-import com.example.collegeproject.fee.FeeModel;
-import com.example.collegeproject.fee.FeeSummaryActivity;
 
 import java.util.List;
 
 public class AttendanceClassAdapter extends RecyclerView.Adapter<AttendanceClassAdapter.ViewHolde> {
-    private List<AttendanceModelClass> userList;
+    private final List<AttendanceModelClass> userList;
     private int lastPosition = -1;
 
     public AttendanceClassAdapter(List<AttendanceModelClass> userList) {
@@ -79,9 +74,9 @@ public class AttendanceClassAdapter extends RecyclerView.Adapter<AttendanceClass
     }
 
     public class ViewHolde extends RecyclerView.ViewHolder {
-        private ImageView image;
-        private TextView dName;
-        private TextView aYear;
+        private final ImageView image;
+        private final TextView dName;
+        private final TextView aYear;
 
 
         public ViewHolde(@NonNull View itemView) {

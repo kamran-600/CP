@@ -3,7 +3,7 @@ package com.example.collegeproject.teacherData;
 import com.google.firebase.firestore.Blob;
 
 public class TeacherData {
-    String department,email,full_name,gender,password,phone_no,role;
+    String department, email, full_name, gender, password, phone_no, role;
 
     Blob profileImageBlob;
 

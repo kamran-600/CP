@@ -1,10 +1,8 @@
 package com.example.collegeproject.Assignment;
 
-import com.google.firebase.firestore.Blob;
-
 public class AssignmentSubmitModal {
 
-    String studentName, submittedAssignmentUrl , date , time, roll_number;
+    String studentName, submittedAssignmentUrl, date, time, roll_number;
 
     String checkedAssignmentUrl, checkedDate, checkedTime;
     /*// boolean expanded;
@@ -25,8 +23,8 @@ public class AssignmentSubmitModal {
         this.expanded = expanded;
     }*/
 
-   public AssignmentSubmitModal() {
-   }
+    public AssignmentSubmitModal() {
+    }
 
     public AssignmentSubmitModal(String studentName, String submittedAssignmentUrl, String date, String time, String roll_number) {
         this.studentName = studentName;

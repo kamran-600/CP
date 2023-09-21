@@ -33,8 +33,8 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
 
 
     List<AssignmentSubmitModal> userList;
-    private int lastPosition = -1;
     String id;
+    private int lastPosition = -1;
 
     public AssignmentSubmitAdapter(List<AssignmentSubmitModal> userList, String id) {
         this.userList = userList;
@@ -60,24 +60,23 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if( data != null && data.getRoll_number().equals(rollNo)){
-                                    if(data.getProfileImageBlob() != null){
+                                if (data != null && data.getRoll_number().equals(rollNo)) {
+                                    if (data.getProfileImageBlob() != null) {
                                         imageBlob[0] = data.getProfileImageBlob();
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
                                         holder.image.setOnClickListener(v -> {
-                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
                                             Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                                             intent.putExtra("byte", data.getProfileImageBlob().toBytes());
                                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                                             activity.startActivity(intent, optionsCompat.toBundle());
                                         });
-                                    }
-                                    else holder.image.setImageResource(R.drawable.cartoon);
+                                    } else holder.image.setImageResource(R.drawable.cartoon);
                                 }
                             }
                         }
@@ -88,25 +87,24 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if( data != null && data.getRoll_number().equals(rollNo)){
-                                    if(data.getProfileImageBlob() != null){
+                                if (data != null && data.getRoll_number().equals(rollNo)) {
+                                    if (data.getProfileImageBlob() != null) {
                                         imageBlob[0] = data.getProfileImageBlob();
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
                                         holder.image.setOnClickListener(v -> {
-                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
                                             Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                                             intent.putExtra("byte", data.getProfileImageBlob().toBytes());
                                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                                             activity.startActivity(intent, optionsCompat.toBundle());
                                         });
 
-                                    }
-                                    else holder.image.setImageResource(R.drawable.cartoon);
+                                    } else holder.image.setImageResource(R.drawable.cartoon);
 
                                 }
                             }
@@ -119,24 +117,23 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if( data != null && data.getRoll_number().equals(rollNo)){
-                                    if(data.getProfileImageBlob() != null){
+                                if (data != null && data.getRoll_number().equals(rollNo)) {
+                                    if (data.getProfileImageBlob() != null) {
                                         imageBlob[0] = data.getProfileImageBlob();
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
                                         holder.image.setOnClickListener(v -> {
-                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
                                             Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                                             intent.putExtra("byte", data.getProfileImageBlob().toBytes());
                                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                                             activity.startActivity(intent, optionsCompat.toBundle());
                                         });
-                                    }
-                                    else holder.image.setImageResource(R.drawable.cartoon);
+                                    } else holder.image.setImageResource(R.drawable.cartoon);
                                 }
                             }
                         }
@@ -148,24 +145,23 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if( data != null && data.getRoll_number().equals(rollNo)){
-                                    if(data.getProfileImageBlob() != null){
+                                if (data != null && data.getRoll_number().equals(rollNo)) {
+                                    if (data.getProfileImageBlob() != null) {
                                         imageBlob[0] = data.getProfileImageBlob();
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
                                         holder.image.setOnClickListener(v -> {
-                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
                                             Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                                             intent.putExtra("byte", data.getProfileImageBlob().toBytes());
                                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                                             activity.startActivity(intent, optionsCompat.toBundle());
                                         });
-                                    }
-                                    else holder.image.setImageResource(R.drawable.cartoon);
+                                    } else holder.image.setImageResource(R.drawable.cartoon);
                                 }
                             }
                         }
@@ -175,16 +171,15 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
         String stuName = userList.get(position).getStudentName();
         String submitDate = userList.get(position).getDate();
         String submitTime = userList.get(position).getTime();
-        holder.setData( stuName, submitDate, submitTime);
+        holder.setData(stuName, submitDate, submitTime);
         setAnimation(holder.itemView, position);
 
         holder.itemView.setOnClickListener(v -> {
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
             Intent intent = new Intent(activity, AssignmentCheckActivity.class);
-            if(imageBlob[0] != null){
+            if (imageBlob[0] != null) {
                 intent.putExtra("imageByte", imageBlob[0].toBytes());
-            }
-            else intent.putExtra("resource", R.drawable.a2);
+            } else intent.putExtra("resource", R.drawable.cartoon);
             intent.putExtra("stuName", stuName);
             intent.putExtra("date", submitDate);
             intent.putExtra("time", submitTime);
@@ -235,7 +230,7 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
 
     static class Viewholder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView stuName, submitDate,submitTime;
+        TextView stuName, submitDate, submitTime;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -245,7 +240,7 @@ public class AssignmentSubmitAdapter extends RecyclerView.Adapter<AssignmentSubm
             submitTime = itemView.findViewById(R.id.submissionTime);
         }
 
-        public void setData( String stuName1, String submitDate1, String submitTime1) {
+        public void setData(String stuName1, String submitDate1, String submitTime1) {
             stuName.setText(stuName1);
             submitDate.setText(submitDate1);
             submitTime.setText(submitTime1);

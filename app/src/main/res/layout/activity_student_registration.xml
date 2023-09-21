@@ -129,9 +129,9 @@
                         android:id="@+id/dob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="10"
                         android:fontFamily="sans-serif-medium"
                         android:inputType="date"
+                        android:maxLength="10"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -295,8 +295,8 @@
                         android:id="@+id/academicyear"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:maxLength="8"
                         android:fontFamily="sans-serif-medium"
+                        android:maxLength="8"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -316,8 +316,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
                         android:hint="@string/batch"
-                        android:maxLength="9"
                         android:inputType="textPhonetic"
+                        android:maxLength="9"
                         android:textColor="@color/midBlue"
                         android:textCursorDrawable="@drawable/form_cursor"
                         android:textSize="15sp" />

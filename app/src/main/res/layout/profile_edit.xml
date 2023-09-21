@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phoneLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:visibility="gone"
-        app:endIconMode="clear_text"
-        android:layout_centerHorizontal="true"
         app:boxStrokeColor="@color/upperBlue"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/upperBlue">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:hint="@string/phone"
-            android:maxLength="10"
             android:inputType="phone"
+            android:maxLength="10"
             android:textColor="@color/midBlue"
             android:textCursorDrawable="@drawable/form_cursor"
             android:textSize="15sp" />
@@ -35,12 +35,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:visibility="gone"
-        app:endIconMode="clear_text"
-        android:layout_centerHorizontal="true"
         app:boxStrokeColor="@color/upperBlue"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/upperBlue">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -65,8 +65,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:visibility="gone"
-        app:endIconMode="clear_text"
         app:boxStrokeColor="@color/upperBlue"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/upperBlue">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -90,8 +90,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:visibility="gone"
-        app:endIconMode="clear_text"
         app:boxStrokeColor="@color/upperBlue"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/upperBlue">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -112,12 +112,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:visibility="gone"
-        app:endIconMode="clear_text"
-        android:layout_centerHorizontal="true"
         app:boxStrokeColor="@color/upperBlue"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/upperBlue">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -137,12 +137,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:visibility="gone"
-        app:endIconMode="clear_text"
-        android:layout_centerHorizontal="true"
         app:boxStrokeColor="@color/upperBlue"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/upperBlue">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -163,12 +163,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        app:endIconMode="clear_text"
         android:visibility="gone"
-        android:layout_centerHorizontal="true"
         app:boxStrokeColor="@color/upperBlue"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/upperBlue">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -183,8 +183,6 @@
             android:textCursorDrawable="@drawable/form_cursor"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
 </RelativeLayout>

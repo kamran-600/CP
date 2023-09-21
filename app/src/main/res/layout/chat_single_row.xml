@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg">
+    android:background="@color/bg"
+    android:foreground="?selectableItemBackground">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -21,8 +22,8 @@
                 android:id="@+id/image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
                 android:elevation="1dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/a0"
@@ -34,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/cse"
@@ -54,7 +55,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/first"
                 android:textColor="@color/black"
-                android:textSize="10sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/lastMessage"
@@ -66,7 +67,7 @@
                 android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-light"
                 android:text="Last message"
-                android:textSize="10sp" />
+                android:textSize="11sp" />
 
 
             <TextView
@@ -74,12 +75,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/aYear"
-                android:layout_marginLeft="205dp"
+                android:layout_marginStart="205dp"
                 android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-light"
                 android:text="7:00 am"
-                android:textSize="10sp" />
+                android:textSize="11sp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DFCACA" />
 
 
         </RelativeLayout>

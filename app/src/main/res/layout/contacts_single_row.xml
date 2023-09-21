@@ -6,7 +6,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/chatRow">
 
         <RelativeLayout
@@ -19,25 +19,25 @@
                 android:id="@+id/image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
                 android:elevation="1dp"
                 android:scaleType="centerCrop"
-                android:transitionName="ImageTransition"
-                android:src="@drawable/a0" />
+                android:src="@drawable/a0"
+                android:transitionName="ImageTransition" />
 
 
             <TextView
                 android:id="@+id/stuName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
-                android:text="Ram"
-                android:textColor="@color/black"
-                android:textSize="12sp"
+                android:text="Alpha"
+                android:textColor="#453D3D"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -45,9 +45,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/stuName"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/call"
+                android:layout_toEndOf="@id/image"
+                android:background="?selectableItemBackground"
+                android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:text="79822623923652"
                 android:textColor="@color/black"
@@ -57,9 +61,9 @@
                 android:id="@+id/stuCNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="155dp"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_marginEnd="45dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="9876543210"
                 android:textColor="@color/black"
@@ -70,9 +74,9 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_below="@id/stuCNumber"
-                android:layout_marginLeft="150dp"
                 android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_marginEnd="30dp"
+                android:layout_toStartOf="@id/msg"
                 android:src="@drawable/telephone" />
 
             <ImageView
@@ -80,10 +84,16 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_below="@id/stuCNumber"
-                android:layout_marginLeft="205dp"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_marginEnd="35dp"
                 android:src="@drawable/message" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DFCACA" />
 
         </RelativeLayout>
 

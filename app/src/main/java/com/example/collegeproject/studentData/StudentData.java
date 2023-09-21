@@ -4,10 +4,10 @@ import com.google.firebase.firestore.Blob;
 
 public class StudentData {
 
-    String full_name, father_name, personal_phone, gender, dob, father_phone, email,role;
+    String full_name, father_name, personal_phone, gender, dob, father_phone, email, role;
 
     Blob profileImageBlob;
-    String roll_number, academic_fee, department, batch, hostel_fee, academic_year, password, submittedAcademicFee,  submittedHostelFee;
+    String roll_number, academic_fee, department, batch, hostel_fee, academic_year, password, submittedAcademicFee, submittedHostelFee;
 
 
     public StudentData() {

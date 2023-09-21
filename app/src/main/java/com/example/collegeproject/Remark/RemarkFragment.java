@@ -8,10 +8,7 @@ import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
@@ -32,14 +29,13 @@ public class RemarkFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    List<AttendanceModelClass> userList;
+    RemarkClassAdapter adapter;
+    HomeActivity homeActivity;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private FragmentRemarkBinding binding;
-    List<AttendanceModelClass> userList;
-    RemarkClassAdapter adapter;
-    HomeActivity homeActivity;
 
 
     public RemarkFragment() {
@@ -129,8 +125,6 @@ public class RemarkFragment extends Fragment {
 
         adapter = new RemarkClassAdapter(userList);
         binding.recyclerview1.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        binding.recyclerview1.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 
     }

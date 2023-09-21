@@ -1,24 +1,19 @@
 package com.example.collegeproject.attendance;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentClassBinding;
-import com.example.collegeproject.fee.FeeAdapter;
-import com.example.collegeproject.fee.FeeModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +29,15 @@ public class ClassFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    LinearLayoutManager layoutManager;
+    List<AttendanceModelClass> userList;
+    AttendanceClassAdapter adapter;
+    HomeActivity homeActivity;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private FragmentClassBinding binding;
-    LinearLayoutManager layoutManager;
-    List<AttendanceModelClass> userList;
-    AttendanceClassAdapter adapter;
 
-    HomeActivity homeActivity;
     public ClassFragment() {
         // Required empty public constructor
     }
@@ -128,12 +122,11 @@ public class ClassFragment extends Fragment {
         return binding.getRoot();
 
     }
+
     private void initRecyclerView() {
 
         adapter = new AttendanceClassAdapter(userList);
         binding.recyclerview1.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        binding.recyclerview1.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 
     }

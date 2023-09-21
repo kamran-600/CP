@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
     android:animateLayoutChanges="true"
+    android:background="@color/bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".Assignment.AssignmentShowActivity">
@@ -30,10 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:visibility="gone"
                 android:background="@android:color/transparent"
                 android:enabled="false"
-                android:text="Submit" />
+                android:text="Submit"
+                android:visibility="gone" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -45,7 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="20dp"
-        android:background="@drawable/reg_box">
+        android:background="@drawable/reg_box"
+        android:foreground="?selectableItemBackground">
 
         <!--  <ImageView
               android:id="@+id/clear"
@@ -62,8 +63,8 @@
             android:layout_height="70dp"
             android:layout_marginTop="2dp"
             android:padding="2dp"
-            android:transitionName="ImageTransition"
-            android:src="@drawable/pdf" />
+            android:src="@drawable/pdf"
+            android:transitionName="ImageTransition" />
 
         <TextView
             android:id="@+id/doc_title"
@@ -129,16 +130,15 @@
         android:text="This is the first assignment. I'll provide rest of the assignment next week of next Month of next year 2024." />
 
 
-
-
     <RelativeLayout
         android:id="@+id/AssignmentCardStudent"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="15dp"
-        android:visibility="gone"
-        android:background="@drawable/reg_box">
+        android:background="@drawable/reg_box"
+        android:foreground="?selectableItemBackground"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/AssignmentImage2"
@@ -185,8 +185,9 @@
         android:layout_height="30dp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="15dp"
-        android:visibility="gone"
-        android:background="@drawable/reg_box">
+        android:background="@drawable/reg_box"
+        android:foreground="?selectableItemBackground"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/AssignmentCheckedImage2"
@@ -228,8 +229,6 @@
     </RelativeLayout>
 
 
-
-
     <Button
         android:id="@+id/AttachAssignmentBtnStudent"
         android:layout_width="wrap_content"
@@ -239,19 +238,20 @@
         android:backgroundTint="@color/upperBlue"
         android:text="Attach Completed Assignment"
         android:textAllCaps="false"
-        android:visibility="gone"
         android:textSize="12sp"
+        android:visibility="gone"
         app:cornerRadius="20dp" />
 
     <TextView
         android:id="@+id/listOfStudentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
         android:text="List of the Students who have submitted the assignment "
         android:textColor="@color/black"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

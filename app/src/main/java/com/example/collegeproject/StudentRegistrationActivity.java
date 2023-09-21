@@ -13,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.collegeproject.databinding.ActivityStudentRegistrationBinding;
 
@@ -42,7 +41,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if(getCurrentFocus() !=null){
+                if (getCurrentFocus() != null) {
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     return true;
                 }
@@ -67,8 +66,8 @@ public class StudentRegistrationActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month + 1;
-                final String date = String.format(Locale.ENGLISH,"%02d/"+"%02d/",day,month)+year;
-                
+                final String date = String.format(Locale.ENGLISH, "%02d/" + "%02d/", day, month) + year;
+
                 binding.dob.setText(date);
             }
         };
@@ -103,7 +102,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(!binding.rollnumber.getText().toString().trim().equals("") &&
+                if (!binding.rollnumber.getText().toString().trim().equals("") &&
                         !binding.email.getText().toString().trim().equals("") &&
                         !binding.department.getText().toString().trim().equals("") &&
                         !binding.academicyear.getText().toString().trim().equals("") &&
@@ -114,9 +113,9 @@ public class StudentRegistrationActivity extends AppCompatActivity {
                         !binding.dob.getText().toString().trim().equals("") &&
                         !binding.personalphone.getText().toString().trim().equals("") &&
                         !binding.fathername.getText().toString().trim().equals("") &&
-                        !binding.fatherphone.getText().toString().trim().equals("") ) {
+                        !binding.fatherphone.getText().toString().trim().equals("")) {
 
-                    if(!Patterns.EMAIL_ADDRESS.matcher(binding.email.getText().toString().trim()).matches()){
+                    if (!Patterns.EMAIL_ADDRESS.matcher(binding.email.getText().toString().trim()).matches()) {
                         Toast.makeText(StudentRegistrationActivity.this, "Please fill email in correct Pattern", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -138,8 +137,7 @@ public class StudentRegistrationActivity extends AppCompatActivity {
                     intent.putExtra("father_phone", binding.fatherphone.getText().toString().trim());
 
                     startActivity(intent);
-                }
-                else {
+                } else {
                     Toast.makeText(StudentRegistrationActivity.this, "Please fill * fields", Toast.LENGTH_SHORT).show();
                 }
             }

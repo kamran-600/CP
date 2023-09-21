@@ -11,7 +11,6 @@ public class FeeSummaryModel {
     private final String submit;
 
 
-
     public FeeSummaryModel(Blob imageBlob, String name, String rno, String total, String submit) {
         this.imageBlob = imageBlob;
         this.name = name;

@@ -5,7 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +35,8 @@ import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolde> {
 
+    private final List<ContactModel> userList;
     Intent intent;
-    private List<ContactModel> userList;
     private int lastPosition = -1;
 
 
@@ -50,27 +55,61 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolde holder, int position) {
         Blob resource = userList.get(position).getImageBlob();
-        if(resource != null){
+        if (resource != null) {
             Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
             fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
             holder.image.setImageBitmap(fullBitmap);
             holder.image.setOnClickListener(v -> {
-                AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                 intent.putExtra("byte", resource.toBytes());
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                 activity.startActivity(intent, optionsCompat.toBundle());
             });
-        }
-        else{
+        } else {
             holder.image.setImageResource(R.drawable.cartoon);
         }
         String stuName = userList.get(position).getStuName();
         String stuRNumber = userList.get(position).getStuRNumber();
         String stuCNumber = userList.get(position).getStuCNumber();
 
-        holder.setData( stuName, stuRNumber, stuCNumber);
+        holder.setData(stuName, stuRNumber, stuCNumber);
         setAnimation(holder.itemView, position);
+
+        if (Patterns.EMAIL_ADDRESS.matcher(stuRNumber).matches()) {
+
+
+            SpannableString email = new SpannableString(holder.rNumber.getText());
+
+            ForegroundColorSpan g = new ForegroundColorSpan(Color.parseColor("#FF1E88E5"));
+            ForegroundColorSpan m = new ForegroundColorSpan(Color.RED);
+            ForegroundColorSpan a = new ForegroundColorSpan(Color.parseColor("#DC3C31"));
+            ForegroundColorSpan i = new ForegroundColorSpan(Color.parseColor("#FF9800"));
+            ForegroundColorSpan l = new ForegroundColorSpan(Color.parseColor("#237927"));
+
+            email.setSpan(g, email.length() - 9, email.length() - 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            email.setSpan(m, email.length() - 8, email.length() - 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            email.setSpan(a, email.length() - 7, email.length() - 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            email.setSpan(i, email.length() - 6, email.length() - 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            email.setSpan(l, email.length() - 5, email.length() - 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+            holder.rNumber.setText(email);
+
+            holder.rNumber.setOnClickListener(v -> {
+
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                /*TypedValue typedValue = new TypedValue();
+                activity.getTheme().resolveAttribute(android.R.attr.selectableItemBackground,typedValue, true );
+                holder.rNumber.setBackgroundResource(typedValue.resourceId);*/
+                intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:" + stuRNumber));
+                activity.startActivity(intent);
+            });
+        }
+        /*else {
+              holder.rNumber.setBackgroundResource(0);
+        }*/
 
 
         holder.call.setOnClickListener(view -> {
@@ -83,7 +122,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
         holder.msg.setOnClickListener(v -> {
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
-            String uri = "https://api.whatsapp.com/send?phone=" + "+91"+stuCNumber;
+            String uri = "https://api.whatsapp.com/send?phone=" + "+91" + stuCNumber;
             try {
                 PackageManager pm = activity.getPackageManager();
                 pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
@@ -91,7 +130,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 i.setData(Uri.parse(uri));
                 activity.startActivity(i);
             } catch (PackageManager.NameNotFoundException e) {
-                Toast.makeText(activity, "Whatsapp app not installed in your phone",Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Whatsapp app not installed in your phone", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -115,10 +154,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public class ViewHolde extends RecyclerView.ViewHolder {
         private final ImageView call;
         private final ImageView msg;
-        private ImageView image;
-        private TextView name;
-        private TextView rNumber;
-        private TextView cNumber;
+        private final ImageView image;
+        private final TextView name;
+        private final TextView rNumber;
+        private final TextView cNumber;
 
 
         public ViewHolde(@NonNull View itemView) {

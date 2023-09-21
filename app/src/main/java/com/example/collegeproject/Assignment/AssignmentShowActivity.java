@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.collegeproject.R;
@@ -32,7 +31,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.divider.MaterialDividerItemDecoration;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,7 +63,102 @@ public class AssignmentShowActivity extends AppCompatActivity {
     StorageReference storageReference;
     UploadTask uploadTask;
     String studentName, rollNo;
+    ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri result) {
+            if (result != null) {
+                getTitleAndSize(result);
 
+                StorageReference docReference = storage.getReference().child("Assignment/submittedDocs/" + binding.CompletedAssignmentName.getText().toString());
+                uploadTask = docReference.putFile(result);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AssignmentShowActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(AssignmentShowActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        return docReference.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUrl = task.getResult();
+                            Toast.makeText(AssignmentShowActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+                            binding.submit.setText("SUBMIT");
+                            binding.submit.setEnabled(true);
+                            binding.CompletedAssignmentName.setOnClickListener(view -> {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
+                                startActivity(intent);
+                            });
+
+                            binding.submit.setOnClickListener(v -> {
+                                binding.submit.setEnabled(false);
+                                Snackbar.make(v, "Submitting Assignment...", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+
+                                String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
+
+                                Calendar calendar = Calendar.getInstance();
+                                int hour = calendar.get(Calendar.HOUR);
+                                if (hour == 0)
+                                    hour = 12;
+                                final int minutes = calendar.get(Calendar.MINUTE);
+                                final String am_pm = calendar.get(Calendar.AM_PM) == Calendar.AM ? " AM" : " PM";
+                                final String currentTime = String.format(Locale.ENGLISH, "%02d:" + "%02d", hour, minutes) + am_pm;
+
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("submittedAssignmentUrl", downloadUrl);
+                                map.put("studentName", studentName);
+                                map.put("roll_number", rollNo);
+                                map.put("date", date);
+                                map.put("time", currentTime);
+
+                                db.collection("College_Project").document("teacher").collection("assignments")
+                                        .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
+                                        .document(studentName).set(map, SetOptions.merge())
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Snackbar.make(v, "Assignment submitted successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            onBackPressed();
+                                                        }
+                                                    }, 1000);
+
+                                                }
+                                            }
+                                        });
+
+
+                            });
+
+
+                        }
+                    }
+                });
+
+
+            }
+        }
+    });
+
+
+    // submit the assignment ans copy (student perspective)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +181,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
         binding.clear.setOnClickListener(v -> {
             binding.AssignmentCardStudent.setVisibility(View.GONE);
             binding.submit.setEnabled(false);
+            binding.AttachAssignmentBtnStudent.setVisibility(View.VISIBLE);
         });
 
         binding.postBar.setSubtitle(getIntent().getStringExtra("postedDate"));
@@ -159,6 +253,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
                                     rollNo = data.getRoll_number();
+                                    binding.swipeRefresh.setEnabled(false);
 
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -181,7 +276,6 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                     binding.AttachAssignmentBtnStudent.setText("Submitted");
                                                                     binding.submit.setVisibility(View.GONE);
                                                                     binding.AttachAssignmentBtnStudent.setEnabled(false);
-                                                                    binding.postBar.setTitle("Assignment Submitted");
                                                                     binding.AssignmentCardStudent.setOnClickListener(v -> {
                                                                         Intent intent = new Intent(AssignmentShowActivity.this, AssignmentOpenActivity.class);
                                                                         intent.putExtra("url", modal.getSubmittedAssignmentUrl());
@@ -194,8 +288,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                             });
 
 
-                                                        }
-                                                        else {
+                                                        } else {
                                                             binding.postBar.setTitle("Submit Assignment");
                                                             binding.AttachAssignmentBtnStudent.setVisibility(View.VISIBLE);
                                                             binding.submit.setVisibility(View.VISIBLE);
@@ -225,6 +318,8 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                 }
                                                             });
 
+                                                        } else {
+                                                            binding.postBar.setTitle("Assignment Submitted");
                                                         }
 
 
@@ -248,6 +343,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
                                     rollNo = data.getRoll_number();
+                                    binding.swipeRefresh.setEnabled(false);
 
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -270,7 +366,6 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                     binding.AttachAssignmentBtnStudent.setText("Submitted");
                                                                     binding.submit.setVisibility(View.GONE);
                                                                     binding.AttachAssignmentBtnStudent.setEnabled(false);
-                                                                    binding.postBar.setTitle("Assignment Submitted");
                                                                     binding.AssignmentCardStudent.setOnClickListener(v -> {
                                                                         Intent intent = new Intent(AssignmentShowActivity.this, AssignmentOpenActivity.class);
                                                                         intent.putExtra("url", modal.getSubmittedAssignmentUrl());
@@ -283,8 +378,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                             });
 
 
-                                                        }
-                                                        else {
+                                                        } else {
                                                             binding.postBar.setTitle("Submit Assignment");
                                                             binding.AttachAssignmentBtnStudent.setVisibility(View.VISIBLE);
                                                             binding.submit.setVisibility(View.VISIBLE);
@@ -314,6 +408,8 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                 }
                                                             });
 
+                                                        } else {
+                                                            binding.postBar.setTitle("Assignment Submitted");
                                                         }
 
                                                     }
@@ -337,6 +433,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
                                     rollNo = data.getRoll_number();
+                                    binding.swipeRefresh.setEnabled(false);
 
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -359,7 +456,6 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                     binding.AttachAssignmentBtnStudent.setText("Submitted");
                                                                     binding.submit.setVisibility(View.GONE);
                                                                     binding.AttachAssignmentBtnStudent.setEnabled(false);
-                                                                    binding.postBar.setTitle("Assignment Submitted");
                                                                     binding.AssignmentCardStudent.setOnClickListener(v -> {
                                                                         Intent intent = new Intent(AssignmentShowActivity.this, AssignmentOpenActivity.class);
                                                                         intent.putExtra("url", modal.getSubmittedAssignmentUrl());
@@ -372,8 +468,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                             });
 
 
-                                                        }
-                                                        else {
+                                                        } else {
                                                             binding.postBar.setTitle("Submit Assignment");
                                                             binding.AttachAssignmentBtnStudent.setVisibility(View.VISIBLE);
                                                             binding.submit.setVisibility(View.VISIBLE);
@@ -403,6 +498,8 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                 }
                                                             });
 
+                                                        } else {
+                                                            binding.postBar.setTitle("Assignment Submitted");
                                                         }
                                                     }
                                                 }
@@ -425,6 +522,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                 if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     studentName = data.getFull_name();
                                     rollNo = data.getRoll_number();
+                                    binding.swipeRefresh.setEnabled(false);
 
                                     db.collection("College_Project").document("teacher").collection("assignments")
                                             .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
@@ -446,10 +544,6 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                     binding.clear.setVisibility(View.INVISIBLE);
                                                                     binding.AttachAssignmentBtnStudent.setText("Submitted");
                                                                     binding.submit.setVisibility(View.GONE);
-                                                                    binding.postBar.setTitle("Assignment Submitted");
-                                                                    if(binding.AssignmentCheckedCard.getVisibility() == View.VISIBLE){
-                                                                        binding.postBar.setTitle("Assignment Checked");
-                                                                    }
                                                                     binding.AttachAssignmentBtnStudent.setEnabled(false);
                                                                     binding.AssignmentCardStudent.setOnClickListener(v -> {
                                                                         Intent intent = new Intent(AssignmentShowActivity.this, AssignmentOpenActivity.class);
@@ -463,8 +557,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                             });
 
 
-                                                        }
-                                                        else {
+                                                        } else {
                                                             binding.postBar.setTitle("Submit Assignment");
                                                             binding.AttachAssignmentBtnStudent.setVisibility(View.VISIBLE);
                                                             binding.submit.setVisibility(View.VISIBLE);
@@ -494,6 +587,8 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                                 }
                                                             });
 
+                                                        } else {
+                                                            binding.postBar.setTitle("Assignment Submitted");
                                                         }
 
                                                     }
@@ -505,7 +600,6 @@ public class AssignmentShowActivity extends AppCompatActivity {
                         }
                     }
                 });
-
 
 
         // teacher
@@ -541,15 +635,14 @@ public class AssignmentShowActivity extends AppCompatActivity {
                                                             AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
                                                             if (submittedData != null) {
                                                                 AssignmentSubmitModal modal = new AssignmentSubmitModal(submittedData.getStudentName(), submittedData.getSubmittedAssignmentUrl(), submittedData.getDate(), submittedData.getTime(), submittedData.getRoll_number());
-                                                                userList.add(0,modal);
+                                                                userList.add(0, modal);
                                                                 adapter = new AssignmentSubmitAdapter(userList, getIntent().getStringExtra("id"));
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                binding.recyclerview.addItemDecoration(new MaterialDividerItemDecoration(AssignmentShowActivity.this, MaterialDividerItemDecoration.VERTICAL));
                                                                 adapter.notifyDataSetChanged();
 
                                                             }
                                                         }
-                                                        if(userList.size() ==0){
+                                                        if (userList.size() == 0) {
                                                             Toast.makeText(AssignmentShowActivity.this, "No Student have submitted the assignment yet", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
@@ -569,166 +662,67 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
         binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
-        @Override
-        public void onRefresh() {
+            @Override
+            public void onRefresh() {
 
-            // show shimmer
-            skeleton.showSkeleton();
+                // show shimmer
+                skeleton.showSkeleton();
 
-            // show the list of the students who have submitted the assignment (teacher perspective)
+                // show the list of the students who have submitted the assignment (teacher perspective)
 
-            db.collection("College_Project").document("teacher").collection("teacher_details")
-                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
-                                TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
-                                    binding.listOfStudentText.setVisibility(View.VISIBLE);
-                                    binding.recyclerview.setVisibility(View.VISIBLE);
+                db.collection("College_Project").document("teacher").collection("teacher_details")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
+                                        TeacherData data = teacherEmail.toObject(TeacherData.class);
+                                        if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                            binding.listOfStudentText.setVisibility(View.VISIBLE);
+                                            binding.recyclerview.setVisibility(View.VISIBLE);
 
-                                    db.collection("College_Project").document("teacher").collection("assignments")
-                                            .document(getIntent().getStringExtra("id")).collection("submittedAssignments").get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        int size = userList.size();
-                                                        userList.clear();
-                                                        if(size !=0){
-                                                            adapter.notifyItemRangeRemoved(0, size);
-                                                        }
-                                                        skeleton.showOriginal();
-                                                        for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
-                                                            AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
-                                                            if (submittedData != null) {
-                                                                AssignmentSubmitModal modal = new AssignmentSubmitModal(submittedData.getStudentName(), submittedData.getSubmittedAssignmentUrl(), submittedData.getDate(), submittedData.getTime(), submittedData.getRoll_number());
-                                                                userList.add(0,modal);
-                                                                adapter = new AssignmentSubmitAdapter(userList, getIntent().getStringExtra("id"));
-                                                                binding.recyclerview.setAdapter(adapter);
-                                                                binding.recyclerview.addItemDecoration(new MaterialDividerItemDecoration(AssignmentShowActivity.this, MaterialDividerItemDecoration.VERTICAL));
-                                                                adapter.notifyDataSetChanged();
+                                            db.collection("College_Project").document("teacher").collection("assignments")
+                                                    .document(getIntent().getStringExtra("id")).collection("submittedAssignments").get()
+                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                            if (task.isSuccessful()) {
+                                                                int size = userList.size();
+                                                                userList.clear();
+                                                                if (size != 0) {
+                                                                    adapter.notifyItemRangeRemoved(0, size);
+                                                                }
+                                                                skeleton.showOriginal();
+                                                                for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                                                                    AssignmentSubmitModal submittedData = documentSnapshot.toObject(AssignmentSubmitModal.class);
+                                                                    if (submittedData != null) {
+                                                                        AssignmentSubmitModal modal = new AssignmentSubmitModal(submittedData.getStudentName(), submittedData.getSubmittedAssignmentUrl(), submittedData.getDate(), submittedData.getTime(), submittedData.getRoll_number());
+                                                                        userList.add(0, modal);
+                                                                        adapter = new AssignmentSubmitAdapter(userList, getIntent().getStringExtra("id"));
+                                                                        binding.recyclerview.setAdapter(adapter);
+                                                                        adapter.notifyDataSetChanged();
 
+                                                                    }
+                                                                }
+                                                                if (userList.size() == 0) {
+                                                                    Toast.makeText(AssignmentShowActivity.this, "No Student have submitted the assignment yet", Toast.LENGTH_SHORT).show();
+                                                                }
                                                             }
                                                         }
-                                                        if(userList.size() ==0){
-                                                            Toast.makeText(AssignmentShowActivity.this, "No Student have submitted the assignment yet", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                }
-                                            });
+                                                    });
 
+
+                                        }
+                                    }
 
                                 }
                             }
-
-                        }
-                    }
-                });
+                        });
                 binding.swipeRefresh.setRefreshing(false);
 
             }
         });
     }
-
-
-    // submit the assignment ans copy (student perspective)
-
-    ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-        @Override
-        public void onActivityResult(Uri result) {
-            if(result != null){
-                getTitleAndSize(result);
-
-                StorageReference docReference = storage.getReference().child("Assignment/submittedDocs/"+binding.CompletedAssignmentName.getText().toString());
-                uploadTask = docReference.putFile(result);
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //  Toast.makeText(CreateAssignmentActivity.this, "Success\n"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AssignmentShowActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(!task.isSuccessful())
-                        {
-                            Toast.makeText(AssignmentShowActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        return docReference.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if(task.isSuccessful()){
-                            Uri downloadUrl = task.getResult();
-                            Toast.makeText(AssignmentShowActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
-                            binding.submit.setText("SUBMIT");
-                            binding.submit.setEnabled(true);
-                            binding.CompletedAssignmentName.setOnClickListener(view -> {
-                                Intent intent = new Intent(Intent.ACTION_VIEW, downloadUrl);
-                                startActivity(intent);
-                            });
-
-                            binding.submit.setOnClickListener(v -> {
-                                binding.submit.setEnabled(false);
-                                Snackbar.make(v, "Submitting Assignment...", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
-                                String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
-
-                                Calendar calendar = Calendar.getInstance();
-                                int hour = calendar.get(Calendar.HOUR);
-                                if(hour == 0)
-                                    hour = 12;
-                                final int minutes = calendar.get(Calendar.MINUTE);
-                                final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
-                                final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
-
-                                Map<String,Object> map = new HashMap<>();
-                                map.put("submittedAssignmentUrl", downloadUrl);
-                                map.put("studentName", studentName);
-                                map.put("roll_number", rollNo);
-                                map.put("date", date);
-                                map.put("time", currentTime);
-
-                                db.collection("College_Project").document("teacher").collection("assignments")
-                                        .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
-                                        .document(studentName).set(map, SetOptions.merge())
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Snackbar.make(v, "Assignment submitted successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-                                                    new Handler().postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            onBackPressed();
-                                                        }
-                                                    }, 1000);
-
-                                                }
-                                            }
-                                        });
-
-
-                            });
-
-
-                        }
-                    }
-                });
-
-
-            }
-        }
-    });
 
     private void getTitleAndSize(Uri result) {
 
@@ -740,6 +734,7 @@ public class AssignmentShowActivity extends AppCompatActivity {
 
         binding.AssignmentCardStudent.setVisibility(View.VISIBLE);
         binding.submit.setText("WAIT");
+        binding.AttachAssignmentBtnStudent.setVisibility(View.GONE);
     }
 
     @Override

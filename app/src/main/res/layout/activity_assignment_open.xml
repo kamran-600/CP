@@ -7,38 +7,36 @@
     android:background="@color/black"
     tools:context=".Assignment.AssignmentOpenActivity">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/postBar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/black"
-            app:layout_scrollFlags="scroll|enterAlways">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/postBar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/black"
+        app:layout_scrollFlags="scroll|enterAlways">
 
-        </com.google.android.material.appbar.MaterialToolbar>
-
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/cartoon"
         android:layout_marginTop="?actionBarSize"
         android:layout_marginBottom="?actionBarSize"
-        android:visibility="gone"
+        android:scaleType="fitCenter"
+        android:src="@drawable/cartoon"
         android:transitionName="ImageTransition"
-        />
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:indeterminateBehavior="cycle"
-        android:layout_marginTop="?actionBarSize"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:layout_marginTop="?actionBarSize"
+        android:indeterminateBehavior="cycle"
+        android:visibility="gone" />
 
 
     <com.pdfview.PDFView
@@ -46,12 +44,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 
-   <!-- <com.joanzapata.pdfview.PDFView
-        android:id="@+id/pdfview"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent"/>-->
+    <!-- <com.joanzapata.pdfview.PDFView
+         android:id="@+id/pdfview"
+         android:layout_width="match_parent"
+         android:visibility="gone"
+         android:layout_height="match_parent"/>-->
 </RelativeLayout>

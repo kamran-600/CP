@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,22 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.Assignment.AssignmentOpenActivity;
 import com.example.collegeproject.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.Blob;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
 import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.ViewHolder> {
 
-    private List<AttendanceModel> userList;
+    private final List<AttendanceModel> userList;
     String year;
     private int lastPosition = -1;
 
@@ -57,20 +48,19 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
     public void onBindViewHolder(@NonNull AttendanceAdapter.ViewHolder holder, int position) {
 
         Blob resource = userList.get(position).getProfileImageBlob();
-        if(resource != null){
+        if (resource != null) {
 
             Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
             fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
             holder.image.setImageBitmap(fullBitmap);
             holder.image.setOnClickListener(v -> {
-                AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                 intent.putExtra("byte", resource.toBytes());
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                 activity.startActivity(intent, optionsCompat.toBundle());
             });
-        }
-        else{
+        } else {
             holder.image.setImageResource(R.drawable.cartoon);
         }
         String stuName = userList.get(position).getFull_name();
@@ -101,7 +91,8 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
                         });
             }
         });
-  */  }
+  */
+    }
 
     @Override
     public int getItemCount() {
@@ -119,10 +110,10 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView image;
-        private TextView stuName;
-        private TextView roll;
-        private SwitchCompat switchButton;
+        private final ImageView image;
+        private final TextView stuName;
+        private final TextView roll;
+        private final SwitchCompat switchButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

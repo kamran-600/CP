@@ -1,7 +1,5 @@
 package com.example.collegeproject.feed.models;
 
-import com.google.firebase.firestore.Blob;
-
 public class TextFeedModel {
     private String senderName, feedMsg, date, time, role, roll_number, email;
 

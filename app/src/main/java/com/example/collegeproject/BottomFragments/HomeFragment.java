@@ -1,6 +1,5 @@
 package com.example.collegeproject.BottomFragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,10 +10,6 @@ import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
@@ -22,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.collegeproject.Assignment.AssignmentOpenActivity;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentHomeBinding;
@@ -35,10 +29,8 @@ import com.example.collegeproject.feed.models.TextImageFeedModel;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
 import com.faltenreich.skeletonlayout.Skeleton;
-import com.faltenreich.skeletonlayout.SkeletonLayout;
 import com.faltenreich.skeletonlayout.SkeletonLayoutUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,8 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
@@ -65,7 +55,13 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    HomeActivity homeActivity;
+    List<Item> userList;
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
+    FeedAdapter feedAdapter;
+    FirebaseStorage storage;
+    StorageReference storageReference;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -102,13 +98,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    HomeActivity homeActivity;
-    List<Item> userList;
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
-    FeedAdapter feedAdapter;
-    FirebaseStorage storage;
-    StorageReference storageReference;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,12 +117,12 @@ public class HomeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot rollNo : task.getResult().getDocuments()) {
                                 StudentData data = rollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                    if(data.getProfileImageBlob() != null){
+                                    if (data.getProfileImageBlob() != null) {
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         binding.profilePic.setImageBitmap(fullBitmap);
@@ -149,12 +138,12 @@ public class HomeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot rollNo : task.getResult().getDocuments()) {
                                 StudentData data = rollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                    if(data.getProfileImageBlob() != null){
+                                    if (data.getProfileImageBlob() != null) {
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         binding.profilePic.setImageBitmap(fullBitmap);
@@ -170,17 +159,18 @@ public class HomeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot rollNo : task.getResult().getDocuments()) {
                                 StudentData data = rollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                    if(data.getProfileImageBlob() != null){
+                                    if (data.getProfileImageBlob() != null) {
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         binding.profilePic.setImageBitmap(fullBitmap);
 
-                                    }                                }
+                                    }
+                                }
                             }
                         }
                     }
@@ -190,16 +180,17 @@ public class HomeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                    if(data.getProfileImageBlob() != null){
+                                    if (data.getProfileImageBlob() != null) {
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         binding.profilePic.setImageBitmap(fullBitmap);
-                                    }                                }
+                                    }
+                                }
                             }
                         }
                     }
@@ -212,21 +203,21 @@ public class HomeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                    if(data.getProfileImageBlob() != null){
+                                    if (data.getProfileImageBlob() != null) {
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         binding.profilePic.setImageBitmap(fullBitmap);
-                                    }                                }
+                                    }
+                                }
                             }
                         }
                     }
                 });
-
 
 
         homeActivity = (HomeActivity) getActivity();
@@ -250,28 +241,26 @@ public class HomeFragment extends Fragment {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             skeleton.showOriginal();
-                            for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
-                                    TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
-                                    if(data!= null){
-                                        if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
-                                            TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
-                                            userList.add(0,new Item(0, textFeedModel));
-                                        } else if (Objects.equals(data.getFeedMsg(), "") && data.getFeedImageByteBlob() !=null) {
-                                            ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
-                                            userList.add(0,new Item(1,imageFeedModel));
-                                        }
-                                        else{
-                                            userList.add(0,new Item(2, data));
-                                        }
+                            for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+                                TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
+                                if (data != null) {
+                                    if (data.getFeedImageByteBlob() == null && data.getFeedMsg() != null) {
+                                        TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
+                                        userList.add(0, new Item(0, textFeedModel));
+                                    } else if (Objects.equals(data.getFeedMsg(), "") && data.getFeedImageByteBlob() != null) {
+                                        ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
+                                        userList.add(0, new Item(1, imageFeedModel));
+                                    } else {
+                                        userList.add(0, new Item(2, data));
                                     }
+                                }
                             }
 
-                            if(userList.size() == 0){
+                            if (userList.size() == 0) {
                                 Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
+                            } else {
                                 feedAdapter = new FeedAdapter(userList);
                                 binding.feedRecyclerview.setAdapter(feedAdapter);
                                 feedAdapter.notifyDataSetChanged();
@@ -292,12 +281,12 @@ public class HomeFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot rollNo : task.getResult().getDocuments()) {
                                         StudentData data = rollNo.toObject(StudentData.class);
-                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                        if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                            if(data.getProfileImageBlob() != null){
+                                            if (data.getProfileImageBlob() != null) {
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profilePic.setImageBitmap(fullBitmap);
@@ -313,12 +302,12 @@ public class HomeFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot rollNo : task.getResult().getDocuments()) {
                                         StudentData data = rollNo.toObject(StudentData.class);
-                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                        if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                            if(data.getProfileImageBlob() != null){
+                                            if (data.getProfileImageBlob() != null) {
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profilePic.setImageBitmap(fullBitmap);
@@ -334,17 +323,18 @@ public class HomeFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    for(DocumentSnapshot rollNo : task.getResult().getDocuments()){
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot rollNo : task.getResult().getDocuments()) {
                                         StudentData data = rollNo.toObject(StudentData.class);
-                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                        if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                            if(data.getProfileImageBlob() != null){
+                                            if (data.getProfileImageBlob() != null) {
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profilePic.setImageBitmap(fullBitmap);
 
-                                            }                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -354,16 +344,17 @@ public class HomeFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                         StudentData data = stuRollNo.toObject(StudentData.class);
-                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                        if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                            if(data.getProfileImageBlob() != null){
+                                            if (data.getProfileImageBlob() != null) {
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profilePic.setImageBitmap(fullBitmap);
-                                            }                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -376,16 +367,17 @@ public class HomeFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                         TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                        if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
-                                            if(data.getProfileImageBlob() != null){
+                                            if (data.getProfileImageBlob() != null) {
                                                 Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                                 fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                                 binding.profilePic.setImageBitmap(fullBitmap);
-                                            }                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -401,32 +393,30 @@ public class HomeFragment extends Fragment {
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     int size = userList.size();
                                     userList.clear();
-                                    if(size !=0){
+                                    if (size != 0) {
                                         feedAdapter.notifyItemRangeRemoved(0, size);
                                     }
                                     skeleton.showOriginal();
-                                    for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                                         TextImageFeedModel data = documentSnapshot.toObject(TextImageFeedModel.class);
-                                        if(data!= null){
-                                            if(data.getFeedImageByteBlob()==null && data.getFeedMsg() !=null){
+                                        if (data != null) {
+                                            if (data.getFeedImageByteBlob() == null && data.getFeedMsg() != null) {
                                                 TextFeedModel textFeedModel = new TextFeedModel(data.getSenderName(), data.getFeedMsg(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail());
-                                                userList.add(0,new Item(0, textFeedModel));
-                                            } else if (Objects.equals(data.getFeedMsg(), "") && data.getFeedImageByteBlob() !=null) {
+                                                userList.add(0, new Item(0, textFeedModel));
+                                            } else if (Objects.equals(data.getFeedMsg(), "") && data.getFeedImageByteBlob() != null) {
                                                 ImageFeedModel imageFeedModel = new ImageFeedModel(data.getSenderName(), data.getDate(), data.getTime(), data.getRole(), data.getRoll_number(), data.getEmail(), data.getFeedImageByteBlob());
-                                                userList.add(0,new Item(1,imageFeedModel));
-                                            }
-                                            else{
-                                                userList.add(0,new Item(2, data));
+                                                userList.add(0, new Item(1, imageFeedModel));
+                                            } else {
+                                                userList.add(0, new Item(2, data));
                                             }
                                         }
                                     }
-                                    if(userList.size() == 0){
+                                    if (userList.size() == 0) {
                                         Toast.makeText(getContext(), "No feed are available", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
+                                    } else {
                                         feedAdapter = new FeedAdapter(userList);
                                         binding.feedRecyclerview.setAdapter(feedAdapter);
                                         feedAdapter.notifyDataSetChanged();
@@ -456,7 +446,7 @@ public class HomeFragment extends Fragment {
                 // scroll down
 
                 if (dy > 0 && homeActivity.findViewById(R.id.bottom).getVisibility() == View.VISIBLE) {
-                   // binding.feedPost.setVisibility(View.GONE);
+                    // binding.feedPost.setVisibility(View.GONE);
                     homeActivity.findViewById(R.id.bottom).setVisibility(View.GONE);
                     TranslateAnimation animate = new TranslateAnimation(0, 0, 0, homeActivity.findViewById(R.id.bottom).getHeight());
                     animate.setDuration(400);

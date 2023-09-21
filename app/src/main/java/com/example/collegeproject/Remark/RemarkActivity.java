@@ -5,9 +5,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 
 import com.example.collegeproject.R;
 import com.example.collegeproject.attendance.AttendanceModel;
@@ -27,8 +24,8 @@ public class RemarkActivity extends AppCompatActivity {
 
     List<AttendanceModel> userList;
     RemarkAdapter adapter;
-    private ActivityRemarkBinding binding;
     FirebaseFirestore db;
+    private ActivityRemarkBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,33 +41,31 @@ public class RemarkActivity extends AppCompatActivity {
 
         userList = new ArrayList<>();
 
-        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.single_row_remark,10);
+        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.single_row_remark, 10);
         skeleton.showSkeleton();
 
         db.collection("College_Project").document("student").collection(getIntent().getStringExtra("year")).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             skeleton.showOriginal();
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 AttendanceModel data = stuRollNo.toObject(AttendanceModel.class);
 
-                                if(data != null){
+                                if (data != null) {
 
                                     userList.add(new AttendanceModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number()));
                                     adapter = new RemarkAdapter(userList);
                                     binding.recyclerview.setAdapter(adapter);
-                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(RemarkActivity.this, DividerItemDecoration.VERTICAL);
-                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                     adapter.notifyDataSetChanged();
 
                                 }
 
 
                             }
-                            if(userList.size() == 0){
-                                Toast.makeText(RemarkActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
+                            if (userList.size() == 0) {
+                                Toast.makeText(RemarkActivity.this, "No Student Enrolled in " + getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

@@ -3,7 +3,6 @@ package com.example.collegeproject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,17 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.collegeproject.databinding.ActivityUserPasswordBinding;
-import com.example.collegeproject.profile.ProfileActivity;
-import com.google.android.gms.common.util.DataUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +47,7 @@ public class UserPasswordActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if(getCurrentFocus() !=null){
+                if (getCurrentFocus() != null) {
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     return true;
                 }
@@ -66,11 +61,11 @@ public class UserPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (binding.enterPassword.getText().toString().trim().equals("") ||
-                    binding.confirmPassword.getText().toString().trim().equals("")){
+                        binding.confirmPassword.getText().toString().trim().equals("")) {
                     Toast.makeText(UserPasswordActivity.this, "Please fill * fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(!binding.enterPassword.getText().toString().trim().equals(binding.confirmPassword.getText().toString().trim()))  {
+                if (!binding.enterPassword.getText().toString().trim().equals(binding.confirmPassword.getText().toString().trim())) {
                     Toast.makeText(UserPasswordActivity.this, "Both passwords are not same", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -118,7 +113,7 @@ public class UserPasswordActivity extends AppCompatActivity {
             details.put("hostel_fee", intent.getStringExtra("hostel_fee"));
             details.put("full_name", intent.getStringExtra("full_name"));
             details.put("gender", intent.getStringExtra("gender"));
-            details.put("dob", intent.getStringExtra("dob") );
+            details.put("dob", intent.getStringExtra("dob"));
             details.put("email", intent.getStringExtra("email"));
             details.put("personal_phone", intent.getStringExtra("personal_phone"));
             details.put("father_name", intent.getStringExtra("father_name"));
@@ -143,11 +138,11 @@ public class UserPasswordActivity extends AppCompatActivity {
         if (intent.getIntExtra("id", 0) == 1) {
 
             details.put("full_name", intent.getStringExtra("full_name"));
-            details.put("gender",intent.getStringExtra("gender"));
+            details.put("gender", intent.getStringExtra("gender"));
             details.put("email", intent.getStringExtra("email"));
             details.put("phone_no", intent.getStringExtra("phone_no"));
             details.put("department", intent.getStringExtra("department"));
-            details.put("role",intent.getStringExtra("role"));
+            details.put("role", intent.getStringExtra("role"));
 
             db.collection("College_Project").document("teacher").collection("teacher_details")
                     .document(currentUserEmail).set(details)

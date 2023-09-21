@@ -8,7 +8,6 @@ import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,9 +34,11 @@ public class ChatsFragment extends Fragment {
     LinearLayoutManager layoutManager;
     List<ChatModel> userList;
     ChatAdapter adapter;
+    HomeActivity homeActivity;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     public ChatsFragment() {
         // Required empty public constructor
     }
@@ -68,8 +69,6 @@ public class ChatsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
-    HomeActivity homeActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -184,8 +183,6 @@ public class ChatsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ChatAdapter(userList);
         recyclerView.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 
     }

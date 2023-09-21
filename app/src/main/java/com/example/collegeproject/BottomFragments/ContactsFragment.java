@@ -11,19 +11,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.collegeproject.Contacts.ContactAdapter;
 import com.example.collegeproject.Contacts.ContactModel;
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.FragmentContactsBinding;
-import com.example.collegeproject.fee.FeeSummaryActivity;
-import com.example.collegeproject.fee.FeeSummaryAdapter;
-import com.example.collegeproject.fee.FeeSummaryModel;
 import com.example.collegeproject.studentData.StudentData;
 import com.example.collegeproject.teacherData.TeacherData;
 import com.faltenreich.skeletonlayout.Skeleton;
@@ -56,9 +51,12 @@ public class ContactsFragment extends Fragment {
     ContactAdapter adapter;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
+    FragmentContactsBinding binding;
+    HomeActivity homeActivity;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     public ContactsFragment() {
         // Required empty public constructor
     }
@@ -89,15 +87,12 @@ public class ContactsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    FragmentContactsBinding binding;
-    HomeActivity homeActivity;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentContactsBinding.inflate(inflater,container,false);
+        binding = FragmentContactsBinding.inflate(inflater, container, false);
         userList = new ArrayList<>();
 
 
@@ -119,10 +114,10 @@ public class ContactsFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
 
                                     binding.topAppBar.inflateMenu(R.menu.years_menu);
 
@@ -130,28 +125,24 @@ public class ContactsFragment extends Fragment {
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         skeleton.showOriginal();
                                                         binding.topAppBar.setTitle("Contacts of 4th Year");
                                                         userList.clear();
-                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                        for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                                             StudentData data = stuRollNo.toObject(StudentData.class);
-                                                            if(data !=null){
+                                                            if (data != null) {
                                                                 phoneNo = data.getPersonal_phone();
                                                                 name = data.getFull_name();
                                                                 roll = data.getRoll_number();
-                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
+                                                                userList.add(new ContactModel(data.getProfileImageBlob(), name, roll, phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                if(getContext() != null){
-                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                    adapter.notifyDataSetChanged();
-                                                                }
+                                                                adapter.notifyDataSetChanged();
                                                             }
 
                                                         }
-                                                        if(userList.size()==0){
+                                                        if (userList.size() == 0) {
                                                             Toast.makeText(getContext(), "No Student enrolled in 4th Year", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
@@ -162,38 +153,34 @@ public class ContactsFragment extends Fragment {
                                         @Override
                                         public boolean onMenuItemClick(MenuItem item) {
                                             skeleton.showSkeleton();
-                                            switch (item.getItemId()){
+                                            switch (item.getItemId()) {
                                                 case R.id.first:
                                                     db.collection("College_Project").document("student").collection("1st Year").get()
                                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                    if(task.isSuccessful()){
+                                                                    if (task.isSuccessful()) {
                                                                         binding.topAppBar.setTitle("Contacts of 1st Year");
                                                                         int size = userList.size();
                                                                         userList.clear();
-                                                                        if(size !=0){
+                                                                        if (size != 0) {
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
                                                                         skeleton.showOriginal();
-                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                        for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
-                                                                            if(data !=null){
+                                                                            if (data != null) {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(), name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                if(getContext() != null){
-                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                    adapter.notifyDataSetChanged();
-                                                                                }
+                                                                                adapter.notifyDataSetChanged();
                                                                             }
 
                                                                         }
-                                                                        if(userList.size()==0){
+                                                                        if (userList.size() == 0) {
                                                                             Toast.makeText(getContext(), "No Student enrolled in 1st Year", Toast.LENGTH_SHORT).show();
                                                                         }
 
@@ -207,32 +194,28 @@ public class ContactsFragment extends Fragment {
                                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                    if(task.isSuccessful()){
+                                                                    if (task.isSuccessful()) {
                                                                         binding.topAppBar.setTitle("Contacts of 2nd Year");
                                                                         int size = userList.size();
                                                                         userList.clear();
-                                                                        if(size !=0){
+                                                                        if (size != 0) {
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
                                                                         skeleton.showOriginal();
-                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                        for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
-                                                                            if(data !=null){
+                                                                            if (data != null) {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(), name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                if(getContext() != null){
-                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                    adapter.notifyDataSetChanged();
-                                                                                }
+                                                                                adapter.notifyDataSetChanged();
                                                                             }
 
                                                                         }
-                                                                        if(userList.size()==0){
+                                                                        if (userList.size() == 0) {
                                                                             Toast.makeText(getContext(), "No Student enrolled in 2nd Year", Toast.LENGTH_SHORT).show();
                                                                         }
 
@@ -246,32 +229,28 @@ public class ContactsFragment extends Fragment {
                                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                    if(task.isSuccessful()){
+                                                                    if (task.isSuccessful()) {
                                                                         binding.topAppBar.setTitle("Contacts of 3rd Year");
                                                                         int size = userList.size();
                                                                         userList.clear();
-                                                                        if(size !=0){
+                                                                        if (size != 0) {
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
                                                                         skeleton.showOriginal();
-                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                        for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
-                                                                            if(data !=null){
+                                                                            if (data != null) {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(), name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                if(getContext() != null){
-                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                    adapter.notifyDataSetChanged();
-                                                                                }
+                                                                                adapter.notifyDataSetChanged();
                                                                             }
 
                                                                         }
-                                                                        if(userList.size()==0){
+                                                                        if (userList.size() == 0) {
                                                                             Toast.makeText(getContext(), "No Student enrolled in 3rd Year", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
@@ -284,32 +263,28 @@ public class ContactsFragment extends Fragment {
                                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                    if(task.isSuccessful()){
+                                                                    if (task.isSuccessful()) {
                                                                         binding.topAppBar.setTitle("Contacts of 4th Year");
                                                                         int size = userList.size();
                                                                         userList.clear();
-                                                                        if(size !=0){
+                                                                        if (size != 0) {
                                                                             adapter.notifyItemRangeRemoved(0, size);
                                                                         }
                                                                         skeleton.showOriginal();
-                                                                        for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                                                        for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                                                             StudentData data = stuRollNo.toObject(StudentData.class);
-                                                                            if(data !=null){
+                                                                            if (data != null) {
                                                                                 phoneNo = data.getPersonal_phone();
                                                                                 name = data.getFull_name();
                                                                                 roll = data.getRoll_number();
-                                                                                userList.add(new ContactModel(data.getProfileImageBlob(),name, roll, phoneNo));
+                                                                                userList.add(new ContactModel(data.getProfileImageBlob(), name, roll, phoneNo));
                                                                                 adapter = new ContactAdapter(userList);
                                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                                if(getContext() != null){
-                                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                                    adapter.notifyDataSetChanged();
-                                                                                }
+                                                                                adapter.notifyDataSetChanged();
                                                                             }
 
                                                                         }
-                                                                        if(userList.size()==0){
+                                                                        if (userList.size() == 0) {
                                                                             Toast.makeText(getContext(), "No Student enrolled in 4th Year", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
@@ -337,34 +312,30 @@ public class ContactsFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     db.collection("College_Project").document("teacher").collection("teacher_details").get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         skeleton.showOriginal();
-                                                        for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                                        for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                                             TeacherData data1 = teacherEmail.toObject(TeacherData.class);
-                                                            if(data1!=null){
+                                                            if (data1 != null) {
                                                                 phoneNo = data1.getPhone_no();
                                                                 name = data1.getFull_name();
 
-                                                                userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
+                                                                userList.add(new ContactModel(data1.getProfileImageBlob(), name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                if(getContext() != null){
-                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                    adapter.notifyDataSetChanged();
-                                                                }
+                                                                adapter.notifyDataSetChanged();
                                                             }
 
                                                         }
-                                                        if(userList.size()==0){
+                                                        if (userList.size() == 0) {
                                                             Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
@@ -380,34 +351,30 @@ public class ContactsFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     db.collection("College_Project").document("teacher").collection("teacher_details").get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         skeleton.showOriginal();
-                                                        for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                                        for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                                             TeacherData data1 = teacherEmail.toObject(TeacherData.class);
-                                                            if(data1!=null){
+                                                            if (data1 != null) {
                                                                 phoneNo = data1.getPhone_no();
                                                                 name = data1.getFull_name();
 
-                                                                userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
+                                                                userList.add(new ContactModel(data1.getProfileImageBlob(), name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                if(getContext() != null){
-                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                    adapter.notifyDataSetChanged();
-                                                                }
+                                                                adapter.notifyDataSetChanged();
                                                             }
 
                                                         }
-                                                        if(userList.size()==0){
+                                                        if (userList.size() == 0) {
                                                             Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
@@ -423,34 +390,30 @@ public class ContactsFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
-                                if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
                                     db.collection("College_Project").document("teacher").collection("teacher_details").get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         skeleton.showOriginal();
-                                                        for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                                                        for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                                             TeacherData data1 = teacherEmail.toObject(TeacherData.class);
-                                                            if(data1!=null){
+                                                            if (data1 != null) {
                                                                 phoneNo = data1.getPhone_no();
                                                                 name = data1.getFull_name();
 
-                                                                userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
+                                                                userList.add(new ContactModel(data1.getProfileImageBlob(), name, data1.getEmail(), phoneNo));
                                                                 adapter = new ContactAdapter(userList);
                                                                 binding.recyclerview.setAdapter(adapter);
-                                                                if(getContext() != null){
-                                                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                    adapter.notifyDataSetChanged();
-                                                                }
+                                                                adapter.notifyDataSetChanged();
                                                             }
 
                                                         }
-                                                        if(userList.size()==0){
+                                                        if (userList.size() == 0) {
                                                             Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
@@ -463,47 +426,43 @@ public class ContactsFragment extends Fragment {
                 });
 
         db.collection("College_Project").document("student").collection("4th Year").get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
-                                        StudentData data = stuRollNo.toObject(StudentData.class);
-                                        if(data.getEmail().equals(mAuth.getCurrentUser().getEmail())){
-                                            db.collection("College_Project").document("teacher").collection("teacher_details").get()
-                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                            if(task.isSuccessful()){
-                                                                skeleton.showOriginal();
-                                                                for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
-                                                                    TeacherData data1 = teacherEmail.toObject(TeacherData.class);
-                                                                    if(data1!=null){
-                                                                        phoneNo = data1.getPhone_no();
-                                                                        name = data1.getFull_name();
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
+                                StudentData data = stuRollNo.toObject(StudentData.class);
+                                if (data.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                    db.collection("College_Project").document("teacher").collection("teacher_details").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        skeleton.showOriginal();
+                                                        for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
+                                                            TeacherData data1 = teacherEmail.toObject(TeacherData.class);
+                                                            if (data1 != null) {
+                                                                phoneNo = data1.getPhone_no();
+                                                                name = data1.getFull_name();
 
-                                                                        userList.add(new ContactModel(data1.getProfileImageBlob(),name, data1.getEmail(), phoneNo));
-                                                                        adapter = new ContactAdapter(userList);
-                                                                        binding.recyclerview.setAdapter(adapter);
-                                                                        if(getContext() != null){
-                                                                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-                                                                            binding.recyclerview.addItemDecoration(dividerItemDecoration);
-                                                                            adapter.notifyDataSetChanged();
-                                                                        }
-                                                                    }
-
-                                                                }
-                                                                if(userList.size()==0){
-                                                                    Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
-                                                                }
+                                                                userList.add(new ContactModel(data1.getProfileImageBlob(), name, data1.getEmail(), phoneNo));
+                                                                adapter = new ContactAdapter(userList);
+                                                                binding.recyclerview.setAdapter(adapter);
+                                                                adapter.notifyDataSetChanged();
                                                             }
+
                                                         }
-                                                    });
-                                        }
-                                    }
+                                                        if (userList.size() == 0) {
+                                                            Toast.makeText(getContext(), "No Teacher details are available", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                }
+                                            });
                                 }
                             }
-                        });
+                        }
+                    }
+                });
 
 
 

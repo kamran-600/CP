@@ -28,7 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder> {
-    private List<AttendanceModel> userList;
+    private final List<AttendanceModel> userList;
     private int lastPosition = -1;
 
 
@@ -46,19 +46,18 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RemarkAdapter.ViewHolder holder, int position) {
         Blob resource = userList.get(position).getProfileImageBlob();
-        if(resource != null){
+        if (resource != null) {
             Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
             fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
             holder.image.setImageBitmap(fullBitmap);
             holder.image.setOnClickListener(v -> {
-                AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                 intent.putExtra("byte", resource.toBytes());
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                 activity.startActivity(intent, optionsCompat.toBundle());
             });
-        }
-        else{
+        } else {
             holder.image.setImageResource(R.drawable.cartoon);
         }
         String stuName = userList.get(position).getFull_name();
@@ -98,9 +97,9 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
 
         private final TextView roll;
         private final TextView rating_no;
-        private ImageView image;
-        private TextView stuName;
-        private AppCompatRatingBar RatingBar;
+        private final ImageView image;
+        private final TextView stuName;
+        private final AppCompatRatingBar RatingBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

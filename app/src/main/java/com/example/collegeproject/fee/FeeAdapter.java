@@ -15,12 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
-import com.example.collegeproject.attendance.AttendanceModelClass;
 
 import java.util.List;
 
 public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
-    private List<FeeModel> userList;
+    private final List<FeeModel> userList;
     private int lastPosition = -1;
 
     public FeeAdapter(List<FeeModel> userList) {
@@ -76,9 +75,9 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.ViewHolde> {
     }
 
     public class ViewHolde extends RecyclerView.ViewHolder {
-        private ImageView image;
-        private TextView dName;
-        private TextView aYear;
+        private final ImageView image;
+        private final TextView dName;
+        private final TextView aYear;
 
 
         public ViewHolde(@NonNull View itemView) {

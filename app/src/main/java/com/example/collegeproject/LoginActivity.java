@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if(getCurrentFocus() !=null){
+                if (getCurrentFocus() != null) {
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     return true;
                 }
@@ -70,29 +70,33 @@ public class LoginActivity extends AppCompatActivity {
         binding.showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     // to show the password
                     binding.showPassword.setText("Hide Password  ");
                     binding.showPassword.setTextColor(getResources().getColor(R.color.link));
                     binding.showPassword.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.upperBlue)));
                     binding.editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }
-                else{
+                    CharSequence password = binding.editTextPassword.getText();
+                    binding.editTextPassword.setText(null);
+                    binding.editTextPassword.append(password);
+                } else {
                     // to hide the password
                     binding.showPassword.setText("Show Password");
                     binding.showPassword.setTextColor(getResources().getColor(android.R.color.tertiary_text_dark));
                     binding.showPassword.setButtonTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.tertiary_text_light)));
 
                     binding.editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    CharSequence password = binding.editTextPassword.getText();
+                    binding.editTextPassword.setText(null);
+                    binding.editTextPassword.append(password);
                 }
             }
         });
 
 
-
         binding.forgetPassword.setOnClickListener(v -> {
             Intent intent = new Intent(this, ForgetPasswordActivity.class);
-            intent.putExtra("email",binding.editTextEmailAddress.getText().toString().trim());
+            intent.putExtra("email", binding.editTextEmailAddress.getText().toString().trim());
             startActivity(intent);
         });
 
@@ -119,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         if (email.equals("") || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.editTextEmailAddress.setError("enter the valid email id!");
             binding.editTextEmailAddress.requestFocus();
-            if(password.equals("")){
+            if (password.equals("")) {
                 binding.editTextPassword.setError("can not be empty");
             }
             return false;

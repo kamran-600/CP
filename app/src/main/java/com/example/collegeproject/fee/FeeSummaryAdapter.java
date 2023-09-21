@@ -44,28 +44,27 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull FeeSummaryAdapter.ViewHolde holder, int position) {
         Blob resource = userList.get(position).getImageBlob();
-        if(resource != null){
+        if (resource != null) {
             Bitmap fullBitmap = BitmapFactory.decodeByteArray(resource.toBytes(), 0, resource.toBytes().length);
             fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
             holder.image.setImageBitmap(fullBitmap);
             holder.image.setOnClickListener(v -> {
-                AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                 intent.putExtra("byte", resource.toBytes());
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                 activity.startActivity(intent, optionsCompat.toBundle());
             });
-        }
-        else {
+        } else {
             holder.image.setImageResource(R.drawable.cartoon);
         }
         String name = userList.get(position).getName();
         String rno = userList.get(position).getRno();
         String total = userList.get(position).getTotal();
-        if(Objects.equals(userList.get(position).getSubmit(), "")|| userList.get(position).getSubmit() == null)
+        if (Objects.equals(userList.get(position).getSubmit(), "") || userList.get(position).getSubmit() == null)
             holder.submit.setText("N/A");
         else holder.submit.setText(userList.get(position).getSubmit());
-        holder.setData( name, rno, total);
+        holder.setData(name, rno, total);
 
         setAnimation(holder.itemView, position);
     }
@@ -88,11 +87,11 @@ public class FeeSummaryAdapter extends RecyclerView.Adapter<FeeSummaryAdapter.Vi
 
     public class ViewHolde extends RecyclerView.ViewHolder {
 
-        private ImageView image;
-        private TextView Name;
-        private TextView rno;
-        private TextView total;
-        private TextView submit;
+        private final ImageView image;
+        private final TextView Name;
+        private final TextView rno;
+        private final TextView total;
+        private final TextView submit;
 
         public ViewHolde(View view) {
             super(view);

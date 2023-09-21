@@ -3,7 +3,7 @@ package com.example.collegeproject.feed.models;
 import com.google.firebase.firestore.Blob;
 
 public class TextImageFeedModel {
-    private String  senderName,feedMsg, date, time, role, roll_number, email;
+    private String senderName, feedMsg, date, time, role, roll_number, email;
     private Blob feedImageByteBlob;
 
     public TextImageFeedModel() {
@@ -75,6 +75,7 @@ public class TextImageFeedModel {
     public void setRole(String role) {
         this.role = role;
     }
+
     public Blob getFeedImageByteBlob() {
         return feedImageByteBlob;
     }

@@ -90,11 +90,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolde> {
     }
 
     public class ViewHolde extends RecyclerView.ViewHolder {
-        private ImageView image;
-        private TextView dName;
-        private TextView aYear;
-        private TextView lastMsg;
-        private TextView mTime;
+        private final ImageView image;
+        private final TextView dName;
+        private final TextView aYear;
+        private final TextView lastMsg;
+        private final TextView mTime;
 
 
         public ViewHolde(@NonNull View itemView) {

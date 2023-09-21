@@ -31,7 +31,7 @@ import java.util.List;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ViewHolder> {
 
-    private List<AssignmentModal> userList;
+    private final List<AssignmentModal> userList;
     private int lastPosition = -1;
 
     public AssignmentAdapter(List<AssignmentModal> userList) {
@@ -59,24 +59,23 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot teacherEmail : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot teacherEmail : task.getResult().getDocuments()) {
                                 TeacherData data = teacherEmail.toObject(TeacherData.class);
-                                if(data.getEmail().equals(email)){
+                                if (data.getEmail().equals(email)) {
 
-                                    if(data.getProfileImageBlob() != null){
+                                    if (data.getProfileImageBlob() != null) {
                                         Bitmap fullBitmap = BitmapFactory.decodeByteArray(data.getProfileImageBlob().toBytes(), 0, data.getProfileImageBlob().toBytes().length);
                                         fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
                                         holder.image.setImageBitmap(fullBitmap);
                                         holder.image.setOnClickListener(v -> {
-                                            AppCompatActivity activity = (AppCompatActivity)v.getContext();
+                                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
                                             Intent intent = new Intent(activity, AssignmentOpenActivity.class);
                                             intent.putExtra("byte", data.getProfileImageBlob().toBytes());
                                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.image, "ImageTransition"));
                                             activity.startActivity(intent, optionsCompat.toBundle());
                                         });
-                                    }
-                                    else {
+                                    } else {
                                         holder.image.setImageResource(R.drawable.cartoon);
                                     }
                                 }
@@ -93,7 +92,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         String date = userList.get(position).getDate();
         String url = userList.get(position).getAssignmentUrl();
 
-        holder.setData(tName, className, desc, duedate,date, time);
+        holder.setData(tName, className, desc, duedate, date, time);
         setAnimation(holder.itemView, position);
 
         // intent to Show Assignment
@@ -101,7 +100,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             Intent intent = new Intent(activity, AssignmentShowActivity.class);
             intent.putExtra("url", url);
-            intent.putExtra("postedDate",date+", "+time);
+            intent.putExtra("postedDate", date + ", " + time);
             intent.putExtra("dueDate", duedate);
             intent.putExtra("desc", desc);
             intent.putExtra("id", userList.get(position).getId());
@@ -126,13 +125,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView image;
-        private TextView tName;
-        private TextView className;
-        private TextView desc;
-        private TextView dueDate;
-        private TextView time;
-        private TextView date;
+        private final ImageView image;
+        private final TextView tName;
+        private final TextView className;
+        private final TextView desc;
+        private final TextView dueDate;
+        private final TextView time;
+        private final TextView date;
 
 
         public ViewHolder(@NonNull View itemView) {

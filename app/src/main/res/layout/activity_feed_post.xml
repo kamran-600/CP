@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     tools:context=".feed.FeedPostActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/upperBlue"
-            app:title="Create feed">
+            app:title="Create Feed">
 
             <Button
                 android:id="@+id/feedPost"
@@ -28,24 +27,25 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:text="POST"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-  <LinearLayout
-      android:id="@+id/line"
-      android:layout_width="match_parent"
-      android:layout_height="4dp"
-      android:orientation="horizontal"
-      android:background="@color/bloodRed"
-      android:layout_below="@+id/appbarLayout"/>
+    <LinearLayout
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@+id/appbarLayout"
+        android:background="@color/bloodRed"
+        android:orientation="horizontal" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/line"
+        android:animateLayoutChanges="true"
         android:background="@color/bg">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -58,34 +58,33 @@
             android:layout_marginBottom="15dp"
             android:background="@drawable/image_outline"
             android:elevation="2dp"
-            android:transitionName="ImageTransition"
-            android:src="@drawable/cartoon" />
+            android:src="@drawable/cartoon"
+            android:transitionName="ImageTransition" />
 
         <TextView
             android:id="@+id/userName"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/userProfile"
+            android:padding="5dp"
             android:text=""
             android:textColor="@color/black"
-            android:padding="5dp"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/userProfile"
-            android:layout_marginTop="15dp"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/feedMsg"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@id/userProfile"
-                android:gravity="top"
-                android:hint="What's on your mind?"
-                android:padding="10dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:background="@color/bg"
-                android:textCursorDrawable="@drawable/cursor"/>
+        <EditText
+            android:id="@+id/feedMsg"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/userProfile"
+            android:background="@color/bg"
+            android:gravity="top"
+            android:hint="What's in your mind?"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="15sp" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imageCard"
@@ -93,16 +92,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/feedMsg"
             android:layout_centerHorizontal="true"
-            app:cardCornerRadius="20dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:cardCornerRadius="20dp">
 
             <ImageView
                 android:id="@+id/clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="?actionBarItemBackground"
                 android:src="@drawable/clear"
                 app:tint="@color/black" />
@@ -111,86 +110,82 @@
             <ImageView
                 android:id="@+id/imageCardImage"
                 android:layout_width="200dp"
-                android:layout_height="200dp"/>
+                android:layout_height="200dp" />
 
         </com.google.android.material.card.MaterialCardView>
-
 
 
         <LinearLayout
             android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:orientation="horizontal"
+            android:layout_below="@+id/imageCard"
             android:background="@color/bloodRed"
-            android:layout_below="@+id/imageCard"/>
+            android:orientation="horizontal" />
+
         <LinearLayout
             android:id="@+id/gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/line2"
+            android:background="?selectableItemBackground"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/feedgallery"
-                />
+                android:src="@drawable/feedgallery" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="13dp"
                 android:text="Images/Gallery"
                 android:textColor="#858585"
-                />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/line3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:orientation="horizontal"
+            android:layout_below="@+id/gallery"
             android:background="@color/bloodRed"
-            android:layout_below="@+id/gallery"/>
+            android:orientation="horizontal" />
+
         <LinearLayout
             android:id="@+id/camera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/line3"
+            android:background="?selectableItemBackground"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/camerafeed"
-                />
+                android:src="@drawable/camerafeed" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="13dp"
                 android:text="Camera"
                 android:textColor="#858585"
-                />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/line4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:orientation="horizontal"
+            android:layout_below="@+id/camera"
             android:background="@color/bloodRed"
-            android:layout_below="@+id/camera"/>
-
-
-
-
-
+            android:orientation="horizontal" />
 
 
     </RelativeLayout>

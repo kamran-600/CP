@@ -16,35 +16,26 @@
             android:layout_height="80dp"
             android:background="@color/bg">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/Card"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:elevation="15dp"
-                app:cardCornerRadius="60dp"
-                app:cardElevation="10dp"
-                app:cardMaxElevation="10dp">
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:transitionName="ImageTransition"
-                    android:layout_width="50dp"
-                    android:src="@drawable/cartoon"
-                    android:layout_height="50dp"
-                    android:scaleType="centerCrop" />
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:elevation="1dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/a0"
+                android:transitionName="ImageTransition" />
 
             <TextView
                 android:id="@+id/stuName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/Card"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
-                android:text="Ram"
+                android:text="Alpha"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -53,9 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/stuName"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/Card"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="79822623923652"
                 android:textColor="@color/black"
@@ -65,49 +56,55 @@
                 android:id="@+id/total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="155dp"
+                android:layout_marginStart="155dp"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/Card"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/total"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/totalFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/total"
+                android:layout_toEndOf="@id/total"
                 android:fontFamily="sans-serif-medium"
                 android:text="85000"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="155dp"
+                android:layout_marginStart="155dp"
                 android:layout_marginTop="45dp"
-                android:layout_toRightOf="@id/Card"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/submit"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/submitFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="45dp"
-                android:layout_toRightOf="@id/submit"
+                android:layout_toEndOf="@id/submit"
                 android:fontFamily="sans-serif-medium"
                 android:text="15000"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DFCACA" />
 
 
         </RelativeLayout>

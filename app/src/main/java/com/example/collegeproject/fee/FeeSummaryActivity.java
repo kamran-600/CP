@@ -5,13 +5,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.collegeproject.Assignment.AssignmentAdapter;
-import com.example.collegeproject.Assignment.AssignmentModal;
 import com.example.collegeproject.R;
 import com.example.collegeproject.databinding.ActivityFeeSummaryBinding;
 import com.example.collegeproject.studentData.StudentData;
@@ -51,7 +46,7 @@ public class FeeSummaryActivity extends AppCompatActivity {
 
         userList = new ArrayList<>();
 
-        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.fee_summary_single_row,10);
+        Skeleton skeleton = SkeletonLayoutUtils.applySkeleton(binding.recyclerview, R.layout.fee_summary_single_row, 10);
         skeleton.showSkeleton();
 
 
@@ -59,26 +54,24 @@ public class FeeSummaryActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             skeleton.showOriginal();
-                            for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                            for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                 StudentData data = stuRollNo.toObject(StudentData.class);
 
-                                if(data != null){
+                                if (data != null) {
 
-                                    userList.add(new FeeSummaryModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number(), data.getAcademic_fee(),data.getSubmittedAcademicFee()));
+                                    userList.add(new FeeSummaryModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number(), data.getAcademic_fee(), data.getSubmittedAcademicFee()));
                                     adapter = new FeeSummaryAdapter(userList);
                                     binding.recyclerview.setAdapter(adapter);
-                                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(FeeSummaryActivity.this, DividerItemDecoration.VERTICAL);
-                                    binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                     adapter.notifyDataSetChanged();
 
                                 }
 
 
                             }
-                            if(userList.size() == 0){
-                                Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
+                            if (userList.size() == 0) {
+                                Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in " + getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -96,31 +89,29 @@ public class FeeSummaryActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     int size = userList.size();
                                     userList.clear();
-                                    if(size !=0){
+                                    if (size != 0) {
                                         adapter.notifyItemRangeRemoved(0, size);
                                     }
                                     skeleton.showOriginal();
-                                    for(DocumentSnapshot stuRollNo : task.getResult().getDocuments()){
+                                    for (DocumentSnapshot stuRollNo : task.getResult().getDocuments()) {
                                         StudentData data = stuRollNo.toObject(StudentData.class);
 
-                                        if(data != null){
+                                        if (data != null) {
 
-                                            userList.add(new FeeSummaryModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number(), data.getAcademic_fee(),data.getSubmittedAcademicFee()));
+                                            userList.add(new FeeSummaryModel(data.getProfileImageBlob(), data.getFull_name(), data.getRoll_number(), data.getAcademic_fee(), data.getSubmittedAcademicFee()));
                                             adapter = new FeeSummaryAdapter(userList);
                                             binding.recyclerview.setAdapter(adapter);
-                                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(FeeSummaryActivity.this, DividerItemDecoration.VERTICAL);
-                                            binding.recyclerview.addItemDecoration(dividerItemDecoration);
                                             adapter.notifyDataSetChanged();
 
                                         }
 
 
                                     }
-                                    if(userList.size() == 0){
-                                        Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in "+getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
+                                    if (userList.size() == 0) {
+                                        Toast.makeText(FeeSummaryActivity.this, "No Student Enrolled in " + getIntent().getStringExtra("year"), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }

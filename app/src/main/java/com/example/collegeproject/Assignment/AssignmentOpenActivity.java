@@ -2,7 +2,6 @@ package com.example.collegeproject.Assignment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GestureDetectorCompat;
 
 import com.example.collegeproject.databinding.ActivityAssignmentOpenBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +27,7 @@ public class AssignmentOpenActivity extends AppCompatActivity {
     ScaleGestureDetector scaleGestureDetector;
     GestureDetector gestureDetector;
     private float FACTOR = 1.0f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +39,11 @@ public class AssignmentOpenActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         byte[] bytes = getIntent().getByteArrayExtra("byte");
-        if(bytes != null){
+        if (bytes != null) {
             binding.image.setVisibility(View.VISIBLE);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             binding.image.setImageBitmap(bitmap);
-        }
-        else {
+        } else {
             binding.progressBar.setVisibility(View.VISIBLE);
             //Snackbar.make(this, binding.pdfView, "wait a while", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             Toast.makeText(this, "wait a while", Toast.LENGTH_SHORT).show();
@@ -53,7 +51,7 @@ public class AssignmentOpenActivity extends AppCompatActivity {
             StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
             File file;
             try {
-                file = File.createTempFile(getIntent().getStringExtra("name"),"");
+                file = File.createTempFile(getIntent().getStringExtra("name"), "");
                 storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -68,7 +66,7 @@ public class AssignmentOpenActivity extends AppCompatActivity {
             }
         }
 
-        scaleGestureDetector = new ScaleGestureDetector(this,new ScaleGestureDetector.SimpleOnScaleGestureListener(){
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
             @Override
             public boolean onScale(@NonNull ScaleGestureDetector detector) {
                 FACTOR *= detector.getScaleFactor();
@@ -84,15 +82,6 @@ public class AssignmentOpenActivity extends AppCompatActivity {
 
     }
 
-    public class Gesturedetector extends GestureDetector.SimpleOnGestureListener{
-        @Override
-        public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
-            onBackPressed();
-            return true;
-        }
-    }
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
@@ -104,5 +93,13 @@ public class AssignmentOpenActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    public class Gesturedetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
+            onBackPressed();
+            return true;
+        }
     }
 }

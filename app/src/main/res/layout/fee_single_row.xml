@@ -14,7 +14,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/bg">
+            android:background="@color/bg"
+            android:foreground="?selectableItemBackground">
 
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -32,9 +33,9 @@
                 android:id="@+id/departmentName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="22dp"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/cse"
                 android:textColor="@color/black"
@@ -46,13 +47,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/departmentName"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/image"
+                android:layout_toEndOf="@id/image"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/first"
                 android:textColor="@color/black"
-                android:textSize="10sp" />
+                android:textSize="11sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DFCACA" />
 
 
         </RelativeLayout>

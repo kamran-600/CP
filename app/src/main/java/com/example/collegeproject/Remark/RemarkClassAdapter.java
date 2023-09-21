@@ -15,14 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.R;
-import com.example.collegeproject.Remark.RemarkActivity;
-import com.example.collegeproject.attendance.AttendanceActivity;
 import com.example.collegeproject.attendance.AttendanceModelClass;
 
 import java.util.List;
 
 public class RemarkClassAdapter extends RecyclerView.Adapter<RemarkClassAdapter.ViewHolde> {
-    private List<AttendanceModelClass> userList;
+    private final List<AttendanceModelClass> userList;
     private int lastPosition = -1;
 
     public RemarkClassAdapter(List<AttendanceModelClass> userList) {
@@ -78,9 +76,9 @@ public class RemarkClassAdapter extends RecyclerView.Adapter<RemarkClassAdapter.
     }
 
     public class ViewHolde extends RecyclerView.ViewHolder {
-        private ImageView image;
-        private TextView dName;
-        private TextView aYear;
+        private final ImageView image;
+        private final TextView dName;
+        private final TextView aYear;
 
 
         public ViewHolde(@NonNull View itemView) {

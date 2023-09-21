@@ -35,7 +35,6 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -50,119 +49,13 @@ public class AssignmentCheckActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     UploadTask uploadTask;
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityAssignmentCheckBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
-
-        setSupportActionBar(binding.topAppBar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        binding.clear.setOnClickListener(v -> {
-            binding.expendableLayout2.setVisibility(View.GONE);
-            binding.submit.setEnabled(false);
-        });
-
-        Intent intent = getIntent();
-        binding.stuName.setText(intent.getStringExtra("stuName"));
-
-        if(getIntent().getByteArrayExtra("imageByte") != null){
-            Bitmap fullBitmap = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("imageByte"), 0, getIntent().getByteArrayExtra("imageByte").length);
-            //  fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
-            binding.image.setImageBitmap(fullBitmap);
-        }
-        else if(getIntent().getIntExtra("resource",R.drawable.cartoon) != 0){
-            binding.image.setImageResource(getIntent().getIntExtra("resource", R.drawable.cartoon));
-        }
-
-
-        binding.submissionDate.setText(intent.getStringExtra("date"));
-        binding.submissionTime.setText(intent.getStringExtra("time"));
-
-        // submitted assignment url
-
-        String url = getIntent().getStringExtra("url");
-
-        storageReference = storage.getReferenceFromUrl(url);
-
-        storageReference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-            @Override
-            public void onSuccess(StorageMetadata storageMetadata) {
-                binding.AssignmentName.setText(storageMetadata.getName());
-                binding.expendableLayout1.setOnClickListener(v -> {
-                    Intent intent = new Intent(AssignmentCheckActivity.this, AssignmentOpenActivity.class);
-                    intent.putExtra("url",url);
-                    intent.putExtra("name", binding.AssignmentName.getText().toString());
-                    startActivity(intent);
-
-                });
-            }
-        });
-
-
-        binding.submitCheckedCopy.setOnClickListener(v -> docLauncher.launch("application/pdf"));
-
-
-        // check whether assignment is checked or not if checked then show
-
-        db.collection("College_Project").document("teacher").collection("assignments")
-                .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
-                .document(binding.stuName.getText().toString()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful() && task.getResult() != null){
-                           AssignmentSubmitModal modal = task.getResult().toObject(AssignmentSubmitModal.class);
-                           if(modal != null && modal.getCheckedAssignmentUrl() != null){
-                               StorageReference storageReference2 = storage.getReferenceFromUrl(modal.getCheckedAssignmentUrl());
-
-                               storageReference2.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-                                   @Override
-                                   public void onSuccess(StorageMetadata storageMetadata) {
-                                       binding.AssignmentNameChecked.setText(storageMetadata.getName());
-                                       binding.expendableLayout2.setVisibility(View.VISIBLE);
-                                       binding.clear.setVisibility(View.GONE);
-                                       binding.submitCheckedCopy.setText("Checked");
-                                       binding.submit.setVisibility(View.GONE);
-                                       binding.submitCheckedCopy.setEnabled(false);
-                                       binding.topAppBar.setTitle("Assignment Checked");
-                                       binding.expendableLayout2.setOnClickListener(v -> {
-                                           Intent intent = new Intent(AssignmentCheckActivity.this, AssignmentOpenActivity.class);
-                                           intent.putExtra("url",modal.getCheckedAssignmentUrl());
-                                           intent.putExtra("name", binding.AssignmentNameChecked.getText().toString());
-                                           startActivity(intent);
-
-                                       });
-
-                                   }
-                               });
-                           }
-
-                        }
-                    }
-                });
-
-
-    }
-
-    // submit check assignment by teacher
-
     ActivityResultLauncher<String> docLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
         @Override
         public void onActivityResult(Uri result) {
             if (result != null) {
                 getTitleOfDocument(result);
 
-                 StorageReference docReference = storage.getReference().child("Assignment/checkedDocs/"+binding.AssignmentNameChecked.getText().toString());
+                StorageReference docReference = storage.getReference().child("Assignment/checkedDocs/" + binding.AssignmentNameChecked.getText().toString());
                 uploadTask = docReference.putFile(result);
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -179,8 +72,7 @@ public class AssignmentCheckActivity extends AppCompatActivity {
                 uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(!task.isSuccessful())
-                        {
+                        if (!task.isSuccessful()) {
                             Toast.makeText(AssignmentCheckActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                         return docReference.getDownloadUrl();
@@ -188,7 +80,7 @@ public class AssignmentCheckActivity extends AppCompatActivity {
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Uri downloadUrl = task.getResult();
                             Toast.makeText(AssignmentCheckActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
                             binding.submit.setText("SUBMIT");
@@ -205,13 +97,13 @@ public class AssignmentCheckActivity extends AppCompatActivity {
                                 String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(System.currentTimeMillis());
                                 Calendar calendar = Calendar.getInstance();
                                 int hour = calendar.get(Calendar.HOUR);
-                                if(hour == 0)
+                                if (hour == 0)
                                     hour = 12;
                                 final int minutes = calendar.get(Calendar.MINUTE);
-                                final String am_pm = calendar.get(Calendar.AM_PM)==Calendar.AM ? " AM" : " PM";
-                                final String currentTime = String.format(Locale.ENGLISH,"%02d:"+"%02d",hour,minutes)+am_pm;
+                                final String am_pm = calendar.get(Calendar.AM_PM) == Calendar.AM ? " AM" : " PM";
+                                final String currentTime = String.format(Locale.ENGLISH, "%02d:" + "%02d", hour, minutes) + am_pm;
 
-                                Map<String,Object> map = new HashMap<>();
+                                Map<String, Object> map = new HashMap<>();
                                 map.put("checkedAssignmentUrl", downloadUrl);
                                 map.put("checkedDate", date);
                                 map.put("checkedTime", currentTime);
@@ -223,7 +115,7 @@ public class AssignmentCheckActivity extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
+                                                if (task.isSuccessful()) {
                                                     Snackbar.make(v, "Assignment sent successfully", Snackbar.LENGTH_SHORT).setBackgroundTint(getResources().getColor(R.color.upperBlue)).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                                                     new Handler().postDelayed(new Runnable() {
                                                         @Override
@@ -245,6 +137,109 @@ public class AssignmentCheckActivity extends AppCompatActivity {
         }
     });
 
+    // submit check assignment by teacher
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityAssignmentCheckBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+
+        setSupportActionBar(binding.topAppBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        binding.clear.setOnClickListener(v -> {
+            binding.expendableLayout2.setVisibility(View.GONE);
+            binding.submit.setEnabled(false);
+            binding.submitCheckedCopy.setVisibility(View.VISIBLE);
+        });
+
+        Intent intent = getIntent();
+        binding.stuName.setText(intent.getStringExtra("stuName"));
+
+        if (getIntent().getByteArrayExtra("imageByte") != null) {
+            Bitmap fullBitmap = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("imageByte"), 0, getIntent().getByteArrayExtra("imageByte").length);
+            //  fullBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());
+            binding.image.setImageBitmap(fullBitmap);
+        } else if (getIntent().getIntExtra("resource", R.drawable.cartoon) != 0) {
+            binding.image.setImageResource(getIntent().getIntExtra("resource", R.drawable.cartoon));
+        }
+
+
+        binding.submissionDate.setText(intent.getStringExtra("date"));
+        binding.submissionTime.setText(intent.getStringExtra("time"));
+
+        // submitted assignment url
+
+        String url = getIntent().getStringExtra("url");
+
+        storageReference = storage.getReferenceFromUrl(url);
+
+        storageReference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                binding.AssignmentName.setText(storageMetadata.getName());
+                binding.expendableLayout1.setOnClickListener(v -> {
+                    Intent intent = new Intent(AssignmentCheckActivity.this, AssignmentOpenActivity.class);
+                    intent.putExtra("url", url);
+                    intent.putExtra("name", binding.AssignmentName.getText().toString());
+                    startActivity(intent);
+
+                });
+            }
+        });
+
+
+        binding.submitCheckedCopy.setOnClickListener(v -> docLauncher.launch("application/pdf"));
+
+
+        // check whether assignment is checked or not if checked then show
+
+        db.collection("College_Project").document("teacher").collection("assignments")
+                .document(getIntent().getStringExtra("id")).collection("submittedAssignments")
+                .document(binding.stuName.getText().toString()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            AssignmentSubmitModal modal = task.getResult().toObject(AssignmentSubmitModal.class);
+                            if (modal != null && modal.getCheckedAssignmentUrl() != null) {
+                                StorageReference storageReference2 = storage.getReferenceFromUrl(modal.getCheckedAssignmentUrl());
+
+                                storageReference2.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                                    @Override
+                                    public void onSuccess(StorageMetadata storageMetadata) {
+                                        binding.AssignmentNameChecked.setText(storageMetadata.getName());
+                                        binding.expendableLayout2.setVisibility(View.VISIBLE);
+                                        binding.clear.setVisibility(View.GONE);
+                                        binding.submitCheckedCopy.setText("Checked");
+                                        binding.submit.setVisibility(View.GONE);
+                                        binding.submitCheckedCopy.setEnabled(false);
+                                        binding.topAppBar.setTitle("Assignment Checked");
+                                        binding.expendableLayout2.setOnClickListener(v -> {
+                                            Intent intent = new Intent(AssignmentCheckActivity.this, AssignmentOpenActivity.class);
+                                            intent.putExtra("url", modal.getCheckedAssignmentUrl());
+                                            intent.putExtra("name", binding.AssignmentNameChecked.getText().toString());
+                                            startActivity(intent);
+
+                                        });
+
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+                });
+
+
+    }
+
     private void getTitleOfDocument(Uri result) {
 
         Cursor cursor = getContentResolver().query(result, null, null, null, null);
@@ -253,6 +248,7 @@ public class AssignmentCheckActivity extends AppCompatActivity {
         binding.AssignmentNameChecked.setText(cursor.getString(nameIndex));
         binding.expendableLayout2.setVisibility(View.VISIBLE);
         binding.submit.setText("WAIT");
+        binding.submitCheckedCopy.setVisibility(View.GONE);
         cursor.close();
     }
 

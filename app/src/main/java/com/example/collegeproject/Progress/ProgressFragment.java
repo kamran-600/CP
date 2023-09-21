@@ -8,15 +8,12 @@ import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegeproject.HomeActivity;
 import com.example.collegeproject.R;
-import com.example.collegeproject.Remark.RemarkClassAdapter;
 import com.example.collegeproject.attendance.AttendanceModelClass;
 import com.example.collegeproject.databinding.FragmentProgressBinding;
-import com.example.collegeproject.databinding.FragmentRemarkBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +29,10 @@ public class ProgressFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentProgressBinding binding;
+    HomeActivity homeActivity;
+    ProgressClassAdapter adapter;
+    List<AttendanceModelClass> userList;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -67,10 +67,6 @@ public class ProgressFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    FragmentProgressBinding binding;
-    HomeActivity homeActivity;
-    ProgressClassAdapter adapter;
-    List<AttendanceModelClass> userList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,12 +120,11 @@ public class ProgressFragment extends Fragment {
 
         return binding.getRoot();
     }
+
     private void initRecyclerView() {
 
         adapter = new ProgressClassAdapter(userList);
         binding.recyclerview1.setAdapter(adapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        binding.recyclerview1.addItemDecoration(dividerItemDecoration);
         adapter.notifyDataSetChanged();
 
     }

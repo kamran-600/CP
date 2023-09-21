@@ -2,11 +2,11 @@ package com.example.collegeproject.Chat;
 
 public class ChatModel {
 
-    private int image;
-    private String dName;
-    private String aYear;
-    private String lastMsg;
-    private String time;
+    private final int image;
+    private final String dName;
+    private final String aYear;
+    private final String lastMsg;
+    private final String time;
 
     public ChatModel(int image, String dName, String aYear, String lastMsg, String time) {
         this.image = image;
