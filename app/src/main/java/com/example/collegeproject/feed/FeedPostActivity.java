@@ -112,11 +112,9 @@ public class FeedPostActivity extends AppCompatActivity {
                 binding.imageCardImage.setImageURI(captureImageUri);
                 binding.imageCard.setVisibility(View.VISIBLE);
                 binding.imageCard.setOnClickListener(v -> {
-                    binding.feedMsg.setText(captureImageUri.toString());
-                    /*Intent intent = new Intent(Intent.ACTION_VIEW, captureImageUri);
-
+                    Intent intent = new Intent(Intent.ACTION_VIEW, captureImageUri);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);*/
+                    startActivity(intent);
                 });
                 binding.clear.setOnClickListener(v -> {
                     binding.imageCard.setVisibility(View.GONE);
